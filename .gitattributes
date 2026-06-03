@@ -1,0 +1,20 @@
+# Force LF line endings for Python scripts and config files to avoid cross-platform issues
+*.py text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.txt text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
+
+# Mark media and binary assets as binary to prevent Git from trying to convert line endings or corrupting them
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.wav binary
+*.mp3 binary
+*.ogg binary
+*.ttf binary
+*.otf binary
+*.mp4 binary
