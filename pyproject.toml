@@ -1,0 +1,15 @@
+[project]
+name = "projeto-ip"
+version = "0.0.1"
+description = "Projeto final da disciplina de Introdução a Programação"
+authors = [
+  { name="Bruno Rodrigues", email="brunorodriguesmtv0@gmail.com"},
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = ["pygame"]
+
+[project.urls]
+Repository = "https://github.com/bruno-rodrigues0/projeto-ip"
+

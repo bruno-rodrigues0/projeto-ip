@@ -1,6 +1,0 @@
-FPS = 60
-SCREEN_WIDTH = 800
-SCREEN_HEIGH = 600
-SCREEN_BG = "black"
-
-GAME_NAME = "Teste"
