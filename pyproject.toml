@@ -3,7 +3,7 @@ name = "projeto-ip"
 version = "0.0.1"
 description = "Projeto final da disciplina de Introdução a Programação"
 authors = [
-  { name="Bruno Rodrigues", email="brunorodriguesmtv0@gmail.com"},
+  { name="Bruno Rodrigues e Silva", email="brs3@cin.ufpe.br"},
 ]
 readme = "README.md"
 license = { text = "MIT" }
