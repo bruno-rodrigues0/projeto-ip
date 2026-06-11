@@ -1,6 +1,7 @@
 import pygame
 import core.constants as const
 import core.setup as setup
+from entities.player import Player
 
 def run() -> None:
     """
@@ -17,16 +18,32 @@ def game_loop(
     """
     Loop do jogo que lida com todos os eventos e renderiza na tela.
     """
-
+    player_dim = pygame.Vector2(20, 20)
     while True:
+        elapsed_time = clock.tick(const.FPS)
+        dt = elapsed_time / 1000.0
+        dt = min(dt, const.MAX_DT)
+
         running = to_quit()
 
         if not running:
             terminate(surface)
 
         surface.fill(const.WHITE)
+
+        player = Player(surface, player_dim)
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            player.pos.y -= 1
+        if keys[pygame.K_s]:
+            player.pos.y += 1
+        if keys[pygame.K_a]:
+            player.pos.x -= 1
+        if keys[pygame.K_d]:
+            player.pos.x += 1
+
         pygame.display.flip()
-        clock.tick(const.FPS)
 
 def to_quit() -> bool:
     """

@@ -17,6 +17,7 @@ WINDOW_SETUP = {
 
 CAPTION = "Projeto IP"
 FPS = 0  # 0 = não capado -> deixa o vsync decidir o melhor frame rate para cada monitor
+MAX_DT = 1/FPS if FPS else 1/60
 
 # Colour constants
 WHITE = pygame.Color(255, 255, 255)
