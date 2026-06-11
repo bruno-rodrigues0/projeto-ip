@@ -18,7 +18,7 @@ def game_loop(
     """
     Loop do jogo que lida com todos os eventos e renderiza na tela.
     """
-    player_dim = pygame.Vector2(30, 30)
+    player_dim = pygame.Vector2(20, 20)
     while True:
         elapsed_time = clock.tick(const.FPS)
         dt = elapsed_time / 1000.0
@@ -32,24 +32,17 @@ def game_loop(
         surface.fill(const.WHITE)
 
         player = Player(surface, player_dim)
-        mouse = pygame.mouse.get_pos()
-        player.pos.x = mouse[0] - player_dim.x / 2
-        player.pos.y = mouse[1] - player_dim.x / 2
 
-        # keys = pygame.key.get_pressed()
-        # if keys[pygame.K_w]:
-        #     player.vel.y = -300
-        # elif keys[pygame.K_s]:
-        #     player.vel.y = 300
-        # elif keys[pygame.K_a]:
-        #     player.vel.x = -300
-        # elif keys[pygame.K_d]:
-        #     player.vel.x = 300
-        # else:
-        #     player.vel.x = 0
-        #     player.vel.y = 0
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            player.pos.y -= 1
+        if keys[pygame.K_s]:
+            player.pos.y += 1
+        if keys[pygame.K_a]:
+            player.pos.x -= 1
+        if keys[pygame.K_d]:
+            player.pos.x += 1
 
-        player.update(dt)
         pygame.display.flip()
 
 def to_quit() -> bool:
