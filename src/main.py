@@ -1,6 +1,5 @@
-import core.game as game
+import core.app as app
 
-# não precisa mexer aqui, é só o arquivo de inicialização do jogo
+
 if __name__ == "__main__":
-    game.run()
-
+    app.run()
