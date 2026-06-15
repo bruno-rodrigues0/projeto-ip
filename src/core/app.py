@@ -12,6 +12,8 @@ from scenes.menu import Menu
 def run() -> None:
     pygame.display.set_caption(const.CAPTION)
     pygame.display.set_icon(asset.ICON)
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play(-1)
     scene_manager = StateMachine(Menu)
     asyncio.run(game_loop(setup.window, setup.clock, scene_manager))
 
