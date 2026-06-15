@@ -6,7 +6,7 @@ from utilities.sprite import slice_sheet
 ICON = pygame.image.load("assets/icon.png")
 DEBUG_SPRITE = pygame.image.load("assets/img/dvd_logo.png")
 DEBUG_FRAMES = slice_sheet("assets/img/impossible_spin.png", 64, 64)
-PLAYER_SPRITE = pygame.image.load("assets/img/dvd_logo.png")
+PLAYER_SPRITE = pygame.image.load("assets/img/dvd_logo.png").convert_alpha()
 COIN_SPRITE = pygame.image.load("assets/img/dvd_logo.png")
 
 # Load audio (ogg for web compatibility)

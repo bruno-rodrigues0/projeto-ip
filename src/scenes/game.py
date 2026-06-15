@@ -1,38 +1,35 @@
 import pygame
 
+import scenes.menu
 import core.constants as const
 import core.assets as asset
+
 from core.input import InputBuffer, InputState, Action
 from components.object import SimulatedObject
-
 from scenes import scene
 from scenes.scene import Scene
-import scenes.menu
 
 MAX_X = const.WINDOW_WIDTH - asset.PLAYER_SPRITE.get_width()
 MAX_Y = const.WINDOW_HEIGHT - asset.PLAYER_SPRITE.get_height()
-MAX_VEL = 100
+MAX_VEL = 200
 
-PLAYER_OBJECT = SimulatedObject(0, 0, 0, 0, 0, 0)
-COIN_OBJECT = SimulatedObject(600, 300, 0, 0, 0, 0)
+PLAYER = SimulatedObject(asset.PLAYER_SPRITE, 400, 300)
+OBSTACLE = SimulatedObject(asset.COIN_SPRITE, 700, 200)
+COLLECTABLE = SimulatedObject(asset.COIN_SPRITE, 100, 400)
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, image, player_object, x_inicial, y_inicial):
-        super().__init__()
-        
-        self.image = image.convert_alpha()
-        self.object = player_object
-        
-        self.rect = self.image.get_rect(topleft=(x_inicial, y_inicial))
+collectable_group = pygame.sprite.Group()
+all_objects_group = pygame.sprite.Group()
 
-    def update(self, dt):
-        self.object.update(dt)
-        self.rect = self.image.get_rect(topleft=(self.object.x, self.object.y))
+collectable_group.add(COLLECTABLE)
+all_objects_group.add(PLAYER)
+all_objects_group.add(OBSTACLE)
+all_objects_group.add(COLLECTABLE)
 
+class PredRect:
+    rect: pygame.rect.Rect
 
-
-PLAYER = Player(asset.PLAYER_SPRITE, PLAYER_OBJECT, 0, 0)
-COIN = Player(asset.COIN_SPRITE, COIN_OBJECT, 600, 300)
+    def __init__(self, rect):
+        self.rect = rect
 
 class Game(Scene):
     def enter(self) -> None:
@@ -54,36 +51,52 @@ class Game(Scene):
             action_buffer[Action.RIGHT] == InputState.HELD
             and action_buffer[Action.LEFT] == InputState.NOTHING
         ):
-            PLAYER.object.vx = MAX_VEL
+            PLAYER.vx = MAX_VEL
         elif (
             action_buffer[Action.LEFT] == InputState.HELD
             and action_buffer[Action.RIGHT] == InputState.NOTHING
         ):
-            PLAYER.object.vx = -MAX_VEL
+            PLAYER.vx = -MAX_VEL
         else:
-            PLAYER.object.vx = 0
+            PLAYER.vx = 0
+
+        next_pos = PLAYER.get_next_pos(dt)
+        pred_rect = PredRect(PLAYER.sprite.get_rect(topleft=(next_pos[0], next_pos[1])))
+        collided = pygame.sprite.collide_rect(pred_rect, OBSTACLE)
+        if collided:
+            PLAYER.vx = 0
 
         # Move in Y axis
         if (
             action_buffer[Action.UP] == InputState.HELD
             and action_buffer[Action.DOWN] == InputState.NOTHING
         ):
-            PLAYER.object.vy = -MAX_VEL
+            PLAYER.vy = -MAX_VEL
         elif (
             action_buffer[Action.DOWN] == InputState.HELD
             and action_buffer[Action.UP] == InputState.NOTHING
         ):
-            PLAYER.object.vy = MAX_VEL
+            PLAYER.vy = MAX_VEL
         else:
-            PLAYER.object.vy = 0
+            PLAYER.vy = 0
 
-        collided = pygame.sprite.collide_rect(PLAYER, COIN)
+        next_pos = PLAYER.get_next_pos(dt)
+        pred_rect = PredRect(PLAYER.sprite.get_rect(topleft=(next_pos[0], next_pos[1])))
+        collided = pygame.sprite.collide_rect(pred_rect, OBSTACLE)
+        if collided:
+            PLAYER.vy = 0
+
+        # Collect "coin"
+
+        nex_pos  = PLAYER.get_next_pos(dt)
+        pred_rect = PredRect(PLAYER.sprite.get_rect(topleft=(next_pos[0], next_pos[1])))
+        collect = pygame.sprite.collide_rect(pred_rect, COLLECTABLE)
+        if collect:
+            collectable_group.remove(COLLECTABLE)
 
         PLAYER.update(dt)
         surface.fill(const.MAGENTA)
-        surface.blit(asset.PLAYER_SPRITE, PLAYER.object.get_pos())
-        if not collided:
-            surface.blit(asset.COIN_SPRITE, COIN.object.get_pos())
+        all_objects_group.draw(surface)
 
     def exit(self) -> None:
         pygame.mixer.music.stop()
