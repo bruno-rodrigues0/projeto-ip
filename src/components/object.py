@@ -1,7 +1,5 @@
-from dataclasses import dataclass
 import pygame
 
-@dataclass
 class SimulatedObject(pygame.sprite.Sprite):
     x: float
     y: float
@@ -22,6 +20,7 @@ class SimulatedObject(pygame.sprite.Sprite):
         self.vy += self.ay * dt
         self.x += self.vx * dt
         self.y += self.vy * dt
+        self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
     def get_pos(self) -> tuple[float, float]:
         return (self.x, self.y)

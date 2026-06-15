@@ -61,7 +61,7 @@ class Game(Scene):
             PLAYER.vx = 0
 
         next_pos = PLAYER.get_next_pos(dt)
-        pred_rect = PredRect(PLAYER.sprite.get_rect(topleft=(next_pos[0], next_pos[1])))
+        pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
         collided = pygame.sprite.collide_rect(pred_rect, OBSTACLE)
         if collided:
             PLAYER.vx = 0
@@ -81,7 +81,7 @@ class Game(Scene):
             PLAYER.vy = 0
 
         next_pos = PLAYER.get_next_pos(dt)
-        pred_rect = PredRect(PLAYER.sprite.get_rect(topleft=(next_pos[0], next_pos[1])))
+        pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
         collided = pygame.sprite.collide_rect(pred_rect, OBSTACLE)
         if collided:
             PLAYER.vy = 0
@@ -89,10 +89,12 @@ class Game(Scene):
         # Collect "coin"
 
         nex_pos  = PLAYER.get_next_pos(dt)
-        pred_rect = PredRect(PLAYER.sprite.get_rect(topleft=(next_pos[0], next_pos[1])))
-        collect = pygame.sprite.collide_rect(pred_rect, COLLECTABLE)
-        if collect:
-            collectable_group.remove(COLLECTABLE)
+        pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
+
+        collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
+
+        for item in collected:
+            all_objects_group.remove(item)
 
         PLAYER.update(dt)
         surface.fill(const.MAGENTA)
