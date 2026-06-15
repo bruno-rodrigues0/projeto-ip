@@ -43,7 +43,6 @@ class Game(Scene):
         surface: pygame.Surface,
         dt: float,
         action_buffer: InputBuffer,
-        mouse_buffer: InputBuffer
     ) -> None:
 
         # Go to menu

@@ -15,7 +15,6 @@ class Scene(State):
         surface: pygame.Surface,
         dt: float,
         action_buffer: input.InputBuffer,
-        mouse_buffer: input.InputBuffer
     ) -> None: ...
 
     @abstractmethod
