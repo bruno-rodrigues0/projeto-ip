@@ -1,40 +1,49 @@
 import pygame
 
+import scenes.menu
 import core.constants as const
 import core.assets as asset
+
 from core.input import InputBuffer, InputState, Action
 from components.object import SimulatedObject
-
 from scenes import scene
 from scenes.scene import Scene
-import scenes.menu
 
-MAX_X = const.WINDOW_WIDTH - asset.PLAYER_SPRITE.get_width()
-MAX_Y = const.WINDOW_HEIGHT - asset.PLAYER_SPRITE.get_height()
-MAX_VEL = 100
+MAX_X = const.WINDOW_WIDTH - asset.HEART_SPRITE.get_width()
+MAX_Y = const.WINDOW_HEIGHT - asset.HEART_SPRITE.get_height()
+MAX_VEL = 220
 
-PLAYER_OBJECT = SimulatedObject(0, 0, 0, 0, 0, 0)
-COIN_OBJECT = SimulatedObject(600, 300, 0, 0, 0, 0)
+PLAYER = SimulatedObject(asset.HEART_SPRITE, const.WINDOW_CENTRE[0], const.WINDOW_CENTRE[1])
+COLLECTABLE = SimulatedObject(asset.COIN_SPRITE, const.WINDOW_CENTRE[0] + 110, const.WINDOW_CENTRE[1] + 90)
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, image, player_object, x_inicial, y_inicial):
-        super().__init__()
-        
-        self.image = image.convert_alpha()
-        self.object = player_object
-        
-        self.rect = self.image.get_rect(topleft=(x_inicial, y_inicial))
-
-    def update(self, dt):
-        self.object.update(dt)
-        self.rect = self.image.get_rect(topleft=(self.object.x, self.object.y))
+offset = asset.ARENA_SPRITE.get_size()[1] // 2
+ARENA_WALL01= SimulatedObject(pygame.transform.rotate(asset.ARENA_SPRITE, 90), (const.WINDOW_WIDTH // 2) - offset, (const.WINDOW_HEIGHT // 2) - offset)
+ARENA_WALL02= SimulatedObject(asset.ARENA_SPRITE, (const.WINDOW_WIDTH // 2) - offset, (const.WINDOW_HEIGHT // 2) - offset)
+ARENA_WALL03= SimulatedObject(asset.ARENA_SPRITE, (const.WINDOW_WIDTH // 2) + asset.ARENA_SPRITE.get_size()[1] - offset, (const.WINDOW_HEIGHT // 2) - offset)
+ARENA_WALL04= SimulatedObject(pygame.transform.rotate(asset.ARENA_SPRITE, 90), (const.WINDOW_WIDTH // 2) - offset, (const.WINDOW_HEIGHT // 2) + asset.ARENA_SPRITE.get_size()[1] - offset - 5)
 
 
+ARENA = [ARENA_WALL01, ARENA_WALL02, ARENA_WALL03, ARENA_WALL04]
 
-PLAYER = Player(asset.PLAYER_SPRITE, PLAYER_OBJECT, 0, 0)
-COIN = Player(asset.COIN_SPRITE, COIN_OBJECT, 600, 300)
+collectable_group = pygame.sprite.Group()
+all_objects_group = pygame.sprite.Group()
+arena_group= pygame.sprite.Group()
+
+collectable_group.add(COLLECTABLE)
+all_objects_group.add(PLAYER)
+all_objects_group.add(COLLECTABLE)
+for wall in ARENA:
+    arena_group.add(wall)
+    all_objects_group.add(wall)
+
+class PredRect:
+    rect: pygame.rect.Rect
+
+    def __init__(self, rect):
+        self.rect = rect
 
 class Game(Scene):
+    collected_coins = 0
     def enter(self) -> None:
         pygame.mixer.music.play(-1)
 
@@ -44,46 +53,62 @@ class Game(Scene):
         dt: float,
         action_buffer: InputBuffer,
     ) -> None:
-
-        # Go to menu
-        if (action_buffer[Action.A] == InputState.PRESSED):
-            self.statemachine.change_state(scenes.menu.Menu)
-
         # Move in X axis
         if (
             action_buffer[Action.RIGHT] == InputState.HELD
             and action_buffer[Action.LEFT] == InputState.NOTHING
         ):
-            PLAYER.object.vx = MAX_VEL
+            PLAYER.vx = MAX_VEL
         elif (
             action_buffer[Action.LEFT] == InputState.HELD
             and action_buffer[Action.RIGHT] == InputState.NOTHING
         ):
-            PLAYER.object.vx = -MAX_VEL
+            PLAYER.vx = -MAX_VEL
         else:
-            PLAYER.object.vx = 0
+            PLAYER.vx = 0
+
+        next_pos = PLAYER.get_next_pos(dt)
+        pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
+        collided = pygame.sprite.spritecollide(pred_rect, arena_group, False)
+        if collided:
+            PLAYER.vx = 0
 
         # Move in Y axis
         if (
             action_buffer[Action.UP] == InputState.HELD
             and action_buffer[Action.DOWN] == InputState.NOTHING
         ):
-            PLAYER.object.vy = -MAX_VEL
+            PLAYER.vy = -MAX_VEL
         elif (
             action_buffer[Action.DOWN] == InputState.HELD
             and action_buffer[Action.UP] == InputState.NOTHING
         ):
-            PLAYER.object.vy = MAX_VEL
+            PLAYER.vy = MAX_VEL
         else:
-            PLAYER.object.vy = 0
+            PLAYER.vy = 0
 
-        collided = pygame.sprite.collide_rect(PLAYER, COIN)
+        next_pos = PLAYER.get_next_pos(dt)
+        pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
+        collided = pygame.sprite.spritecollide(pred_rect, arena_group, False)
+        if collided:
+            PLAYER.vy = 0
+
+        # Collect "coin"
+
+        nex_pos  = PLAYER.get_next_pos(dt)
+        pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
+
+        collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
+
+        for item in collected:
+            all_objects_group.remove(item)
+            self.collected_coins += 1
 
         PLAYER.update(dt)
-        surface.fill(const.MAGENTA)
-        surface.blit(asset.PLAYER_SPRITE, PLAYER.object.get_pos())
-        if not collided:
-            surface.blit(asset.COIN_SPRITE, COIN.object.get_pos())
+        surface.fill(const.BLACK)
+        coins_text = asset.DEBUG_FONT.render(f"COINS: {self.collected_coins}", True, const.YELLOW)
+        surface.blit(coins_text, (820, 0))
+        all_objects_group.draw(surface)
 
     def exit(self) -> None:
         pygame.mixer.music.stop()
