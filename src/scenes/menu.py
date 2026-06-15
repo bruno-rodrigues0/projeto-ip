@@ -3,37 +3,62 @@ import pygame
 import core.constants as const
 import core.input as input
 import core.assets as assets
-from components.animation import AnimationPlayer
 
 from scenes.scene import Scene
 import scenes.game
 
 
-DEBUG = AnimationPlayer("spin", assets.DEBUG_FRAMES, 0.1)
-DEBUG_X = const.WINDOW_CENTRE[0] - DEBUG.get_frame().get_width() // 2
-DEBUG_Y = const.WINDOW_CENTRE[1] - DEBUG.get_frame().get_height() // 2
+MENU_SPRITE = assets.MENU_SPRITE
+MENU_SPRITE_X = const.WINDOW_CENTRE[0] - MENU_SPRITE.get_width() // 2
+MENU_SPRITE_Y = const.WINDOW_CENTRE[1] - MENU_SPRITE.get_height() // 2
 
 
 class Menu(Scene):
     def enter(self) -> None:
-        DEBUG.reset()
+        self.selected_option = 'play'
 
     def execute(
         self,
         surface: pygame.Surface,
-        dt: float,
+        _dt: float,
         action_buffer: input.InputBuffer,
     ) -> None:
-        if (
-            action_buffer[input.Action.START] == input.InputState.PRESSED
-        ):
-            self.statemachine.change_state(scenes.game.Game)
-            return
+        if (action_buffer[input.Action.DOWN] == input.InputState.PRESSED):
+            self.selected_option = 'quit'
+        if (action_buffer[input.Action.UP] == input.InputState.PRESSED):
+            self.selected_option = 'play' 
 
-        DEBUG.update(dt)
+        if (action_buffer[input.Action.START] == input.InputState.PRESSED):
+            if self.selected_option == 'play':
+                self.statemachine.change_state(scenes.game.Game)
+            else:
+                self.exit()
 
-        surface.fill(const.CYAN)
-        surface.blit(DEBUG.get_frame(), (DEBUG_X, DEBUG_Y))
+        surface.fill(const.BLACK)
+        surface.blit(MENU_SPRITE, (MENU_SPRITE_X, MENU_SPRITE_Y))
+
+        play_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size("COMEÇAR")[0] // 2, MENU_SPRITE_Y + 400)
+        quit_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size("SAIR DO JOGO")[0] // 2, play_option_pos[1] + 50)
+
+        if self.selected_option == 'play':
+            play_option_color = const.YELLOW
+            heart_pos = (play_option_pos[0] - 60, play_option_pos[1])
+        else:
+            play_option_color = const.ORANGE
+        play_option_text = assets.DEBUG_FONT_MEDIUM.render("COMEÇAR", True, play_option_color)
+        surface.blit(play_option_text, play_option_pos)
+
+        if self.selected_option == 'quit':
+            quit_option_color = const.YELLOW
+            heart_pos = (quit_option_pos[0] - 60, quit_option_pos[1])
+        else:
+            quit_option_color = const.ORANGE
+        quit_option_text = assets.DEBUG_FONT_MEDIUM.render("SAIR DO JOGO", True, quit_option_color)
+        surface.blit(quit_option_text, quit_option_pos)
+
+        surface.blit(assets.HEART_SPRITE, heart_pos)
+
 
     def exit(self) -> None:
-        pass
+        pygame.quit()
+        raise SystemExit()
