@@ -9,21 +9,32 @@ from components.object import SimulatedObject
 from scenes import scene
 from scenes.scene import Scene
 
-MAX_X = const.WINDOW_WIDTH - asset.PLAYER_SPRITE.get_width()
-MAX_Y = const.WINDOW_HEIGHT - asset.PLAYER_SPRITE.get_height()
-MAX_VEL = 200
+MAX_X = const.WINDOW_WIDTH - asset.HEART_SPRITE.get_width()
+MAX_Y = const.WINDOW_HEIGHT - asset.HEART_SPRITE.get_height()
+MAX_VEL = 220
 
-PLAYER = SimulatedObject(asset.PLAYER_SPRITE, 400, 300)
-OBSTACLE = SimulatedObject(asset.COIN_SPRITE, 700, 200)
-COLLECTABLE = SimulatedObject(asset.COIN_SPRITE, 100, 400)
+PLAYER = SimulatedObject(asset.HEART_SPRITE, const.WINDOW_CENTRE[0], const.WINDOW_CENTRE[1])
+COLLECTABLE = SimulatedObject(asset.COIN_SPRITE, const.WINDOW_CENTRE[0] + 110, const.WINDOW_CENTRE[1] + 90)
+
+offset = asset.ARENA_SPRITE.get_size()[1] // 2
+ARENA_WALL01= SimulatedObject(pygame.transform.rotate(asset.ARENA_SPRITE, 90), (const.WINDOW_WIDTH // 2) - offset, (const.WINDOW_HEIGHT // 2) - offset)
+ARENA_WALL02= SimulatedObject(asset.ARENA_SPRITE, (const.WINDOW_WIDTH // 2) - offset, (const.WINDOW_HEIGHT // 2) - offset)
+ARENA_WALL03= SimulatedObject(asset.ARENA_SPRITE, (const.WINDOW_WIDTH // 2) + asset.ARENA_SPRITE.get_size()[1] - offset, (const.WINDOW_HEIGHT // 2) - offset)
+ARENA_WALL04= SimulatedObject(pygame.transform.rotate(asset.ARENA_SPRITE, 90), (const.WINDOW_WIDTH // 2) - offset, (const.WINDOW_HEIGHT // 2) + asset.ARENA_SPRITE.get_size()[1] - offset - 5)
+
+
+ARENA = [ARENA_WALL01, ARENA_WALL02, ARENA_WALL03, ARENA_WALL04]
 
 collectable_group = pygame.sprite.Group()
 all_objects_group = pygame.sprite.Group()
+arena_group= pygame.sprite.Group()
 
 collectable_group.add(COLLECTABLE)
 all_objects_group.add(PLAYER)
-all_objects_group.add(OBSTACLE)
 all_objects_group.add(COLLECTABLE)
+for wall in ARENA:
+    arena_group.add(wall)
+    all_objects_group.add(wall)
 
 class PredRect:
     rect: pygame.rect.Rect
@@ -32,6 +43,7 @@ class PredRect:
         self.rect = rect
 
 class Game(Scene):
+    collected_coins = 0
     def enter(self) -> None:
         pygame.mixer.music.play(-1)
 
@@ -41,11 +53,6 @@ class Game(Scene):
         dt: float,
         action_buffer: InputBuffer,
     ) -> None:
-
-        # Go to menu
-        if (action_buffer[Action.A] == InputState.PRESSED):
-            self.statemachine.change_state(scenes.menu.Menu)
-
         # Move in X axis
         if (
             action_buffer[Action.RIGHT] == InputState.HELD
@@ -62,7 +69,7 @@ class Game(Scene):
 
         next_pos = PLAYER.get_next_pos(dt)
         pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
-        collided = pygame.sprite.collide_rect(pred_rect, OBSTACLE)
+        collided = pygame.sprite.spritecollide(pred_rect, arena_group, False)
         if collided:
             PLAYER.vx = 0
 
@@ -82,7 +89,7 @@ class Game(Scene):
 
         next_pos = PLAYER.get_next_pos(dt)
         pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
-        collided = pygame.sprite.collide_rect(pred_rect, OBSTACLE)
+        collided = pygame.sprite.spritecollide(pred_rect, arena_group, False)
         if collided:
             PLAYER.vy = 0
 
@@ -95,9 +102,12 @@ class Game(Scene):
 
         for item in collected:
             all_objects_group.remove(item)
+            self.collected_coins += 1
 
         PLAYER.update(dt)
-        surface.fill(const.MAGENTA)
+        surface.fill(const.BLACK)
+        coins_text = asset.DEBUG_FONT.render(f"COINS: {self.collected_coins}", True, const.YELLOW)
+        surface.blit(coins_text, (820, 0))
         all_objects_group.draw(surface)
 
     def exit(self) -> None:

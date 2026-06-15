@@ -31,8 +31,10 @@ class Menu(Scene):
         if (action_buffer[input.Action.START] == input.InputState.PRESSED):
             if self.selected_option == 'play':
                 self.statemachine.change_state(scenes.game.Game)
+                return
             else:
-                self.exit()
+                pygame.quit()
+                raise SystemExit
 
         surface.fill(const.BLACK)
         surface.blit(MENU_SPRITE, (MENU_SPRITE_X, MENU_SPRITE_Y))
@@ -60,5 +62,4 @@ class Menu(Scene):
 
 
     def exit(self) -> None:
-        pygame.quit()
-        raise SystemExit()
+        pass
