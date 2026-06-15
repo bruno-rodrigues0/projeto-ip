@@ -21,10 +21,6 @@ async def game_loop(
         clock: pygame.Clock,
         scene_manager: StateMachine
 ) -> None:
-    mouse_buffer: input.InputBuffer = [
-        input.InputState.NOTHING for _ in input.MouseButton
-    ]
-
     action_buffer: input.InputBuffer = [
         input.InputState.NOTHING for _ in input.Action
     ]
@@ -46,9 +42,8 @@ async def game_loop(
             terminate(surface)
 
         update_action_buffer(action_buffer, last_action_mapping_pressed)
-        update_mouse_buffer(mouse_buffer)
 
-        scene_manager.execute(surface, dt, action_buffer, mouse_buffer)
+        scene_manager.execute(surface, dt, action_buffer)
 
         debug_str = f"FPS {clock.get_fps():.0f}\nDT {dt:.3f}"
         debug_text = asset.DEBUG_FONT.render(
@@ -68,16 +63,6 @@ def input_event_queue() -> bool:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
-
-        elif event.type == pygame.WINDOWFOCUSLOST:
-            pass
-        elif event.type == pygame.WINDOWFOCUSGAINED:
-            pass
-        elif event.type == pygame.VIDEORESIZE:
-            pass
-
-        # HACK: For quick development
-        # NOTE: It overrides exitting fullscreen when in browser
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             return False
 
@@ -88,11 +73,10 @@ def update_action_buffer(
     action_buffer: input.InputBuffer,
     last_action_mapping_pressed: list[pygame.key]
 ) -> None:
-    # get_just_pressed() and get_just_released() do not work with web ;(
     keys_held = pygame.key.get_pressed()
     for action in input.Action:
         if (action_buffer[action] == input.InputState.NOTHING):
-            # Check if any alternate keys for the action were just pressed
+            # Verifica se qualquer tecla de ação foi pressionada
             for mapping in input.action_mappings[action]:
                 if mapping == last_action_mapping_pressed[action]:
                     continue
@@ -114,24 +98,6 @@ def update_action_buffer(
                 action_buffer[action] = input.InputState.RELEASED
             elif action_buffer[action] == input.InputState.RELEASED:
                 action_buffer[action] = input.InputState.NOTHING
-
-
-def update_mouse_buffer(mouse_buffer: input.InputBuffer) -> None:
-    # get_just_pressed() and get_just_released() do not work with web ;(
-    mouse_pressed = pygame.mouse.get_pressed()
-    for button in input.MouseButton:
-        if mouse_pressed[button]:
-            if (mouse_buffer[button] == input.InputState.NOTHING or
-                    mouse_buffer[button] == input.InputState.RELEASED):
-                mouse_buffer[button] = input.InputState.PRESSED
-            elif mouse_buffer[button] == input.InputState.PRESSED:
-                mouse_buffer[button] = input.InputState.HELD
-        else:
-            if (mouse_buffer[button] == input.InputState.PRESSED or
-                    mouse_buffer[button] == input.InputState.HELD):
-                mouse_buffer[button] = input.InputState.RELEASED
-            elif mouse_buffer[button] == input.InputState.RELEASED:
-                mouse_buffer[button] = input.InputState.NOTHING
 
 
 def terminate(surface: pygame.Surface) -> None:

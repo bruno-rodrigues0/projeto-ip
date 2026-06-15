@@ -2,14 +2,14 @@ import pygame
 
 
 # Pygame constants
-WINDOW_WIDTH = 640
-WINDOW_HEIGHT = 360
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600
 WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HEIGHT)
 WINDOW_CENTRE = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
 
 WINDOW_SETUP = {
     "size": WINDOW_SIZE,
-    "flags": pygame.SCALED | pygame.RESIZABLE,
+    "flags": 0,
     "depth": 0,
     "display": 0,
     "vsync": 1,
