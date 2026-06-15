@@ -18,7 +18,7 @@ def run() -> None:
 
 async def game_loop(
         surface: pygame.Surface,
-        clock: pygame.Clock,
+        clock: pygame.time.Clock,
         scene_manager: StateMachine
 ) -> None:
     action_buffer: input.InputBuffer = [
