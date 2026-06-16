@@ -128,62 +128,82 @@ pygame.display.set_mode(**WINDOW_SETUP) # dessa forma você deixa o código legi
 ---
 
 ## Estrutura de arquivos
-
-A estrutura de arquivos de um projeto é muito importante para a escalabilidade e para futuras correções, manutençao, etc. É sempre bom separar tudo em arquivos diferentes e saber onde cada pedaço do código se encaixa (você saberá a partir do contexto em que cada parte partence).
-
+ 
+A estrutura de arquivos de um projeto é muito importante para a escalabilidade e para futuras correções, manutenção, etc. É sempre bom separar tudo em arquivos diferentes e saber onde cada pedaço do código se encaixa.
+ 
+```
+src
+├── assets/
+├── components/
+├── core/
+├── scenes/
+└── utilities/
+```
+ 
+---
+ 
 ### main.py
-
-É o arquivo que faz o boot do programa, ele apenas chama a função run.
-
+ 
+É o arquivo que faz o boot do programa. Ele apenas inicializa e chama o `app.py` do núcleo.
+ 
 ---
-
+ 
 ### core/
-
-Esse diretório é literalmente o núcleo do projeto, tudo que faz o jogo funcionar de fato está aqui.
-
+ 
+Esse diretório é literalmente o núcleo do projeto. Tudo que faz o jogo funcionar de forma estrutural está aqui.
+ 
+- **app.py** — Centraliza o loop principal do jogo (event loop: entradas de teclado/mouse, atualização de estado, renderização). Cada sistema pode ser definido em seu próprio arquivo; o `app.py` apenas os coordena.
+- **assets.py** — Responsável por carregar e disponibilizar os recursos do jogo (imagens, fontes, sons) para o resto do código.
+- **constants.py** — Constantes globais (valores que não mudam durante a execução) usadas em diversas partes do código. Centralize aqui para não precisar alterar o mesmo valor em vários lugares.
+- **input.py** — Lida com as entradas do usuário (teclado, mouse). Separa essa responsabilidade do loop principal.
+- **setup.py** — Faz as configurações iniciais do pygame antes do jogo começar.
 ---
-
-### constants.py 
-
-Esse arquivo possui algumas constantes (variáveis que não irão mudar de valor) que serão utilizadas em diversas partes do código. Em geral é bom para centralizar as informações. 
-
-Imagine que você usa a variavel WINDOW_SIZE em 12 arquivos diferentes e declarou ela em cada arquivo separadamente. Caso você decida mudar o tamanho da janela, terá que mudar em cada um dos arquivos onde a variável é declarada. Isso não parece muito legal.
-
+ 
+### scenes/
+ 
+Contém as cenas do jogo. Cada cena representa um estado de tela diferente.
+ 
+- **scene.py** — Classe base que todas as cenas herdam. Define a interface comum (ex: `update`, `draw`).
+- **menu.py** — Cena do menu principal.
+- **game.py** — Cena principal do jogo em si.
+- **pause.py** — Cena de pausa.
+- **global.py** — Estado/dados globais compartilhados entre cenas.
 ---
-
-### game.py
-
-O arquivo game.py é o mais importante. Ele é quem lida com o event loop (entradas de teclado e mouse, renderização da tela, etc.) do jogo. Mas não confunda as coisas, ele é apenas a centralização do código, cada função poderá ser definida em qualquer arquivo, sempre de acordo com seu contexto. Por exemplo, uma função input_handler poderia ser definida em um arquivo input.py e o arquivo game.py apenas chamaria a função quando necessário.
-
+ 
+### components/
+ 
+Componentes reutilizáveis que podem ser agregados às entidades do jogo.
+ 
+- **object.py** — Classe base para objetos do jogo.
+- **animation.py** — Lida com animações de sprites (troca de frames, tempo, etc.).
+- **motion.py** — Gerencia movimentação e física básica dos objetos.
+- **camera.py** — Controla a câmera/viewport do jogo.
+- **statemachine.py** — Implementa uma máquina de estados, usada para controlar o comportamento de entidades (ex: player andando, pulando, atacando).
 ---
-
-### setup.py
-
-Faz as configurações iniciais do pygame.
-
+ 
+### utilities/
+ 
+Funções utilitárias que não pertencem a nenhum contexto específico do jogo.
+ 
+- **math.py** — Funções matemáticas auxiliares.
+- **sprite.py** — Funções de auxílio para manipulação de sprites.
 ---
-
-### entities/
-
-Aqui você terá os arquivos referentes a cada entidade do jogo (inimigos, player, coletáveis). Cada entidade é definida por uma classe que detém todas as informações e métodos necessários para cada entidade.
-
----
-
-### utils/ 
-
-Alguns utilitários do projeto. Quando sentir que uma função não faz parte de nunhum outro contexto, coloque ela aqui.
-
----
-
+ 
 ### assets/
-
-Aqui você encontra todos os recursos do jogo como imagens, fontes, musicas e efeitos sonoros.
-
-
-
-
-
-
-
-
-
+ 
+Todos os recursos estáticos do jogo.
+ 
+```
+assets/
+├── fonts/          # Arquivos de fonte (.ttf)
+│   └── Jersey10-Regular.ttf
+├── img/            # Imagens e sprites
+│   ├── coin.png
+│   ├── heart.png / heart2.png / heart_sprite.png
+│   ├── menu_sprite.png
+│   └── white_bar.png
+├── sfx/            # Efeitos sonoros
+│   └── theme.ogg
+├── icon.png        # Ícone do jogo
+└── joystix.ttf     # Fonte adicional
+```
