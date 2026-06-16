@@ -24,6 +24,7 @@ class Action(IntEnum):
     B = auto()
     SELECT = auto()
     START = auto()
+    OPTIONS = auto()
 
 
 action_mappings = {
@@ -35,6 +36,7 @@ action_mappings = {
     Action.B: [pygame.K_x, pygame.K_PERIOD],
     Action.SELECT: [pygame.K_LSHIFT, pygame.K_RSHIFT],
     Action.START: [pygame.K_RETURN, pygame.K_SPACE],
+    Action.OPTIONS: [pygame.K_ESCAPE]
 }
 
 

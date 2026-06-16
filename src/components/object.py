@@ -20,6 +20,7 @@ class SimulatedObject(pygame.sprite.Sprite):
         self.vy += self.ay * dt
         self.x += self.vx * dt
         self.y += self.vy * dt
+        assert self.image is not None
         self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
     def get_pos(self) -> tuple[float, float]:

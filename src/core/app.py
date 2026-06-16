@@ -13,8 +13,9 @@ def run() -> None:
     pygame.display.set_caption(const.CAPTION)
     pygame.display.set_icon(asset.ICON)
     pygame.mixer.music.set_volume(0.5)
-    # pygame.mixer.music.play(-1)
-    scene_manager = StateMachine(Menu)
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.pause()
+    scene_manager = StateMachine(Menu) # type: ignore
     asyncio.run(game_loop(setup.window, setup.clock, scene_manager))
 
 
@@ -27,7 +28,7 @@ async def game_loop(
         input.InputState.NOTHING for _ in input.Action
     ]
 
-    last_action_mapping_pressed = [
+    last_action_mapping_pressed:  list[pygame.key] = [
         input.action_mappings[action][0] for action in input.Action
     ]
 
@@ -48,9 +49,8 @@ async def game_loop(
         scene_manager.execute(surface, dt, action_buffer)
 
         debug_str = f"FPS {clock.get_fps():.0f}\nDT {dt:.3f}"
-        debug_text = asset.DEBUG_FONT.render(
-            debug_str, False, const.WHITE, const.BLACK)
-        surface.blit(debug_text, (0, 0))
+        debug_text = asset.DEBUG_FONT.render(debug_str, False, const.WHITE, const.BLACK)
+        surface.blit(debug_text, (1, 1))
 
         # Keep these calls together in this order
         pygame.display.flip()
@@ -65,8 +65,8 @@ def input_event_queue() -> bool:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            return False
+        # elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+        #     return False
 
     return True
 
@@ -83,12 +83,10 @@ def update_action_buffer(
                 if mapping == last_action_mapping_pressed[action]:
                     continue
 
-                # If an alternate key was pressed than last recorded key
                 if keys_held[mapping]:
-                    # Set that key bind as the current bind to 'track'
-                    last_action_mapping_pressed[action] = mapping
+                    last_action_mapping_pressed[action] = mapping # type: ignore
 
-        if keys_held[last_action_mapping_pressed[action]]:
+        if keys_held[last_action_mapping_pressed[action]]: # type: ignore
             if (action_buffer[action] == input.InputState.NOTHING or
                     action_buffer[action] == input.InputState.RELEASED):
                 action_buffer[action] = input.InputState.PRESSED

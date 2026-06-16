@@ -13,7 +13,7 @@ MENU_SPRITE_X = const.WINDOW_CENTRE[0] - MENU_SPRITE.get_width() // 2
 MENU_SPRITE_Y = const.WINDOW_CENTRE[1] - MENU_SPRITE.get_height() // 2
 
 
-class Menu(Scene):
+class Pause(Scene):
     def enter(self) -> None:
         self.selected_option = 'play'
 
@@ -39,7 +39,7 @@ class Menu(Scene):
         surface.fill(const.BLACK)
         surface.blit(MENU_SPRITE, (MENU_SPRITE_X, MENU_SPRITE_Y))
 
-        play_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size("COMEÇAR")[0] // 2, MENU_SPRITE_Y + 400)
+        play_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size("CONTINUAR")[0] // 2, MENU_SPRITE_Y + 300)
         quit_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size("SAIR DO JOGO")[0] // 2, play_option_pos[1] + 50)
 
         if self.selected_option == 'play':
@@ -51,7 +51,7 @@ class Menu(Scene):
             quit_option_color = const.YELLOW
             heart_pos = (quit_option_pos[0] - 60, quit_option_pos[1])
 
-        play_option_text = assets.DEBUG_FONT_MEDIUM.render("COMEÇAR", True, play_option_color)
+        play_option_text = assets.DEBUG_FONT_MEDIUM.render("CONTINUAR", True, play_option_color)
         quit_option_text = assets.DEBUG_FONT_MEDIUM.render("SAIR DO JOGO", True, quit_option_color)
 
         surface.blit(play_option_text, play_option_pos)
