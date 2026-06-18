@@ -8,4 +8,5 @@ class Context:
     collected_coins = 0
     collected_life_orbs = 0
     last_scene: Scene
+    paused: bool = False
 

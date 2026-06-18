@@ -4,6 +4,7 @@ import core.constants as const
 import core.input as input
 import core.assets as assets
 
+from scenes.context import Context
 from scenes.scene import Scene
 import scenes.game
 
@@ -30,6 +31,7 @@ class Menu(Scene):
 
         if (action_buffer[input.Action.START] == input.InputState.PRESSED):
             if self.selected_option == 'play':
+                Context.paused = False
                 self.statemachine.change_state(scenes.game.Game) # type: ignore
                 return
             else:
@@ -39,7 +41,8 @@ class Menu(Scene):
         surface.fill(const.BLACK)
         surface.blit(MENU_SPRITE, (MENU_SPRITE_X, MENU_SPRITE_Y))
 
-        play_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size("COMEÇAR")[0] // 2, MENU_SPRITE_Y + 400)
+        play_option_value = "COMEÇAR" if not Context.paused else "CONTINUAR"
+        play_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size(play_option_value)[0] // 2, MENU_SPRITE_Y + 400)
         quit_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size("SAIR DO JOGO")[0] // 2, play_option_pos[1] + 50)
 
         if self.selected_option == 'play':
@@ -51,11 +54,11 @@ class Menu(Scene):
             quit_option_color = const.YELLOW
             heart_pos = (quit_option_pos[0] - 60, quit_option_pos[1])
 
-        play_option_text = assets.DEBUG_FONT_MEDIUM.render("COMEÇAR", True, play_option_color)
-        quit_option_text = assets.DEBUG_FONT_MEDIUM.render("SAIR DO JOGO", True, quit_option_color)
+        play_option = assets.DEBUG_FONT_MEDIUM.render(play_option_value, True, play_option_color)
+        quit_option = assets.DEBUG_FONT_MEDIUM.render("SAIR DO JOGO", True, quit_option_color)
 
-        surface.blit(play_option_text, play_option_pos)
-        surface.blit(quit_option_text, quit_option_pos)
+        surface.blit(play_option, play_option_pos)
+        surface.blit(quit_option, quit_option_pos)
 
         surface.blit(assets.HEART_SPRITE, heart_pos)
 
