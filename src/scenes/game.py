@@ -152,7 +152,7 @@ class Game(Scene):
         all_objects_group.draw(surface)
 
         coins_text = asset.DEBUG_FONT.render(
-            f"COINS: {COLLECTED_COINS}", True, const.YELLOW
+            f"COINS: {Context.collected_coins}", True, const.YELLOW
         )
         surface.blit(coins_text, (820, 0))
 
