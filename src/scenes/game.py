@@ -3,11 +3,13 @@ import pygame
 import core.constants as const
 import core.assets as asset
 import scenes.pause
+import scenes.dialog
 
 from core.input import InputBuffer, InputState, Action
 from components.object import SimulatedObject
 from entities.player import Player
 from scenes.scene import Scene
+from scenes.context import Context
 
 MAX_X = const.WINDOW_WIDTH - asset.HEART_SPRITE.get_width()
 MAX_Y = const.WINDOW_HEIGHT - asset.HEART_SPRITE.get_height()
@@ -49,7 +51,6 @@ ARENA_WALL04 = SimulatedObject(
 
 
 ARENA = [ARENA_WALL01, ARENA_WALL02, ARENA_WALL03, ARENA_WALL04]
-COLLECTED_COINS = 0
 
 collectable_group = pygame.sprite.Group()
 all_objects_group = pygame.sprite.Group()
@@ -84,8 +85,17 @@ class Game(Scene):
         dt: float,
         action_buffer: InputBuffer,
     ) -> None:
-        if action_buffer[Action.OPTIONS] == InputState.PRESSED:
-            self.statemachine.change_state(scenes.pause.Pause)  # type: ignore
+        if (
+            action_buffer[Action.OPTIONS] == InputState.PRESSED
+        ):
+            Context.last_scene = Game # type: ignore
+            self.statemachine.change_state(scenes.pause.Pause) # type: ignore
+
+        if (
+            action_buffer[Action.B] == InputState.PRESSED
+        ):
+            Context.dialog_text = "Olá, Mundo! bla bla bla bla bla"
+            self.statemachine.change_state(scenes.dialog.Dialog) # type: ignore
 
         # Move in X axis
         if (
@@ -130,11 +140,10 @@ class Game(Scene):
 
         # Collect "coin"
         collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
-        global COLLECTED_COINS
 
         for item in collected:
             all_objects_group.remove(item)
-            COLLECTED_COINS += 1
+            Context.collected_coins += 1
             PLAYER.take_damage(40)
             
 
@@ -143,7 +152,7 @@ class Game(Scene):
         all_objects_group.draw(surface)
 
         coins_text = asset.DEBUG_FONT.render(
-            f"COINS: {COLLECTED_COINS}", True, const.YELLOW
+            f"COINS: {Context.collected_coins}", True, const.YELLOW
         )
         surface.blit(coins_text, (820, 0))
 
