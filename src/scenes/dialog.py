@@ -2,6 +2,7 @@ import pygame
 import core.constants as const
 import core.assets as asset
 import scenes.game
+import scenes.menu
 
 from core.input import InputBuffer, InputState, Action
 from scenes.scene import Scene
@@ -69,7 +70,8 @@ class Dialog(Scene):
             action_buffer[Action.OPTIONS] == InputState.PRESSED
         ):
             Context.last_scene = Dialog # type: ignore
-            self.statemachine.change_state(scenes.pause.Pause) # type: ignore
+            Context.paused = True
+            self.statemachine.change_state(scenes.menu.Menu) # type: ignore
             return
 
         text_finished = line_index >= len(lines_formatted)

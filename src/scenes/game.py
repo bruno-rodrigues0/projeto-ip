@@ -2,7 +2,7 @@ import pygame
 
 import core.constants as const
 import core.assets as asset
-import scenes.pause
+import scenes.menu
 import scenes.dialog
 
 from core.input import InputBuffer, InputState, Action
@@ -89,7 +89,8 @@ class Game(Scene):
             action_buffer[Action.OPTIONS] == InputState.PRESSED
         ):
             Context.last_scene = Game # type: ignore
-            self.statemachine.change_state(scenes.pause.Pause) # type: ignore
+            Context.paused = True
+            self.statemachine.change_state(scenes.menu.Menu) # type: ignore
 
         if (
             action_buffer[Action.B] == InputState.PRESSED
