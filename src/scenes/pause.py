@@ -4,6 +4,7 @@ import core.constants as const
 import core.input as input
 import core.assets as assets
 
+from scenes.context import Context
 from scenes.scene import Scene
 import scenes.game
 
@@ -30,7 +31,7 @@ class Pause(Scene):
 
         if (action_buffer[input.Action.START] == input.InputState.PRESSED):
             if self.selected_option == 'play':
-                self.statemachine.change_state(scenes.game.Game) # type: ignore
+                self.statemachine.change_state(Context.last_scene) # type: ignore
                 return
             else:
                 pygame.quit()
