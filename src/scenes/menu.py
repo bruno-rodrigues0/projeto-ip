@@ -6,7 +6,7 @@ import core.assets as assets
 
 from scenes.context import Context
 from scenes.scene import Scene
-import scenes.game
+import scenes.intro
 
 
 MENU_SPRITE = assets.MENU_SPRITE
@@ -32,7 +32,7 @@ class Menu(Scene):
         if (action_buffer[input.Action.START] == input.InputState.PRESSED):
             if self.selected_option == 'play':
                 Context.paused = False
-                self.statemachine.change_state(scenes.game.Game) # type: ignore
+                self.statemachine.change_state(scenes.intro.Intro) # type: ignore
                 return
             else:
                 pygame.quit()

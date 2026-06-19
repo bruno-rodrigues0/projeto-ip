@@ -77,6 +77,7 @@ class PredRect:
 
 class Game(Scene):
     def enter(self) -> None:
+        pygame.mixer.music.set_volume(1)
         pygame.mixer.music.unpause()
 
     def execute(
@@ -95,7 +96,7 @@ class Game(Scene):
         if (
             action_buffer[Action.B] == InputState.PRESSED
         ):
-            Context.dialog_text = "Olá, Mundo! bla bla bla bla bla"
+            Context.dialog_text = ["Olá, Mundo! bla bla bla bla bla"]
             self.statemachine.change_state(scenes.dialog.Dialog) # type: ignore
 
         # Move in X axis
