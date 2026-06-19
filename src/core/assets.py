@@ -29,6 +29,9 @@ LAST_CORRIDOR = pygame.transform.scale(
 DEBUG_THEME = pygame.mixer.music.load("src/assets/sfx/theme.ogg")
 UNDERTALE_SOUND = pygame.mixer.Sound("src/assets/sfx/undertale.mp3")
 ENEMY_ENCOUNTER_SOUND = pygame.mixer.Sound("src/assets/sfx/enemy_encounter.mp3")
+TALKING_SOUND = pygame.mixer.Sound("src/assets/sfx/talking_double.mp3")
+HEE_HEE_SOUND = pygame.mixer.Sound("src/assets/sfx/hee-hee.mp3")
+AUW_SOUND = pygame.mixer.Sound("src/assets/sfx/auw.mp3")
 
 # Load fonts (ttf for web compatibility)
 DEBUG_FONT_SMALL = pygame.font.Font("src/assets/fonts/Jersey10-Regular.ttf", 18)

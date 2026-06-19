@@ -22,7 +22,7 @@ class Dialog(Scene):
     def enter(self) -> None:
         pygame.mixer.music.unpause()
         self.printer = DialogPrinter(
-            text=Context.dialog_text,
+            text=Context.dialog_text[0],
             char_limit=CHAR_LIMIT,
             typing_delay=TYPING_DELAY
         )
@@ -34,6 +34,7 @@ class Dialog(Scene):
             self.statemachine.change_state(scenes.menu.Menu) # type: ignore
             return
 
+        assert self.printer is not None
         if not self.printer.finished:
             if action_buffer[Action.START] == InputState.PRESSED:
                 self.printer.skip()
