@@ -1,6 +1,6 @@
 import pygame
 import core.constants as const
-import core.assets as asset
+import core.assets as assets
 import scenes.game
 import scenes
 import random
@@ -15,15 +15,19 @@ from scenes.context import Context
 
 MAX_VEL = 150
 
-PLAYER_ANIMATION = AnimationPlayer("walk", asset.FRISK_SPRITE, .2)
-PLAYER = Player(asset.FRISK_SPRITE[1], 50, 500, 100)
+PLAYER_ANIMATION = AnimationPlayer("walk", assets.S_FRISK, .2)
+PLAYER = Player(assets.S_FRISK[1], 50, 500, 100)
 
 
 class IntroDialog(Scene):
+    """
+    Shows introduction dialog box.
+    """
+
     def enter(self) -> None:
-        asset.ENEMY_ENCOUNTER_SOUND.set_volume(.5)
-        asset.ENEMY_ENCOUNTER_SOUND.play()
-        asset.TALKING_SOUND.play(-1)
+        assets.SFX_ENEMY_ENCOUNTER.set_volume(.5)
+        assets.SFX_ENEMY_ENCOUNTER.play()
+        assets.SFX_TALKING_LONG.play(-1)
         self.dialog_box = pygame.Surface((const.WINDOW_WIDTH - 90, 150))
         self.dialog_box.fill(const.BLACK)
         self.skip = False
@@ -42,6 +46,7 @@ class IntroDialog(Scene):
         action_buffer: InputBuffer
     ) -> None:
 
+        # Skip intro logic
         if (
             action_buffer[Action.OPTIONS] == InputState.PRESSED and not self.skip
         ):
@@ -53,16 +58,11 @@ class IntroDialog(Scene):
             self.statemachine.change_state(scenes.game.Game) # type: ignore
 
 
-        assert PLAYER.image is not None
-        surface.blit(asset.LAST_CORRIDOR, (0, 0))
-        surface.blit(PLAYER.image, (PLAYER.x, PLAYER.y))
-        surface.blit(asset.MICHEAL_SPRITE, (800, 350))
-        surface.blit(self.dialog_box, (45, 10))
-
+        # Dialog
         if not self.printer.finished:
             if action_buffer[Action.START] == InputState.PRESSED:
                 self.printer.skip()
-                asset.TALKING_SOUND.stop()
+                assets.SFX_TALKING_LONG.stop()
             else:
                 self.printer.update()
 
@@ -73,11 +73,11 @@ class IntroDialog(Scene):
                 and len(self.printer.lines_completed) == len(self.printer.lines_formatted)
             ):
                 if value == 1:
-                    asset.HEE_HEE_SOUND.play()
+                    assets.SFX_HEE_HEE.play()
                 else:
-                    asset.AUW_SOUND.play()
+                    assets.SFX_AUW.play()
         else:
-            asset.TALKING_SOUND.stop()
+            assets.SFX_TALKING_LONG.stop()
 
             if action_buffer[Action.START] == InputState.PRESSED:
                 self.text_index += 1
@@ -85,18 +85,25 @@ class IntroDialog(Scene):
                     self.statemachine.change_state(scenes.game.Game) # type: ignore
                     return
                 else:
-                    asset.TALKING_SOUND.play(-1)
+                    assets.SFX_TALKING_LONG.play(-1)
                     self.printer.change_text(Context.dialog_text[self.text_index], 100)
 
-        self.printer.draw(surface, asset.DEBUG_FONT, (60, 20))
+        # Draw
+        assert PLAYER.image is not None
+        surface.blit(assets.S_CORRIDOR, (0, 0))
+        surface.blit(PLAYER.image, (PLAYER.x, PLAYER.y))
+        surface.blit(assets.S_MICHAEL, (800, 350))
+        surface.blit(self.dialog_box, (45, 10))
+        self.printer.draw(surface, assets.F_JERSEY10, (60, 20))
 
+        # Skip intro timeout logic
         elapsed_time = pygame.time.get_ticks()
 
         if elapsed_time - self.skip_timeout > 3000: # 3s
             self.skip = False
 
         if self.skip:
-            skip_text = asset.DEBUG_FONT.render("ESC para pular", True, const.WHITE)
+            skip_text = assets.F_JERSEY10.render("ESC para pular", True, const.WHITE)
             surface.blit(skip_text, (20, const.WINDOW_HEIGHT - 40))
 
     def exit(self) -> None:
@@ -104,9 +111,13 @@ class IntroDialog(Scene):
 
 
 class Intro(Scene):
+    """
+    Introduction scene in the last corridor.
+    """
+
     def enter(self) -> None:
         self.dir = "right"
-        asset.UNDERTALE_SOUND.play()
+        assets.SFX_UNDERTALE.play()
         self.skip = False
         self.skip_timeout = 0
 
@@ -117,6 +128,7 @@ class Intro(Scene):
         action_buffer: InputBuffer
     ) -> None:
 
+        # Skip intro logic
         if (
             action_buffer[Action.OPTIONS] == InputState.PRESSED and not self.skip
         ):
@@ -129,7 +141,13 @@ class Intro(Scene):
 
         # Go to dialog
         if PLAYER.x >= 700:
-            Context.dialog_text = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", "asdak dlakjd adad aod f asjhf sjlh fahsd fasjh fasjhf ash."]
+            Context.dialog_text = [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore \
+                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut \
+                aliquip ex ea commodo consequat.",
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            ]
+
             self.statemachine.change_state(IntroDialog) # type: ignore
 
         # Move in X axis
@@ -156,7 +174,6 @@ class Intro(Scene):
         # Player walking/idle animation logic
         PLAYER_ANIMATION.update(dt)
         PLAYER.update(dt)
-        surface.blit(asset.LAST_CORRIDOR, (0, 0))
         frisk_frame = PLAYER_ANIMATION.get_frame() 
 
         if PLAYER.vx == 0:
@@ -167,9 +184,9 @@ class Intro(Scene):
         if self.dir == "left":
             frisk_frame = pygame.transform.flip(frisk_frame, True, False)
 
-        
+        surface.blit(assets.S_CORRIDOR, (0, 0))
         surface.blit(frisk_frame, (PLAYER.x, PLAYER.y))
-        surface.blit(asset.MICHEAL_SPRITE, (800, 350))
+        surface.blit(assets.S_MICHAEL, (800, 350))
 
         # Skip intro timeout logic
         elapsed_time = pygame.time.get_ticks()
@@ -178,7 +195,7 @@ class Intro(Scene):
             self.skip = False
 
         if self.skip:
-            skip_text = asset.DEBUG_FONT.render("ESC para pular", True, const.WHITE)
+            skip_text = assets.F_JERSEY10.render("ESC para pular", True, const.WHITE)
             surface.blit(skip_text, (20, const.WINDOW_HEIGHT - 40))
 
     def exit(self) -> None:

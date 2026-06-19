@@ -1,6 +1,6 @@
 import pygame
 import core.constants as const
-import core.assets as asset
+import core.assets as assets
 import scenes.game
 import scenes.menu
 
@@ -18,6 +18,7 @@ char_index = 0
 CHAR_LIMIT = 20
 TYPING_DELAY = 60 # 60 ms
 
+# WARN provavelmente essa cena será removida ou reformulada WARN
 class Dialog(Scene):
     def enter(self) -> None:
         pygame.mixer.music.unpause()
@@ -27,7 +28,11 @@ class Dialog(Scene):
             typing_delay=TYPING_DELAY
         )
 
-    def execute(self, surface, dt, action_buffer) -> None:
+    def execute(self,
+        surface, 
+        dt, # pyright: ignore
+        action_buffer
+    ) -> None:
         if action_buffer[Action.OPTIONS] == InputState.PRESSED:
             Context.last_scene = Dialog # type: ignore
             Context.paused = True
@@ -46,7 +51,7 @@ class Dialog(Scene):
                 return
 
         surface.fill(const.BLACK)
-        self.printer.draw(surface, asset.DEBUG_FONT_SMALL, (700, 100))
+        self.printer.draw(surface, assets.F_JERSEY10_SMALL, (700, 100))
 
     def exit(self) -> None:
         pygame.mixer.music.pause()

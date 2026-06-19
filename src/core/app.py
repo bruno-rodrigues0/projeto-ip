@@ -3,7 +3,7 @@ import pygame
 
 import core.constants as const
 import core.setup as setup
-import core.assets as asset
+import core.assets as assets
 import core.input as input
 from components.statemachine import StateMachine
 from scenes.menu import Menu
@@ -11,7 +11,7 @@ from scenes.menu import Menu
 
 def run() -> None:
     pygame.display.set_caption(const.CAPTION)
-    pygame.display.set_icon(asset.ICON)
+    pygame.display.set_icon(assets.ICON)
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
     pygame.mixer.music.pause()
@@ -49,7 +49,7 @@ async def game_loop(
         scene_manager.execute(surface, dt, action_buffer)
 
         debug_str = f"FPS {clock.get_fps():.0f}\nDT {dt:.3f}"
-        debug_text = asset.DEBUG_FONT.render(debug_str, False, const.WHITE, const.BLACK)
+        debug_text = assets.F_JERSEY10.render(debug_str, False, const.WHITE, const.BLACK)
         surface.blit(debug_text, (1, 1))
 
         # Keep these calls together in this order

@@ -1,7 +1,7 @@
 import pygame
 
 import core.constants as const
-import core.assets as asset
+import core.assets as assets
 import scenes.menu
 import scenes.dialog
 
@@ -11,71 +11,78 @@ from entities.player import Player
 from scenes.scene import Scene
 from scenes.context import Context
 
-MAX_X = const.WINDOW_WIDTH - asset.HEART_SPRITE.get_width()
-MAX_Y = const.WINDOW_HEIGHT - asset.HEART_SPRITE.get_height()
+
 MAX_VEL = 220
 
-PLAYER = Player(asset.HEART_SPRITE, const.WINDOW_CENTRE[0], const.WINDOW_CENTRE[1], 100)
+
+# Scene objects
+PLAYER = Player(assets.S_HEART, const.WINDOW_CENTRE[0], const.WINDOW_CENTRE[1], 100)
 COLLECTABLE1 = SimulatedObject(
-    asset.COIN_SPRITE, const.WINDOW_CENTRE[0] + 110, const.WINDOW_CENTRE[1] + 90
+    assets.S_COIN, const.WINDOW_CENTRE[0] + 110, const.WINDOW_CENTRE[1] + 90
 )
 COLLECTABLE2 = SimulatedObject(
-    asset.COIN_SPRITE, const.WINDOW_CENTRE[0] - 60, const.WINDOW_CENTRE[1] - 90
+    assets.S_COIN, const.WINDOW_CENTRE[0] - 60, const.WINDOW_CENTRE[1] - 90
 )
 COLLECTABLE3 = SimulatedObject(
-    asset.COIN_SPRITE, const.WINDOW_CENTRE[0] - 45, const.WINDOW_CENTRE[1] + 50
+    assets.S_COIN, const.WINDOW_CENTRE[0] - 45, const.WINDOW_CENTRE[1] + 50
 )
 
-
-offset = asset.ARENA_SPRITE.get_size()[1] // 2
+offset = assets.S_ARENA.get_size()[1] // 2
 ARENA_WALL01 = SimulatedObject(
-    pygame.transform.rotate(asset.ARENA_SPRITE, 90),
+    pygame.transform.rotate(assets.S_ARENA, 90),
     (const.WINDOW_WIDTH // 2) - offset,
     (const.WINDOW_HEIGHT // 2) - offset,
 )
 ARENA_WALL02 = SimulatedObject(
-    asset.ARENA_SPRITE,
+    assets.S_ARENA,
     (const.WINDOW_WIDTH // 2) - offset,
     (const.WINDOW_HEIGHT // 2) - offset,
 )
 ARENA_WALL03 = SimulatedObject(
-    asset.ARENA_SPRITE,
-    (const.WINDOW_WIDTH // 2) + asset.ARENA_SPRITE.get_size()[1] - offset,
+    assets.S_ARENA,
+    (const.WINDOW_WIDTH // 2) + assets.S_ARENA.get_size()[1] - offset,
     (const.WINDOW_HEIGHT // 2) - offset,
 )
 ARENA_WALL04 = SimulatedObject(
-    pygame.transform.rotate(asset.ARENA_SPRITE, 90),
+    pygame.transform.rotate(assets.S_ARENA, 90),
     (const.WINDOW_WIDTH // 2) - offset,
-    (const.WINDOW_HEIGHT // 2) + asset.ARENA_SPRITE.get_size()[1] - offset - 5,
+    (const.WINDOW_HEIGHT // 2) + assets.S_ARENA.get_size()[1] - offset - 5,
 )
 
-
 ARENA = [ARENA_WALL01, ARENA_WALL02, ARENA_WALL03, ARENA_WALL04]
+COLLECTABLES = [COLLECTABLE1, COLLECTABLE2, COLLECTABLE3]
+
 
 collectable_group = pygame.sprite.Group()
 all_objects_group = pygame.sprite.Group()
 arena_group = pygame.sprite.Group()
 
-collectable_group.add(COLLECTABLE1)
-collectable_group.add(COLLECTABLE2)
-collectable_group.add(COLLECTABLE3)
 all_objects_group.add(PLAYER)
-all_objects_group.add(COLLECTABLE1)
-all_objects_group.add(COLLECTABLE2)
-all_objects_group.add(COLLECTABLE3)
 for wall in ARENA:
     arena_group.add(wall)
     all_objects_group.add(wall)
+for collectable in COLLECTABLES:
+    collectable_group.add(collectable)
+    all_objects_group.add(collectable)
 
 
 class PredRect:
-    rect: pygame.rect.Rect
+    """
+    Player movement prediction rect.
+    """
 
     def __init__(self, rect):
         self.rect = rect
 
 
 class Game(Scene):
+    """
+    Main battle loop.
+    """
+
+    # NOTE essa cena atualmente contém atualmente apenas a arena de batalha. Posteriormente deve ser refatorada e
+    # conter apenas o gerenciamento entre os turnos da batalha. A ser discutido.
+
     def enter(self) -> None:
         pygame.mixer.music.set_volume(1)
         pygame.mixer.music.unpause()
@@ -86,6 +93,8 @@ class Game(Scene):
         dt: float,
         action_buffer: InputBuffer,
     ) -> None:
+
+        # Pause logic
         if (
             action_buffer[Action.OPTIONS] == InputState.PRESSED
         ):
@@ -93,11 +102,14 @@ class Game(Scene):
             Context.paused = True
             self.statemachine.change_state(scenes.menu.Menu) # type: ignore
 
+
+        # NOTE Abre a cena de dialogo, apenas para teste.
         if (
             action_buffer[Action.B] == InputState.PRESSED
         ):
             Context.dialog_text = ["Olá, Mundo! bla bla bla bla bla"]
             self.statemachine.change_state(scenes.dialog.Dialog) # type: ignore
+
 
         # Move in X axis
         if (
@@ -120,6 +132,7 @@ class Game(Scene):
         if collided:
             PLAYER.vx = 0
 
+
         # Move in Y axis
         if (
             action_buffer[Action.UP] == InputState.HELD
@@ -140,26 +153,20 @@ class Game(Scene):
         if collided:
             PLAYER.vy = 0
 
-        # Collect "coin"
+
+        # Collect items
         collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
 
         for item in collected:
             all_objects_group.remove(item)
             Context.collected_coins += 1
-            PLAYER.take_damage(40)
+            PLAYER.take_damage(10)
             
-
         PLAYER.update(dt)            
-        surface.fill(const.BLACK)
-        all_objects_group.draw(surface)
 
-        coins_text = asset.DEBUG_FONT.render(
-            f"COINS: {Context.collected_coins}", True, const.YELLOW
-        )
-        surface.blit(coins_text, (820, 0))
 
         # Display player's HP
-        hp_text = asset.DEBUG_FONT.render("HP", True, const.WHITE)
+        hp_text = assets.F_JERSEY10.render("HP", True, const.WHITE)
         hp_initial_pos = (
             const.WINDOW_CENTRE[0] - (hp_text.get_size()[0] + 10 + 150 + 77) // 2,
             const.WINDOW_CENTRE[1] + 150,
@@ -186,14 +193,21 @@ class Game(Scene):
             ),
         )
 
-        hp_values_text = asset.DEBUG_FONT.render(
+        hp_values_text = assets.F_JERSEY10.render(
             f"{str(PLAYER.current_hp).rjust(3)} / {PLAYER.max_hp}", True, const.WHITE
         )
 
+        # Draw
+        surface.fill(const.BLACK)
+        all_objects_group.draw(surface)
         surface.blit(hp_text, hp_initial_pos)
         surface.blit(
             hp_values_text, (hp_red_bar_rect.right + 10, hp_red_bar_rect.y)
         )
+        coins_text = assets.F_JERSEY10.render(
+            f"COINS: {Context.collected_coins}", True, const.YELLOW
+        )
+        surface.blit(coins_text, (820, 0))
 
     def exit(self) -> None:
         pygame.mixer.music.pause()

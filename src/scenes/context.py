@@ -1,8 +1,10 @@
-# Persistent data betwen scenes
-
 from scenes.scene import Scene
 
 class Context:
+    """
+    Persistent data betwen scenes.
+    """
+
     used_items: list[str] = []
     dialog_text: list[str] = []
     collected_coins = 0

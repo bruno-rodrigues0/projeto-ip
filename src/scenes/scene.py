@@ -6,6 +6,10 @@ import core.input as input
 
 
 class Scene(State):
+    """
+    Scene abstract class.
+    """
+
     @abstractmethod
     def enter(self) -> None: ...
 
