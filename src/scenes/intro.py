@@ -13,14 +13,11 @@ from scenes.context import Context
 
 MAX_VEL = 150
 
-FRISK_ANIMATION = AnimationPlayer("walk", asset.FRISK_SPRITE, .2)
+PLAYER_ANIMATION = AnimationPlayer("walk", asset.FRISK_SPRITE, .2)
 PLAYER = Player(asset.FRISK_SPRITE[1], 50, 500, 100)
 
-all_objects_group = pygame.sprite.Group()
-all_objects_group.add(PLAYER)
 
-
-class CutsceneDialog(Scene):
+class IntroDialog(Scene):
     def enter(self) -> None:
         asset.ENEMY_ENCOUNTER_SOUND.set_volume(.5)
         asset.ENEMY_ENCOUNTER_SOUND.play()
@@ -104,7 +101,7 @@ class CutsceneDialog(Scene):
         pass
 
 
-class Cutscene(Scene):
+class Intro(Scene):
     def enter(self) -> None:
         self.dir = "right"
         asset.UNDERTALE_SOUND.play()
@@ -128,9 +125,10 @@ class Cutscene(Scene):
         ):
             self.statemachine.change_state(scenes.game.Game) # type: ignore
 
+        # Go to dialog
         if PLAYER.x >= 700:
             Context.dialog_text = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", "asdak dlakjd adad aod f asjhf sjlh fahsd fasjh fasjhf ash."]
-            self.statemachine.change_state(CutsceneDialog) # type: ignore
+            self.statemachine.change_state(IntroDialog) # type: ignore
 
         # Move in X axis
         if (
@@ -153,13 +151,14 @@ class Cutscene(Scene):
             PLAYER.vx = 0
 
 
-        FRISK_ANIMATION.update(dt)
+        # Player walking/idle animation logic
+        PLAYER_ANIMATION.update(dt)
         PLAYER.update(dt)
         surface.blit(asset.LAST_CORRIDOR, (0, 0))
-        frisk_frame = FRISK_ANIMATION.get_frame() 
+        frisk_frame = PLAYER_ANIMATION.get_frame() 
 
         if PLAYER.vx == 0:
-            FRISK_ANIMATION.reset()
+            PLAYER_ANIMATION.reset()
             assert PLAYER.image is not None
             frisk_frame = PLAYER.image
 
@@ -170,6 +169,7 @@ class Cutscene(Scene):
         surface.blit(frisk_frame, (PLAYER.x, PLAYER.y))
         surface.blit(asset.MICHEAL_SPRITE, (800, 350))
 
+        # Skip intro timeout logic
         elapsed_time = pygame.time.get_ticks()
 
         if elapsed_time - self.skip_timeout > 3000: # 3s
