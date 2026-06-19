@@ -6,6 +6,7 @@ from utilities.sprite import slice_sheet
 # Load sprites (png, webp or jpg for web compatibility)
 ICON = pygame.image.load("src/assets/icon.png")
 
+
 S_COIN = pygame.image.load("src/assets/img/coin.png")
 S_FRISK = slice_sheet("src/assets/img/frisk.png", 34, 58)
 for i, frame in enumerate(S_FRISK):
@@ -15,6 +16,8 @@ S_MICHAEL = pygame.transform.scale_by(
     .4
 )
 S_HEART = pygame.image.load("src/assets/img/heart2.png")
+
+
 S_MENU = pygame.image.load("src/assets/img/menu_sprite.png")
 S_ARENA = pygame.Surface((5, 280))
 S_ARENA.fill(const.WHITE)
@@ -22,6 +25,17 @@ S_CORRIDOR = pygame.transform.scale(
     pygame.image.load("src/assets/img/last_corridor.jpg"),
     (const.WINDOW_WIDTH, const.WINDOW_HEIGHT)
 )
+S_MENU_OPTIONS = slice_sheet("src/assets/img/menu_options.png", 110, 42)
+for i, menu_option in enumerate(S_MENU_OPTIONS):
+    S_MENU_OPTIONS[i] = pygame.transform.scale_by(menu_option, 1.4)
+
+S_ACT_OPTION1 = S_MENU_OPTIONS[0]
+S_ACT_OPTION2 = S_MENU_OPTIONS[1]
+S_FIGHT_OPTION1 = S_MENU_OPTIONS[2]
+S_FIGHT_OPTION2 = S_MENU_OPTIONS[3]
+S_ITEM_OPTION1 = S_MENU_OPTIONS[4]
+S_ITEM_OPTION2 = S_MENU_OPTIONS[5]
+
 
 # Load audio (ogg for web compatibility)
 pygame.mixer.music.load("src/assets/sfx/theme.ogg")
