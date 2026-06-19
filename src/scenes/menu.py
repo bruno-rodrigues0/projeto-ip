@@ -9,12 +9,16 @@ from scenes.scene import Scene
 import scenes.intro
 
 
-MENU_SPRITE = assets.MENU_SPRITE
-MENU_SPRITE_X = const.WINDOW_CENTRE[0] - MENU_SPRITE.get_width() // 2
-MENU_SPRITE_Y = const.WINDOW_CENTRE[1] - MENU_SPRITE.get_height() // 2
+S_MENU = assets.S_MENU
+S_MENU_X = const.WINDOW_CENTRE[0] - S_MENU.get_width() // 2
+S_MENU_Y = const.WINDOW_CENTRE[1] - S_MENU.get_height() // 2
 
 
 class Menu(Scene):
+    """
+    Main/pause menu scene.
+    """
+
     def enter(self) -> None:
         self.selected_option = 'play'
 
@@ -31,19 +35,24 @@ class Menu(Scene):
 
         if (action_buffer[input.Action.START] == input.InputState.PRESSED):
             if self.selected_option == 'play':
-                Context.paused = False
-                self.statemachine.change_state(scenes.intro.Intro) # type: ignore
+                # If paused, back to last_scene, else go to Intro scene
+                if Context.paused:
+                    self.statemachine.change_state(Context.last_scene)
+                else:
+                    Context.paused = False
+                    self.statemachine.change_state(scenes.intro.Intro) # type: ignore
                 return
             else:
                 pygame.quit()
                 raise SystemExit
 
         surface.fill(const.BLACK)
-        surface.blit(MENU_SPRITE, (MENU_SPRITE_X, MENU_SPRITE_Y))
+        surface.blit(S_MENU, (S_MENU_X, S_MENU_Y))
 
+        # If in pause menu or main menu
         play_option_value = "COMEÇAR" if not Context.paused else "CONTINUAR"
-        play_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size(play_option_value)[0] // 2, MENU_SPRITE_Y + 400)
-        quit_option_pos = (const.WINDOW_CENTRE[0] - assets.DEBUG_FONT_MEDIUM.size("SAIR DO JOGO")[0] // 2, play_option_pos[1] + 50)
+        play_option_pos = (const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(play_option_value)[0] // 2, S_MENU_Y + 400)
+        quit_option_pos = (const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size("SAIR DO JOGO")[0] // 2, play_option_pos[1] + 50)
 
         if self.selected_option == 'play':
             play_option_color = const.YELLOW
@@ -54,13 +63,13 @@ class Menu(Scene):
             quit_option_color = const.YELLOW
             heart_pos = (quit_option_pos[0] - 60, quit_option_pos[1])
 
-        play_option = assets.DEBUG_FONT_MEDIUM.render(play_option_value, True, play_option_color)
-        quit_option = assets.DEBUG_FONT_MEDIUM.render("SAIR DO JOGO", True, quit_option_color)
+        play_option = assets.F_JERSEY10_MEDIUM.render(play_option_value, True, play_option_color)
+        quit_option = assets.F_JERSEY10_MEDIUM.render("SAIR DO JOGO", True, quit_option_color)
 
         surface.blit(play_option, play_option_pos)
         surface.blit(quit_option, quit_option_pos)
 
-        surface.blit(assets.HEART_SPRITE, heart_pos)
+        surface.blit(assets.S_HEART, heart_pos)
 
 
     def exit(self) -> None:
