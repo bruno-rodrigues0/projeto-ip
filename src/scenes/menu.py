@@ -31,8 +31,11 @@ class Menu(Scene):
 
         if (action_buffer[input.Action.START] == input.InputState.PRESSED):
             if self.selected_option == 'play':
-                Context.paused = False
-                self.statemachine.change_state(scenes.intro.Intro) # type: ignore
+                if Context.paused:
+                    self.statemachine.change_state(Context.last_scene)
+                else:
+                    Context.paused = False
+                    self.statemachine.change_state(scenes.intro.Intro) # type: ignore
                 return
             else:
                 pygame.quit()
