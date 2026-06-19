@@ -1,6 +1,7 @@
 import pygame
 import core.constants as const
 import core.assets as asset
+import scenes.game
 import scenes
 import random
 
@@ -10,6 +11,7 @@ from scenes.scene import Scene
 from core.input import InputBuffer, InputState, Action
 from components.animation import AnimationPlayer
 from scenes.context import Context
+
 
 MAX_VEL = 150
 
