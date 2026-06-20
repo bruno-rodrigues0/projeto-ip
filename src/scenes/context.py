@@ -12,4 +12,8 @@ class Context:
     last_scene: Scene
     paused: bool = False
     battle_state: str = "battle_menu"
+    item_used: str
+    items = [
+        'Pie', 'Steak', 'L. Hero', 'L. Hero', 'L. Hero', 'L. Hero', 'L.Hero'
+    ]
 

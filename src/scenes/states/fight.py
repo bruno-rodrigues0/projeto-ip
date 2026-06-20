@@ -26,22 +26,22 @@ offset = assets.S_ARENA.get_size()[1] // 2
 ARENA_WALL01 = SimulatedObject(
     pygame.transform.rotate(assets.S_ARENA, 90),
     (const.WINDOW_WIDTH // 2) - offset,
-    (const.WINDOW_HEIGHT // 2) - offset,
+    (const.WINDOW_HEIGHT // 2) - offset + 60,
 )
 ARENA_WALL02 = SimulatedObject(
     assets.S_ARENA,
     (const.WINDOW_WIDTH // 2) - offset,
-    (const.WINDOW_HEIGHT // 2) - offset,
+    (const.WINDOW_HEIGHT // 2) - offset + 60,
 )
 ARENA_WALL03 = SimulatedObject(
     assets.S_ARENA,
     (const.WINDOW_WIDTH // 2) + assets.S_ARENA.get_size()[1] - offset,
-    (const.WINDOW_HEIGHT // 2) - offset,
+    (const.WINDOW_HEIGHT // 2) - offset + 60,
 )
 ARENA_WALL04 = SimulatedObject(
     pygame.transform.rotate(assets.S_ARENA, 90),
     (const.WINDOW_WIDTH // 2) - offset,
-    (const.WINDOW_HEIGHT // 2) + assets.S_ARENA.get_size()[1] - offset - 5,
+    (const.WINDOW_HEIGHT // 2) + assets.S_ARENA.get_size()[1] - offset - 5 + 60,
 )
 
 ARENA = [ARENA_WALL01, ARENA_WALL02, ARENA_WALL03, ARENA_WALL04]
@@ -136,7 +136,7 @@ class Fight(State):
             Context.collected_coins += 1
             PLAYER.take_damage(40)
 
-        PLAYER.update(dt)            
+        PLAYER.update(dt)
 
         if len(collected) >= 1:
             Context.battle_state = "battle_menu"

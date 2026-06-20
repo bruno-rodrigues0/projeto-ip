@@ -28,14 +28,7 @@ S_CORRIDOR = pygame.transform.scale(
 S_MENU_OPTIONS = slice_sheet("src/assets/img/menu_options.png", 110, 42)
 for i, menu_option in enumerate(S_MENU_OPTIONS):
     S_MENU_OPTIONS[i] = pygame.transform.scale_by(menu_option, 1.4)
-
-S_ACT_OPTION1 = S_MENU_OPTIONS[0]
-S_ACT_OPTION2 = S_MENU_OPTIONS[1]
-S_FIGHT_OPTION1 = S_MENU_OPTIONS[2]
-S_FIGHT_OPTION2 = S_MENU_OPTIONS[3]
-S_ITEM_OPTION1 = S_MENU_OPTIONS[4]
-S_ITEM_OPTION2 = S_MENU_OPTIONS[5]
-
+S_ATTACK_BAR = pygame.image.load("src/assets/img/attack_bar.png")
 
 # Load audio (ogg for web compatibility)
 pygame.mixer.music.load("src/assets/sfx/theme.ogg")
