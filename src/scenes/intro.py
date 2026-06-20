@@ -1,4 +1,5 @@
 import pygame
+from components import camera
 from components.camera import Camera, camera_follow, camera_to_screen, camera_to_screen_parallax, camera_update
 import core.constants as const
 import core.assets as assets
@@ -26,7 +27,7 @@ class IntroDialog(Scene):
     """
 
     def enter(self) -> None:
-        assets.SFX_ENEMY_ENCOUNTER.set_volume(.5)
+        assets.SFX_ENEMY_ENCOUNTER.set_volume(.4)
         assets.SFX_ENEMY_ENCOUNTER.play()
         assets.SFX_TALKING_LONG.play(-1)
         self.dialog_box = pygame.Surface((const.WINDOW_WIDTH - 90, 150))
@@ -154,14 +155,6 @@ class Intro(Scene):
         ):
             self.statemachine.change_state(scenes.game.Game) # type: ignore
 
-        # Go to dialog
-        if PLAYER.x >= 1160:
-            Context.dialog_text = [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            ]
-
-            self.statemachine.change_state(IntroDialog) # type: ignore
 
         # Move in X axis
         if (
@@ -190,9 +183,9 @@ class Intro(Scene):
         frisk_frame = PLAYER_ANIMATION.get_frame()
 
         if PLAYER.x > 400:
-            camera_follow(self.camera, PLAYER.x - 400, const.WINDOW_HEIGHT // 2, 6)
+            camera_follow(self.camera, PLAYER.x - 400, const.WINDOW_HEIGHT // 2, 35)
         else:
-            camera_follow(self.camera, 0, const.WINDOW_HEIGHT // 2, 6)
+            camera_follow(self.camera, 0, const.WINDOW_HEIGHT // 2, 35)
         camera_update(self.camera, dt)
 
         if PLAYER.vx == 0:
@@ -221,6 +214,15 @@ class Intro(Scene):
         # Pilars
         for i in range(4):
             surface.blit(assets.S_PILLAR, camera_to_screen_parallax(self.camera, 200 + 700 * i, 0, 1.5))
+
+        # Go to dialog
+        if PLAYER.x >= 1160:
+            Context.dialog_text = [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            ]
+
+            self.statemachine.change_state(IntroDialog) # type: ignore
 
 
     def exit(self) -> None:
