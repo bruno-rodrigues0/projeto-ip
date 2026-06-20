@@ -19,6 +19,12 @@ CAPTION = "My New Pygame Project"
 FPS = 0  # 0 = Uncapped -> let VSYNC decide best tick speed if enabled
 MAX_DT = 1/FPS if FPS else 1/60
 
+BASE_DIALOGS = [
+  "É o Ayuwoke. Hee-Hee",
+  "Você sente que vai passar por um tempo ruim.",
+  "Michael Jackson faz Moonwalk enquanto olha pra você. É assustador."
+]
+
 # Colour constants
 WHITE = pygame.Color(255, 255, 255)
 BLACK = pygame.Color(0, 0, 0)
