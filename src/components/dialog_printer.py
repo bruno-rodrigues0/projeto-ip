@@ -23,7 +23,7 @@ def format_text(text: str, limit: int) -> list[str]:
 
     if current_line:
         final_lines.append(current_line)
-        
+
     return final_lines
 
 class DialogPrinter:
@@ -39,6 +39,13 @@ class DialogPrinter:
     @property
     def finished(self) -> bool:
         return self.line_index >= len(self.lines_formatted)
+
+    def reset(self) -> None:
+        self.lines_completed = []
+        self.curr_line_text = ""
+        self.line_index = 0
+        self.char_index = 0
+        self.last_char_time = pygame.time.get_ticks()
 
     def change_text(self, text: str, char_limit: int) -> None:
         self.lines_formatted = format_text(text, char_limit)

@@ -48,8 +48,8 @@ async def game_loop(
 
         scene_manager.execute(surface, dt, action_buffer)
 
-        debug_str = f"FPS {clock.get_fps():.0f}\nDT {dt:.3f}"
-        debug_text = assets.F_JERSEY10.render(debug_str, False, const.WHITE, const.BLACK)
+        debug_str = f"FPS {clock.get_fps():.0f}"
+        debug_text = assets.F_JERSEY10_SMALL.render(debug_str, False, const.WHITE, const.BLACK)
         surface.blit(debug_text, (1, 1))
 
         # Keep these calls together in this order

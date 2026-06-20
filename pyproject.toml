@@ -15,6 +15,7 @@ dependencies = ["pygame"]
 [tool.pyright]
 reportInvalidTypeForm = "none"
 reportAssignmentType = "none"
+reportIncompatibleMethodOverride = "none"
 
 [project.urls]
 Repository = "https://github.com/bruno-rodrigues0/projeto-ip"
