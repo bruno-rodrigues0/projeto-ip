@@ -26,8 +26,8 @@ S_MENU = pygame.image.load("src/assets/img/menu_sprite.png")
 S_ARENA = pygame.Surface((5, 220))
 S_ARENA.fill(const.WHITE)
 S_CORRIDOR = pygame.transform.scale(
-    pygame.image.load("src/assets/img/last_corridor.jpg"),
-    (const.WINDOW_WIDTH * 3, const.WINDOW_HEIGHT),
+    pygame.image.load("src/assets/img/last_corridor.png"),
+    (3000, 675),
 )
 S_MENU_OPTIONS = slice_sheet("src/assets/img/menu_options.png", 110, 42)
 for i, menu_option in enumerate(S_MENU_OPTIONS):
