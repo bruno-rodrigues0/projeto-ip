@@ -68,9 +68,9 @@ class Game(Scene):
         )
 
         if Context.battle_state == "fight":
-            surface.blit(MICHAEL_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].width // 2, const.WINDOW_CENTRE[1] - 270))
+            surface.blit(MICHAEL_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].get_width() // 2, const.WINDOW_CENTRE[1] - 270))
         else:
-            surface.blit(MICHAEL_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].width // 2, const.WINDOW_CENTRE[1] - 200))
+            surface.blit(MICHAEL_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].get_width() // 2, const.WINDOW_CENTRE[1] - 200))
         MICHAEL_ANIMATION.update(dt)
 
         # Display player's HP

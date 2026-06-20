@@ -22,7 +22,6 @@ S_MICHAEL_BATTLE.append(S_MICHAEL_BATTLE[1])
 S_HEART = pygame.image.load("src/assets/img/heart2.png")
 
 
-S_MENU = pygame.image.load("src/assets/img/menu_sprite.png")
 S_ARENA = pygame.Surface((5, 220))
 S_ARENA.fill(const.WHITE)
 S_CORRIDOR = pygame.transform.scale(
@@ -44,6 +43,8 @@ S_PILLAR = pygame.transform.scale(
 
 # Load audio (ogg for web compatibility)
 pygame.mixer.music.load("src/assets/sfx/theme.ogg")
+SFX_MOVE_SELECTION = pygame.mixer.Sound("src/assets/sfx/move_selection.mp3")
+SFX_SELECT_OPTION = pygame.mixer.Sound("src/assets/sfx/select-option.mp3")
 SFX_UNDERTALE = pygame.mixer.Sound("src/assets/sfx/undertale.mp3")
 SFX_ENEMY_ENCOUNTER = pygame.mixer.Sound("src/assets/sfx/enemy_encounter.mp3")
 SFX_TALKING_LONG = pygame.mixer.Sound("src/assets/sfx/talking_double.mp3")
@@ -59,5 +60,6 @@ SFX_NO_ITEMS = pygame.mixer.Sound("src/assets/sfx/no-items.mp3")
 F_JERSEY10_SMALL = pygame.font.Font("src/assets/fonts/Jersey10-Regular.ttf", 18)
 F_JERSEY10 = pygame.font.Font("src/assets/fonts/Jersey10-Regular.ttf", 28)
 F_JERSEY10_MEDIUM = pygame.font.Font("src/assets/fonts/Jersey10-Regular.ttf", 36)
+F_JERSEY10_LARGE = pygame.font.Font("src/assets/fonts/Jersey10-Regular.ttf", 80)
 
 print("Loaded assets")
