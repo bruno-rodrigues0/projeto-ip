@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 
 import core.constants as const
 import core.assets as assets
@@ -38,7 +39,8 @@ class Game(Scene):
         pygame.mixer.music.unpause()
         self.selected_option = 0
         self.action_option = 0
-        self.printer = DialogPrinter("You feel like you're going to have a bad time. ", 45, 30)
+        self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
+
 
     def execute(
         self,
@@ -117,7 +119,7 @@ class Game(Scene):
         elif Context.battle_state == "act":
             Act.execute(self, surface, dt, action_buffer)
         elif Context.battle_state == "item":
-            Item.execute(self, surface, dt, action_buffer)
+            Item.execute(self, surface, dt, action_buffer, PLAYER)
         elif Context.battle_state == "item_used":
             ItemUsed.execute(self, surface, dt, action_buffer)
 

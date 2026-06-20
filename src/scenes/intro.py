@@ -173,7 +173,7 @@ class Intro(Scene):
             PLAYER.vx = 0
 
         next_pos = PLAYER.get_next_pos(dt)
-        if next_pos[0] <= 0 or next_pos[0] >= assets.S_CORRIDOR.width:
+        if next_pos[0] <= 0 or next_pos[0] >= assets.S_CORRIDOR.get_width():
             PLAYER.vx = 0
 
 
