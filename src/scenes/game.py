@@ -9,19 +9,25 @@ from core.input import InputBuffer, InputState, Action
 from entities.player import Player
 from scenes.scene import Scene
 from scenes.context import Context
-from scenes.states import battle_menu
 from scenes.states.act import Act, Check
 from components.dialog_printer import DialogPrinter
 from scenes.states.attack import Attack
 from scenes.states.battle_menu import BattleMenu
 from scenes.states.fight import Fight
 from scenes.states.item import Item, ItemUsed
+from components.animation import AnimationPlayer
 
 
-MAX_VEL = 220
+MAX_VEL = 200
 
 # Scene objects
-PLAYER = Player(assets.S_HEART, const.WINDOW_CENTRE[0], const.WINDOW_CENTRE[1], 100)
+MICHAEL_ANIMATION = AnimationPlayer("idle", assets.S_MICHAEL_BATTLE, .3)
+PLAYER = Player(
+    pygame.transform.scale_by(assets.S_HEART, 0.8),
+    const.WINDOW_CENTRE[0],
+    const.WINDOW_CENTRE[1],
+    100
+)
 
 class Game(Scene):
     """
@@ -55,6 +61,17 @@ class Game(Scene):
 
         # Draw
         surface.fill(const.BLACK)
+
+        S_MICHAEL_CLOSE = pygame.transform.scale_by(
+            assets.S_MICHAEL_CLOSE,
+            0.4
+        )
+
+        if Context.battle_state == "fight":
+            surface.blit(MICHAEL_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].width // 2, const.WINDOW_CENTRE[1] - 270))
+        else:
+            surface.blit(MICHAEL_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].width // 2, const.WINDOW_CENTRE[1] - 200))
+        MICHAEL_ANIMATION.update(dt)
 
         # Display player's HP
         hp_text = assets.F_JERSEY10.render("HP", True, const.WHITE)

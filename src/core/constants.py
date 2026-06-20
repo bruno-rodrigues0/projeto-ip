@@ -9,13 +9,13 @@ WINDOW_CENTRE = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
 
 WINDOW_SETUP = {
     "size": WINDOW_SIZE,
-    "flags": 0,
+    "flags": pygame.FULLSCREEN,
     "depth": 0,
     "display": 0,
     "vsync": 1,
 }
 
-CAPTION = "My New Pygame Project"
+CAPTION = "CINTALE"
 FPS = 0  # 0 = Uncapped -> let VSYNC decide best tick speed if enabled
 MAX_DT = 1/FPS if FPS else 1/60
 
