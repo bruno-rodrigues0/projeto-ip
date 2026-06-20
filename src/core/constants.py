@@ -9,13 +9,12 @@ WINDOW_CENTRE = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
 
 WINDOW_SETUP = {
     "size": WINDOW_SIZE,
-    "flags": pygame.FULLSCREEN,
     "depth": 0,
     "display": 0,
     "vsync": 1,
 }
 
-CAPTION = "CINTALE"
+CAPTION = "Ayuwoke Time CINmulator"
 FPS = 0  # 0 = Uncapped -> let VSYNC decide best tick speed if enabled
 MAX_DT = 1/FPS if FPS else 1/60
 

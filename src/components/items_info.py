@@ -56,7 +56,7 @@ moonwalk_item = ItemInfo(
     "Moonwalk",
     "defense",
     30,
-    "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumento em 30!",
+    "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 30!",
     assets.SFX_DEFENSE_ITEM,
     2
 )
