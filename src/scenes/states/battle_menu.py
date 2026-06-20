@@ -67,7 +67,10 @@ class BattleMenu(State):
                 Context.battle_state = "attack"
                 return
             elif self.selected_option == 2: # item
-                Context.battle_state = "item"
+                if len(Context.items) > 0:
+                    Context.battle_state = "item"
+                else:
+                    assets.SFX_NO_ITEMS.play()
                 return
             else: # act
                 Context.battle_state = "act"

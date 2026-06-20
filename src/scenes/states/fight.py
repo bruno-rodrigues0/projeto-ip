@@ -1,25 +1,35 @@
 import pygame
+from random import randint
+
 import core.assets as assets
 import core.constants as const
-
-from components.statemachine import State
 from core.input import InputBuffer, InputState, Action
+from components.statemachine import State
 from components.object import SimulatedObject
+from components.dialog_printer import DialogPrinter
 from entities.player import Player
 from scenes.context import Context
-
 
 MAX_VEL = 220
 
 # Scene objects
 COLLECTABLE1 = SimulatedObject(
-    assets.S_COIN, const.WINDOW_CENTRE[0] + 110, const.WINDOW_CENTRE[1] + 90
+    assets.S_COIN, const.WINDOW_CENTRE[0] + 110, const.WINDOW_CENTRE[1] + 70
 )
 COLLECTABLE2 = SimulatedObject(
-    assets.S_COIN, const.WINDOW_CENTRE[0] - 60, const.WINDOW_CENTRE[1] - 90
+    assets.S_COIN, const.WINDOW_CENTRE[0] - 60, const.WINDOW_CENTRE[1] - 60
 )
 COLLECTABLE3 = SimulatedObject(
     assets.S_COIN, const.WINDOW_CENTRE[0] - 45, const.WINDOW_CENTRE[1] + 50
+)
+COLLECTABLE4 = SimulatedObject(
+    assets.S_COIN, const.WINDOW_CENTRE[0] + 50, const.WINDOW_CENTRE[1]
+)
+COLLECTABLE5 = SimulatedObject(
+    assets.S_COIN, const.WINDOW_CENTRE[0] - 100, const.WINDOW_CENTRE[1] + 160
+)
+COLLECTABLE6 = SimulatedObject(
+    assets.S_COIN, const.WINDOW_CENTRE[0] + 10, const.WINDOW_CENTRE[1] + 150
 )
 
 offset = assets.S_ARENA.get_size()[1] // 2
@@ -45,7 +55,14 @@ ARENA_WALL04 = SimulatedObject(
 )
 
 ARENA = [ARENA_WALL01, ARENA_WALL02, ARENA_WALL03, ARENA_WALL04]
-COLLECTABLES = [COLLECTABLE1, COLLECTABLE2, COLLECTABLE3]
+COLLECTABLES = [
+    COLLECTABLE1,
+    COLLECTABLE2,
+    COLLECTABLE3,
+    COLLECTABLE4,
+    COLLECTABLE5,
+    COLLECTABLE6,
+]
 
 collectable_group = pygame.sprite.Group()
 all_objects_group = pygame.sprite.Group()
@@ -68,6 +85,7 @@ class PredRect:
     def __init__(self, rect):
         self.rect = rect
 
+
 class Fight(State):
     def enter(self) -> None:
         pass
@@ -77,11 +95,9 @@ class Fight(State):
         surface: pygame.Surface,
         dt: float,
         action_buffer: InputBuffer,
-        PLAYER: Player
+        PLAYER: Player,
     ) -> None:
-        if (
-            action_buffer[Action.B] == InputState.PRESSED
-        ):
+        if action_buffer[Action.B] == InputState.PRESSED:
             Context.battle_state = "battle_menu"
             return
 
@@ -106,7 +122,6 @@ class Fight(State):
         if collided:
             PLAYER.vx = 0
 
-
         # Move in Y axis
         if (
             action_buffer[Action.UP] == InputState.HELD
@@ -127,7 +142,6 @@ class Fight(State):
         if collided:
             PLAYER.vy = 0
 
-
         # Collect items
         collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
 
@@ -140,6 +154,8 @@ class Fight(State):
 
         if len(collected) >= 1:
             Context.battle_state = "battle_menu"
+            PLAYER.update_buffs()
+            self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
             return
 
         surface.blit(PLAYER.image, PLAYER.get_pos())

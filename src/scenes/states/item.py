@@ -1,30 +1,49 @@
 import pygame
 import math
 from components.statemachine import State
+from components.dialog_printer import DialogPrinter
 import core.assets as assets
 import core.constants as const
-
 from core.input import InputBuffer, InputState, Action
 from scenes.context import Context
+from entities.player import Player
+from random import randint
 
 
 menu_options_group = pygame.sprite.Group()
 
 class ItemUsed(State):
+    def enter(self, PLAYER: Player):
+        if Context.item_used:
+            item = Context.item_used
+
+            item.sound.play()
+            self.printer = DialogPrinter(item.dialog, 40, 30)
+
+            match item.type:
+                case 'healing':
+                    PLAYER.heal(item.buff)
+                case 'damage':
+                    PLAYER.buff_damage(item.buff, item.buff_count)
+                case 'defense':
+                    PLAYER.buff_defense(item.buff, item.buff_count)
+
+
     @staticmethod
     def execute(
         self,
         surface: pygame.Surface,
         dt: float,
-        action_buffer: InputBuffer
+        action_buffer: InputBuffer,
     ) -> None:
-
         if not self.printer.finished:
             self.printer.update()
         else:
             if (
                 action_buffer[Action.START] == InputState.PRESSED
             ):
+                Context.items.remove(Context.item_used)
+                self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
                 Context.battle_state = "fight"
                 return
 
@@ -54,7 +73,8 @@ class Item(State):
         self,
         surface: pygame.Surface,
         dt: float,
-        action_buffer: InputBuffer
+        action_buffer: InputBuffer,
+        PLAYER: Player
     ) -> None:
 
         if (
@@ -78,8 +98,9 @@ class Item(State):
         if (
             action_buffer[Action.START] == InputState.PRESSED
         ):
+            Context.item_used = Context.items[self.action_option] 
             self.action_option = 0
-            Context.item_used = "Pie"
+            ItemUsed.enter(self, PLAYER)
             Context.battle_state = "item_used"
             return
 
@@ -91,7 +112,7 @@ class Item(State):
         for i, item in enumerate(Context.items[page_start: page_start + 6]):
             pos = (const.WINDOW_CENTRE[0] - 240 + 150 * (i // 2), 400 + 50 * (i % 2))
             option = assets.F_JERSEY10_MEDIUM.render(
-                item,
+                item.name,
                 True,
                 const.WHITE
             )
