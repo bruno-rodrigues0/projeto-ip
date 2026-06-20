@@ -23,12 +23,17 @@ S_ARENA = pygame.Surface((5, 280))
 S_ARENA.fill(const.WHITE)
 S_CORRIDOR = pygame.transform.scale(
     pygame.image.load("src/assets/img/last_corridor.jpg"),
-    (const.WINDOW_WIDTH, const.WINDOW_HEIGHT)
+    (const.WINDOW_WIDTH * 3, const.WINDOW_HEIGHT)
 )
 S_MENU_OPTIONS = slice_sheet("src/assets/img/menu_options.png", 110, 42)
 for i, menu_option in enumerate(S_MENU_OPTIONS):
     S_MENU_OPTIONS[i] = pygame.transform.scale_by(menu_option, 1.4)
 S_ATTACK_BAR = pygame.image.load("src/assets/img/attack_bar.png")
+S_PILLAR = pygame.image.load("src/assets/img/pillar.png")
+S_PILLAR = pygame.transform.scale(
+    S_PILLAR,
+    (S_PILLAR.width * (const.WINDOW_WIDTH * 2.5 / const.WINDOW_HEIGHT), const.WINDOW_HEIGHT + 300)
+)
 
 # Load audio (ogg for web compatibility)
 pygame.mixer.music.load("src/assets/sfx/theme.ogg")

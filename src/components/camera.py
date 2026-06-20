@@ -88,8 +88,8 @@ def camera_to_screen_shake_rect(
     return (
         round(screen_x + camera.shake_offset.x),
         round(screen_y + camera.shake_offset.y),
-        w,
-        h,
+        int(w),
+        int(h),
     )
 
 
@@ -98,6 +98,12 @@ def camera_from_screen(camera: Camera, x: float, y: float) -> tuple[int, int]:
         round(x + camera.motion.position.x - camera.offset.x),
         round(y + camera.motion.position.y - camera.offset.y),
     )
+
+def camera_to_screen_parallax(camera: Camera, x: float, y: float, factor: float) -> tuple[int, int]:
+    return (
+    round(x - camera.motion.position.x * factor + camera.offset.x),
+    round(y)
+)
 
 
 def camera_reset(camera: Camera) -> None:
