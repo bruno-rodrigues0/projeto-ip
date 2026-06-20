@@ -13,10 +13,10 @@ MAX_VEL = 220
 
 # Scene objects
 COLLECTABLE1 = SimulatedObject(
-    assets.S_COIN, const.WINDOW_CENTRE[0] + 110, const.WINDOW_CENTRE[1] + 90
+    assets.S_COIN, const.WINDOW_CENTRE[0] + 70, const.WINDOW_CENTRE[1] + 90
 )
 COLLECTABLE2 = SimulatedObject(
-    assets.S_COIN, const.WINDOW_CENTRE[0] - 60, const.WINDOW_CENTRE[1] - 90
+    assets.S_COIN, const.WINDOW_CENTRE[0] - 60, const.WINDOW_CENTRE[1] - 20
 )
 COLLECTABLE3 = SimulatedObject(
     assets.S_COIN, const.WINDOW_CENTRE[0] - 45, const.WINDOW_CENTRE[1] + 50
@@ -26,22 +26,22 @@ offset = assets.S_ARENA.get_size()[1] // 2
 ARENA_WALL01 = SimulatedObject(
     pygame.transform.rotate(assets.S_ARENA, 90),
     (const.WINDOW_WIDTH // 2) - offset,
-    (const.WINDOW_HEIGHT // 2) - offset + 60,
+    (const.WINDOW_HEIGHT // 2) - offset + 80,
 )
 ARENA_WALL02 = SimulatedObject(
     assets.S_ARENA,
     (const.WINDOW_WIDTH // 2) - offset,
-    (const.WINDOW_HEIGHT // 2) - offset + 60,
+    (const.WINDOW_HEIGHT // 2) - offset + 80,
 )
 ARENA_WALL03 = SimulatedObject(
     assets.S_ARENA,
     (const.WINDOW_WIDTH // 2) + assets.S_ARENA.get_size()[1] - offset,
-    (const.WINDOW_HEIGHT // 2) - offset + 60,
+    (const.WINDOW_HEIGHT // 2) - offset + 80,
 )
 ARENA_WALL04 = SimulatedObject(
     pygame.transform.rotate(assets.S_ARENA, 90),
     (const.WINDOW_WIDTH // 2) - offset,
-    (const.WINDOW_HEIGHT // 2) + assets.S_ARENA.get_size()[1] - offset - 5 + 60,
+    (const.WINDOW_HEIGHT // 2) + assets.S_ARENA.get_size()[1] - offset - 5 + 80,
 )
 
 ARENA = [ARENA_WALL01, ARENA_WALL02, ARENA_WALL03, ARENA_WALL04]

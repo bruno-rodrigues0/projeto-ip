@@ -15,11 +15,16 @@ S_MICHAEL = pygame.transform.scale_by(
     pygame.image.load("src/assets/img/michael.png"),
     .4
 )
+S_MICHAEL_CLOSE = pygame.image.load("src/assets/img/michael_close.png")
+S_MICHAEL_BATTLE = slice_sheet("src/assets/img/lord.png", 65, 161)
+for i, sprite in enumerate(S_MICHAEL_BATTLE):
+    S_MICHAEL_BATTLE[i] = pygame.transform.scale_by(sprite, 1.4)
+S_MICHAEL_BATTLE.append(S_MICHAEL_BATTLE[1])
 S_HEART = pygame.image.load("src/assets/img/heart2.png")
 
 
 S_MENU = pygame.image.load("src/assets/img/menu_sprite.png")
-S_ARENA = pygame.Surface((5, 280))
+S_ARENA = pygame.Surface((5, 220))
 S_ARENA.fill(const.WHITE)
 S_CORRIDOR = pygame.transform.scale(
     pygame.image.load("src/assets/img/last_corridor.jpg"),

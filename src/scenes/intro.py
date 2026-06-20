@@ -39,7 +39,7 @@ class IntroDialog(Scene):
         self.text_index = 0
         self.printer = DialogPrinter(
             text=Context.dialog_text[self.text_index],
-            char_limit=100,
+            char_limit=85,
             typing_delay=10
         )
 
@@ -90,7 +90,7 @@ class IntroDialog(Scene):
                     return
                 else:
                     assets.SFX_TALKING_LONG.play(-1)
-                    self.printer.change_text(Context.dialog_text[self.text_index], 100)
+                    self.printer.change_text(Context.dialog_text[self.text_index], 85)
 
         camera_update(self.camera, dt)
 
@@ -103,7 +103,9 @@ class IntroDialog(Scene):
             surface.blit(assets.S_PILLAR, camera_to_screen_parallax(self.camera, 200 + 700 * i, 0, 1.5))
 
         surface.blit(self.dialog_box, (45, 10))
-        self.printer.draw(surface, assets.F_JERSEY10, (60, 20))
+        self.printer.draw(surface, assets.F_JERSEY10, (200, 20))
+        surface.blit(pygame.transform.scale_by(assets.S_MICHAEL_CLOSE, .2), (60, 20))
+
 
         # Skip intro timeout logic
         elapsed_time = pygame.time.get_ticks()
@@ -113,7 +115,7 @@ class IntroDialog(Scene):
 
         if self.skip:
             skip_text = assets.F_JERSEY10.render("ESC para pular", True, const.WHITE)
-            surface.blit(skip_text, self.camera, 20, const.WINDOW_HEIGHT - 40)
+            surface.blit(skip_text, (20, const.WINDOW_HEIGHT - 40))
 
 
     def exit(self) -> None:
@@ -155,9 +157,7 @@ class Intro(Scene):
         # Go to dialog
         if PLAYER.x >= 1160:
             Context.dialog_text = [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore \
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut \
-                aliquip ex ea commodo consequat.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
             ]
 
@@ -190,9 +190,9 @@ class Intro(Scene):
         frisk_frame = PLAYER_ANIMATION.get_frame()
 
         if PLAYER.x > 400:
-            camera_follow(self.camera, PLAYER.x - 400, const.WINDOW_HEIGHT // 2, 10)
+            camera_follow(self.camera, PLAYER.x - 400, const.WINDOW_HEIGHT // 2, 6)
         else:
-            camera_follow(self.camera, 0, const.WINDOW_HEIGHT // 2, 10)
+            camera_follow(self.camera, 0, const.WINDOW_HEIGHT // 2, 6)
         camera_update(self.camera, dt)
 
         if PLAYER.vx == 0:
