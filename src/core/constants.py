@@ -9,6 +9,7 @@ WINDOW_CENTRE = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
 
 WINDOW_SETUP = {
     "size": WINDOW_SIZE,
+    "flags": 0,
     "depth": 0,
     "display": 0,
     "vsync": 1,
