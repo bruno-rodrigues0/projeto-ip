@@ -1,4 +1,3 @@
-import asyncio
 import pygame
 
 import core.constants as const
@@ -16,10 +15,10 @@ def run() -> None:
     pygame.mixer.music.play(-1)
     pygame.mixer.music.pause()
     scene_manager = StateMachine(Menu) # type: ignore
-    asyncio.run(game_loop(setup.window, setup.clock, scene_manager))
+    game_loop(setup.window, setup.clock, scene_manager)
 
 
-async def game_loop(
+def game_loop(
         surface: pygame.Surface,
         clock: pygame.time.Clock,
         scene_manager: StateMachine
@@ -54,7 +53,6 @@ async def game_loop(
 
         # Keep these calls together in this order
         pygame.display.flip()
-        await asyncio.sleep(0)  # Very important, and keep it 0
 
 
 def input_event_queue() -> bool:
