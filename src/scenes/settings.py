@@ -1,11 +1,10 @@
 import pygame
+import copy
 from decimal import Decimal
-import math
 from components.config import Config
 import core.constants as const
 import core.assets as assets
 
-from scenes import menu
 from scenes.scene import Scene
 from core.input import InputBuffer, InputState, Action
 from scenes.context import Context
@@ -15,6 +14,7 @@ config = Config()
 class Settings(Scene):
     def enter(self) -> None:
         self.selected_option = 0
+        self.config_backup = copy.deepcopy(config)
 
     def execute(
         self,
@@ -71,6 +71,7 @@ class Settings(Scene):
                 action_buffer[Action.LEFT] == InputState.PRESSED
             ):
                 config.config["fullscreen"] = not config.config["fullscreen"]
+                assets.SFX_MASTER.audios["move_selection"].play()
 
 
         elif self.selected_option == list(menu_options.keys()).index("FPS"):
@@ -81,12 +82,14 @@ class Settings(Scene):
             ):
                 new_value = values[(values.index(fps) + 1) % len(values)]
                 config.config["fps"] = new_value
+                assets.SFX_MASTER.audios["move_selection"].play()
 
             if (
                 action_buffer[Action.LEFT] == InputState.PRESSED
             ):
                 new_value = values[(values.index(fps) - 1) % len(values)]
                 config.config["fps"] = new_value
+                assets.SFX_MASTER.audios["move_selection"].play()
 
 
         elif self.selected_option == list(menu_options.keys()).index("VSYNC"):
@@ -95,12 +98,19 @@ class Settings(Scene):
                 action_buffer[Action.LEFT] == InputState.PRESSED
             ):
                 config.config["vsync"] = (config.config["vsync"] + 1) % 2
+                assets.SFX_MASTER.audios["move_selection"].play()
 
 
         elif self.selected_option == list(menu_options.keys()).index("SALVAR"):
             if action_buffer[Action.START] == InputState.PRESSED:
-                config.apply_config()
+                if (
+                    config.config["fullscreen"] != self.config_backup.config["fullscreen"] or
+                    config.config["vsync"] != self.config_backup.config["vsync"]
+                ):
+                    config.apply_config()
+                    self.config_backup = copy.deepcopy(config)
                 config.save_file()
+                assets.SFX_MASTER.audios["select_option"].play()
 
         surface.fill(const.BLACK)
         heart_pos = (0, 0)

@@ -1,6 +1,9 @@
 import json
+import os
 import pygame
+import platform
 import core.constants as const
+from pathlib import Path
 from typing import Any
 
 
@@ -15,16 +18,38 @@ class Config:
     def __init__(self):
         self.load_file()
 
+
+    def get_config_path(self) -> Path:
+        """Descobre a pasta correta dependendo do sistema operacional do jogador"""
+        game_name = "ayuwoke_time" # Troque pelo nome do seu jogo
+        system = platform.system()
+
+        if system == "Windows":
+            base_dir = Path(os.getenv("APPDATA"))
+        elif system == "Darwin": # macOS
+            base_dir = Path.home() / "Library" / "Application Support"
+        else: # Linux e outros
+            base_dir = Path(os.getenv("XDG_CONFIG_HOME", Path.home() / ".config"))
+
+        config_dir = base_dir / game_name
+        config_dir.mkdir(parents=True, exist_ok=True)
+
+        return config_dir / "config.json"
+
+
     def load_file(self):
         try:
-            with open("src/data/config.json", "r") as file:
+            file_path = self.get_config_path()
+            with open(file_path, "r") as file:
                 data = json.load(file)
                 self.config = data
         except Exception:
-            print("No config file.")
+            self.save_file()
+
 
     def save_file(self):
-        with open("src/data/config.json", "w") as file:
+        file_path = self.get_config_path()
+        with open(file_path, "w") as file:
             json.dump(self.config, file, indent=4)
 
     def apply_config(self):
@@ -33,7 +58,7 @@ class Config:
     def get_window_setup(self) -> dict[str, Any]:
         window_setup = {
             "size": const.WINDOW_SIZE,
-            "flags": pygame.FULLSCREEN if self.config["fullscreen"] else 0,
+            "flags": pygame.FULLSCREEN | pygame.SCALED if self.config["fullscreen"] else pygame.SCALED,
             "depth": 0,
             "display": 0,
             "vsync": self.config["vsync"],

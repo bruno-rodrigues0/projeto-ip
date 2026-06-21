@@ -1,7 +1,10 @@
+import os
 import pygame
 
+# Força a janela do Pygame a abrir e se recriar sempre no centro da tela
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 from components.config import Config
-import core.constants as const
 
 
 pygame.init()

@@ -35,10 +35,14 @@ def game_loop(
 
     print("Starting game loop")
 
+    clock.tick()
+
     while True:
         fps = Config().config["fps"]
+        max_dt = 1/fps if fps else 1/60
         elapsed_time = clock.tick(fps)
         dt = elapsed_time / 1000.0  # Convert to seconds
+        dt = min(dt, max_dt)
 
         running = input_event_queue()
 
@@ -65,8 +69,6 @@ def input_event_queue() -> bool:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
-        # elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-        #     return False
 
     return True
 
