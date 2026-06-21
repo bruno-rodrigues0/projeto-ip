@@ -34,14 +34,14 @@ cake_item = ItemInfo(
     "healing",
     99,
     "... Então você decidiu comer o bolo?",
-    assets.SFX_HEALING_ITEM,
-)
+    assets.SFX_MASTER.audios["healing_item"]),
+
 strength_item = ItemInfo(
     "Bíceps",
     "damage",
     1,
     "Você usou toda sua força! Seu ataque aumentou em 1.",
-    assets.SFX_DAMAGE_ITEM,
+    assets.SFX_MASTER.audios["damage_item"],
     1
 )
 hee_hee_item = ItemInfo(
@@ -49,7 +49,7 @@ hee_hee_item = ItemInfo(
     "damage",
     50,
     "Você imita 'Hee-Hee!' Perfeitamente. Seu ataque subiu em 50 no próximo turno!",
-    assets.SFX_HEE_HEE,
+    assets.SFX_MASTER.audios["hee_hee"],
     2
 )
 moonwalk_item = ItemInfo(
@@ -57,7 +57,7 @@ moonwalk_item = ItemInfo(
     "defense",
     30,
     "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 30!",
-    assets.SFX_DEFENSE_ITEM,
+    assets.SFX_MASTER.audios["defense_item"],
     2
 )
 

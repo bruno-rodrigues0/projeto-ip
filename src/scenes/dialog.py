@@ -21,7 +21,7 @@ TYPING_DELAY = 60 # 60 ms
 # WARN provavelmente essa cena será removida ou reformulada WARN
 class Dialog(Scene):
     def enter(self) -> None:
-        pygame.mixer.music.unpause()
+        assets.SFX_MASTER.audios["theme"].unpause()
         self.printer = DialogPrinter(
             text=Context.dialog_text[0],
             char_limit=CHAR_LIMIT,
@@ -54,7 +54,7 @@ class Dialog(Scene):
         self.printer.draw(surface, assets.F_JERSEY10_SMALL, (700, 100))
 
     def exit(self) -> None:
-        pygame.mixer.music.pause()
+        assets.SFX_MASTER.audios["theme"].pause()
         self.printer = None
 
 

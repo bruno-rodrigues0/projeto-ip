@@ -26,7 +26,7 @@ class Player(SimulatedObject):
 
 
     def take_damage(self, amount):
-        assets.SFX_DAMAGE_TAKEN.play()
+        assets.SFX_MASTER.audios["damage_taken"].play()
         self.current_hp = int(max(0, self.current_hp - (amount - (self.defense / 100) * amount)))
         self.hp_percent = self.current_hp / self.max_hp
 

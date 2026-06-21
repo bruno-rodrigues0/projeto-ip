@@ -35,7 +35,6 @@ class Game(Scene):
     """
 
     def enter(self) -> None:
-        pygame.mixer.music.set_volume(1)
         pygame.mixer.music.unpause()
         self.selected_option = 0
         self.action_option = 0

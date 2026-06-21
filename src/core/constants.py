@@ -7,17 +7,7 @@ WINDOW_HEIGHT = 675 #! CHANGE TO 1080
 WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HEIGHT)
 WINDOW_CENTRE = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
 
-WINDOW_SETUP = {
-    "size": WINDOW_SIZE,
-    "flags": pygame.FULLSCREEN,
-    "depth": 0,
-    "display": 0,
-    "vsync": 1,
-}
-
 CAPTION = "Ayuwoke Time CINmulator"
-FPS = 0  # 0 = Uncapped -> let VSYNC decide best tick speed if enabled
-MAX_DT = 1/FPS if FPS else 1/60
 
 BASE_DIALOGS = [
   "É o Ayuwoke. Hee-Hee",

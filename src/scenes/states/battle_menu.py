@@ -70,7 +70,7 @@ class BattleMenu(State):
                 if len(Context.items) > 0:
                     Context.battle_state = "item"
                 else:
-                    assets.SFX_NO_ITEMS.play()
+                    assets.SFX_MASTER.audios["no_items"].play()
                 return
             else: # act
                 Context.battle_state = "act"

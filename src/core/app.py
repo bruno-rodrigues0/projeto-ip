@@ -1,5 +1,6 @@
 import pygame
 
+from components.config import Config
 import core.constants as const
 import core.setup as setup
 import core.assets as assets
@@ -9,9 +10,10 @@ from scenes.menu import Menu
 
 
 def run() -> None:
+    config = Config()
     pygame.display.set_caption(const.CAPTION)
     pygame.display.set_icon(assets.ICON)
-    pygame.mixer.music.set_volume(0.5)
+    assets.SFX_MASTER.set_master_volume(config.config["master_volume"])
     pygame.mixer.music.play(-1)
     pygame.mixer.music.pause()
     scene_manager = StateMachine(Menu) # type: ignore
@@ -27,16 +29,20 @@ def game_loop(
         input.InputState.NOTHING for _ in input.Action
     ]
 
-    last_action_mapping_pressed:  list[pygame.key] = [
+    last_action_mapping_pressed:  list[pygame.key] = [ # type: ignore
         input.action_mappings[action][0] for action in input.Action
     ]
 
     print("Starting game loop")
 
+    clock.tick()
+
     while True:
-        elapsed_time = clock.tick(const.FPS)
+        fps = Config().config["fps"]
+        max_dt = 1/fps if fps else 1/60
+        elapsed_time = clock.tick(fps)
         dt = elapsed_time / 1000.0  # Convert to seconds
-        dt = min(dt, const.MAX_DT)  # Clamp delta time
+        dt = min(dt, max_dt)
 
         running = input_event_queue()
 
@@ -63,15 +69,13 @@ def input_event_queue() -> bool:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
-        # elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-        #     return False
 
     return True
 
 
 def update_action_buffer(
     action_buffer: input.InputBuffer,
-    last_action_mapping_pressed: list[pygame.key]
+    last_action_mapping_pressed: list[pygame.key] # type: ignore
 ) -> None:
     keys_held = pygame.key.get_pressed()
     for action in input.Action:
