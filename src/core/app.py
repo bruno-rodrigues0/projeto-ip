@@ -39,10 +39,9 @@ def game_loop(
 
     while True:
         fps = Config().config["fps"]
-        max_dt = 1/fps if fps else 1/60
         elapsed_time = clock.tick(fps)
         dt = elapsed_time / 1000.0  # Convert to seconds
-        dt = min(dt, max_dt)
+        dt = min(dt, 0.05)
 
         running = input_event_queue()
 
