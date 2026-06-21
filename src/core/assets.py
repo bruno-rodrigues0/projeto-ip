@@ -20,7 +20,7 @@ S_MICHAEL_BATTLE = slice_sheet("src/assets/img/lord.png", 65, 161)
 for i, sprite in enumerate(S_MICHAEL_BATTLE):
     S_MICHAEL_BATTLE[i] = pygame.transform.scale_by(sprite, 1.4)
 S_MICHAEL_BATTLE.append(S_MICHAEL_BATTLE[1])
-S_HEART = pygame.image.load("src/assets/img/heart2.png")
+S_HEART = pygame.image.load("src/assets/img/heart.png")
 
 
 S_ARENA = pygame.Surface((5, 220))

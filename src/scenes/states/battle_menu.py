@@ -5,7 +5,6 @@ import core.assets as assets
 import core.constants as const
 
 from core.input import InputBuffer, InputState, Action
-from scenes import dialog
 from scenes.context import Context
 
 

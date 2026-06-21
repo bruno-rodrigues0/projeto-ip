@@ -61,11 +61,6 @@ class Game(Scene):
         # Draw
         surface.fill(const.BLACK)
 
-        S_MICHAEL_CLOSE = pygame.transform.scale_by(
-            assets.S_MICHAEL_CLOSE,
-            0.4
-        )
-
         if Context.battle_state == "fight":
             surface.blit(MICHAEL_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].get_width() // 2, const.WINDOW_CENTRE[1] - 270))
         else:
