@@ -1,5 +1,4 @@
 import pygame
-from components import camera
 from components.camera import Camera, camera_follow, camera_to_screen, camera_to_screen_parallax, camera_update
 import core.constants as const
 import core.assets as assets
@@ -27,9 +26,9 @@ class IntroDialog(Scene):
     """
 
     def enter(self) -> None:
-        assets.SFX_ENEMY_ENCOUNTER.set_volume(.4)
-        assets.SFX_ENEMY_ENCOUNTER.play()
-        assets.SFX_TALKING_LONG.play(-1)
+        assets.SFX_MASTER.audios["enemy_encounter"].set_volume(.4)
+        assets.SFX_MASTER.audios["enemy_encounter"].play()
+        assets.SFX_MASTER.audios["talking_long"].play(-1)
         self.dialog_box = pygame.Surface((const.WINDOW_WIDTH - 90, 150))
         self.dialog_box.fill(const.BLACK)
         self.skip = False
@@ -67,7 +66,7 @@ class IntroDialog(Scene):
         if not self.printer.finished:
             if action_buffer[Action.START] == InputState.PRESSED:
                 self.printer.skip()
-                assets.SFX_TALKING_LONG.stop()
+                assets.SFX_MASTER.audios["talking_long"].stop()
             else:
                 self.printer.update()
 
@@ -78,11 +77,11 @@ class IntroDialog(Scene):
                 and len(self.printer.lines_completed) == len(self.printer.lines_formatted)
             ):
                 if value == 1:
-                    assets.SFX_HEE_HEE.play()
+                    assets.SFX_MASTER.audios["hee_hee"].play()
                 else:
-                    assets.SFX_AUW.play()
+                    assets.SFX_MASTER.audios["auw"].play()
         else:
-            assets.SFX_TALKING_LONG.stop()
+            assets.SFX_MASTER.audios["talking_long"].stop()
 
             if action_buffer[Action.START] == InputState.PRESSED:
                 self.text_index += 1
@@ -90,7 +89,7 @@ class IntroDialog(Scene):
                     self.statemachine.change_state(scenes.game.Game) # type: ignore
                     return
                 else:
-                    assets.SFX_TALKING_LONG.play(-1)
+                    assets.SFX_MASTER.audios["talking_long"].play(-1)
                     self.printer.change_text(Context.dialog_text[self.text_index], 85)
 
         camera_update(self.camera, dt)
@@ -120,7 +119,7 @@ class IntroDialog(Scene):
 
 
     def exit(self) -> None:
-        assets.SFX_TALKING_LONG.stop()
+        assets.SFX_MASTER.audios["talking_long"].stop()
 
 
 class Intro(Scene):
@@ -130,7 +129,7 @@ class Intro(Scene):
 
     def enter(self) -> None:
         self.dir = "right"
-        assets.SFX_UNDERTALE.play()
+        assets.SFX_MASTER.audios["undertale"].play()
         self.skip = False
         self.skip_timeout = 0
         self.camera = Camera.empty()

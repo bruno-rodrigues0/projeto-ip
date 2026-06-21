@@ -1,6 +1,5 @@
 from scenes.scene import Scene
 from components.items_info import ItemInfo, AVALIABLE_ITEMS
-import core.assets as assets
 
 class Context:
     """

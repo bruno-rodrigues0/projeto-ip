@@ -7,6 +7,7 @@ import core.assets as assets
 from scenes.context import Context
 from scenes.scene import Scene
 import scenes.intro
+import scenes.settings
 
 
 class Menu(Scene):
@@ -15,7 +16,7 @@ class Menu(Scene):
     """
 
     def enter(self) -> None:
-        self.selected_option = "play"
+        self.selected_option = 0
 
     def execute(
         self,
@@ -23,25 +24,31 @@ class Menu(Scene):
         dt: float,
         action_buffer: input.InputBuffer,
     ) -> None:
+        menu_options = ["CONTINUAR", "SAIR DO JOGO"] if Context.paused else ["COMEÇAR", "OPÇÕES", "SAIR DO JOGO"]
         if action_buffer[input.Action.DOWN] == input.InputState.PRESSED:
-            if self.selected_option == "play":
-                assets.SFX_MOVE_SELECTION.play()
-            self.selected_option = "quit"
+            self.selected_option = (self.selected_option + 1) % (2 if Context.paused else 3)
+            assets.SFX_MASTER.audios["move_selection"].play()
         if action_buffer[input.Action.UP] == input.InputState.PRESSED:
-            if self.selected_option == "quit":
-                assets.SFX_MOVE_SELECTION.play()
-            self.selected_option = "play"
+            self.selected_option = (self.selected_option - 1) % (2 if Context.paused else 3)
+            assets.SFX_MASTER.audios["move_selection"].play()
 
         if action_buffer[input.Action.START] == input.InputState.PRESSED:
-            assets.SFX_SELECT_OPTION.play()
-            if self.selected_option == "play":
+            assets.SFX_MASTER.audios["select_option"].play()
+            if self.selected_option == 0: # play
                 # If paused, back to last_scene, else go to Intro scene
                 if Context.paused:
                     self.statemachine.change_state(Context.last_scene)
                 else:
                     Context.paused = False
+                    Context.last_scene = Menu # type: ignore
                     self.statemachine.change_state(scenes.intro.Intro)  # type: ignore
                 return
+            elif self.selected_option == 1 and Context.paused: # settings
+                pygame.quit()
+                raise SystemExit
+            elif self.selected_option == 1 and not Context.paused:
+                Context.last_scene = Menu # type: ignore
+                self.statemachine.change_state(scenes.settings.Settings)
             else:
                 pygame.quit()
                 raise SystemExit
@@ -63,37 +70,23 @@ class Menu(Scene):
         )
         surface.blit(title2_text, title2_text_pos)
 
-        # If in pause menu or main menu
-        play_option_value = "COMEÇAR" if not Context.paused else "CONTINUAR"
-        play_option_pos = (
-            const.WINDOW_CENTRE[0]
-            - assets.F_JERSEY10_MEDIUM.size(play_option_value)[0] // 2,
-            title2_text_pos[1] + 350,
-        )
-        quit_option_pos = (
-            const.WINDOW_CENTRE[0]
-            - assets.F_JERSEY10_MEDIUM.size("SAIR DO JOGO")[0] // 2,
-            play_option_pos[1] + 50,
-        )
+        heart_pos = (0, 0)
+        for i, option in enumerate(menu_options):
+            pos = (
+                const.WINDOW_CENTRE[0]
+                - assets.F_JERSEY10_MEDIUM.size(option)[0] // 2,
+                title2_text_pos[1] + 300 + 50 * (i),
+            )
 
-        if self.selected_option == "play":
-            play_option_color = const.YELLOW
-            quit_option_color = const.ORANGE
-            heart_pos = (play_option_pos[0] - 40, play_option_pos[1] + 7)
-        else:
-            play_option_color = const.ORANGE
-            quit_option_color = const.YELLOW
-            heart_pos = (quit_option_pos[0] - 40, quit_option_pos[1] + 7)
+            if self.selected_option == i:
+                color = const.YELLOW
+                heart_pos = (pos[0] - 40, pos[1] + 7)
+            else:
+                color = const.ORANGE
 
-        play_option = assets.F_JERSEY10_MEDIUM.render(
-            play_option_value, True, play_option_color
-        )
-        quit_option = assets.F_JERSEY10_MEDIUM.render(
-            "SAIR DO JOGO", True, quit_option_color
-        )
+            option_text = assets.F_JERSEY10_MEDIUM.render(option, True, color)
 
-        surface.blit(play_option, play_option_pos)
-        surface.blit(quit_option, quit_option_pos)
+            surface.blit(option_text, pos)
 
         surface.blit(assets.S_HEART, heart_pos)
 

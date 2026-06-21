@@ -1,5 +1,6 @@
 import pygame
 
+from components.audio_manager import AudioManager
 import core.constants as const
 from utilities.sprite import slice_sheet
 
@@ -42,19 +43,20 @@ S_PILLAR = pygame.transform.scale(
 )
 
 # Load audio (ogg for web compatibility)
+SFX_MASTER = AudioManager()
 pygame.mixer.music.load("src/assets/sfx/theme.ogg")
-SFX_MOVE_SELECTION = pygame.mixer.Sound("src/assets/sfx/move_selection.mp3")
-SFX_SELECT_OPTION = pygame.mixer.Sound("src/assets/sfx/select-option.mp3")
-SFX_UNDERTALE = pygame.mixer.Sound("src/assets/sfx/undertale.mp3")
-SFX_ENEMY_ENCOUNTER = pygame.mixer.Sound("src/assets/sfx/enemy_encounter.mp3")
-SFX_TALKING_LONG = pygame.mixer.Sound("src/assets/sfx/talking_double.mp3")
-SFX_HEE_HEE = pygame.mixer.Sound("src/assets/sfx/hee-hee.mp3")
-SFX_AUW = pygame.mixer.Sound("src/assets/sfx/auw.mp3")
-SFX_DAMAGE_ITEM = pygame.mixer.Sound("src/assets/sfx/damage-item.mp3")
-SFX_HEALING_ITEM = pygame.mixer.Sound("src/assets/sfx/healing-item.mp3")
-SFX_DAMAGE_TAKEN = pygame.mixer.Sound("src/assets/sfx/damage-taken.mp3")
-SFX_DEFENSE_ITEM = pygame.mixer.Sound("src/assets/sfx/defense-item.mp3")
-SFX_NO_ITEMS = pygame.mixer.Sound("src/assets/sfx/no-items.mp3")
+SFX_MASTER.load("move_selection", "src/assets/sfx/move_selection.mp3")
+SFX_MASTER.load("select_option", "src/assets/sfx/select-option.mp3")
+SFX_MASTER.load("undertale", "src/assets/sfx/undertale.mp3")
+SFX_MASTER.load("enemy_encounter", "src/assets/sfx/enemy_encounter.mp3")
+SFX_MASTER.load("talking_long", "src/assets/sfx/talking_double.mp3")
+SFX_MASTER.load("hee_hee", "src/assets/sfx/hee-hee.mp3")
+SFX_MASTER.load("auw", "src/assets/sfx/auw.mp3")
+SFX_MASTER.load("damage_item", "src/assets/sfx/damage-item.mp3")
+SFX_MASTER.load("healing_item", "src/assets/sfx/healing-item.mp3")
+SFX_MASTER.load("damage_taken", "src/assets/sfx/damage-taken.mp3")
+SFX_MASTER.load("defense_item", "src/assets/sfx/defense-item.mp3")
+SFX_MASTER.load("no_items", "src/assets/sfx/no-items.mp3")
 
 # Load fonts (ttf for web compatibility)
 F_JERSEY10_SMALL = pygame.font.Font("src/assets/fonts/Jersey10-Regular.ttf", 18)

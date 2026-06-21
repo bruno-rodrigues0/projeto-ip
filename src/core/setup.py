@@ -1,17 +1,15 @@
-import sys
-import platform
 import pygame
 
+from components.config import Config
 import core.constants as const
 
 
 pygame.init()
+config = Config()
+config.load_file()
+window_setup = config.get_window_setup()
 
-if sys.platform == "emscripten":  # If running in browser
-    platform.window.canvas.style.imageRendering = "pixelated"
-    window = pygame.display.set_mode(const.WINDOW_SETUP["size"])
-else:
-    window = pygame.display.set_mode(**const.WINDOW_SETUP)
+window = pygame.display.set_mode(**window_setup)
 
 clock = pygame.time.Clock()
 
