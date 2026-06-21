@@ -25,7 +25,7 @@ S_HEART = pygame.image.load("src/assets/img/heart2.png")
 S_ARENA = pygame.Surface((5, 220))
 S_ARENA.fill(const.WHITE)
 S_CORRIDOR = pygame.transform.scale(
-    pygame.image.load("src/assets/img/last_corridor.png"),
+    pygame.image.load("src/assets/img/last_corridor.jpg"),
     (3000, 675),
 )
 S_MENU_OPTIONS = slice_sheet("src/assets/img/menu_options.png", 110, 42)
