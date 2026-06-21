@@ -34,7 +34,8 @@ cake_item = ItemInfo(
     "healing",
     99,
     "... Então você decidiu comer o bolo?",
-    assets.SFX_MASTER.audios["healing_item"]),
+    assets.SFX_MASTER.audios["healing_item"]
+)
 
 strength_item = ItemInfo(
     "Bíceps",
