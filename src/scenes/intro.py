@@ -96,11 +96,14 @@ class IntroDialog(Scene):
 
         # Draw
         assert PLAYER.image is not None
-        surface.blit(assets.S_CORRIDOR, camera_to_screen(self.camera, 0, 0))
+        visible_area = pygame.Rect(self.camera.motion.position.x, 0, const.WINDOW_WIDTH, const.WINDOW_HEIGHT)
+        surface.blit(assets.S_CORRIDOR, (0, 0), visible_area)
         surface.blit(PLAYER.image, camera_to_screen(self.camera, PLAYER.x, PLAYER.y))
-        surface.blit(assets.S_MICHAEL, camera_to_screen(self.camera, 1500, 350))
+        if surface.get_rect().colliderect(assets.S_MICHAEL.get_rect()):
+            surface.blit(assets.S_MICHAEL, camera_to_screen(self.camera, 1500, 350))
         for i in range(4):
-            surface.blit(assets.S_PILLAR, camera_to_screen_parallax(self.camera, 200 + 700 * i, 0, 1.5))
+            if surface.get_rect().colliderect(assets.S_PILLAR.get_rect()):
+                surface.blit(assets.S_PILLAR, camera_to_screen_parallax(self.camera, 200 + 700 * i, 0, 1.5))
 
         surface.blit(self.dialog_box, (45, 10))
         self.printer.draw(surface, assets.F_JERSEY10, (200, 20))
@@ -195,10 +198,16 @@ class Intro(Scene):
         if self.dir == "left":
             frisk_frame = pygame.transform.flip(frisk_frame, True, False)
 
-        surface.blit(assets.S_CORRIDOR, camera_to_screen(self.camera, 0, 0))
+        visible_area = pygame.Rect(self.camera.motion.position.x, 0, const.WINDOW_WIDTH, const.WINDOW_HEIGHT)
+        surface.blit(assets.S_CORRIDOR, (0, 0), visible_area)
         surface.blit(frisk_frame, camera_to_screen(self.camera, PLAYER.x, PLAYER.y))
-        surface.blit(assets.S_MICHAEL, camera_to_screen(self.camera, 1500, 350))
+        if surface.get_rect().colliderect(assets.S_MICHAEL.get_rect()):
+            surface.blit(assets.S_MICHAEL, camera_to_screen(self.camera, 1500, 350))
 
+        # Pilars
+        for i in range(4):
+            if surface.get_rect().colliderect(assets.S_PILLAR.get_rect()):
+                surface.blit(assets.S_PILLAR, camera_to_screen_parallax(self.camera, 200 + 700 * i, 0, 1.5))
 
         # Skip intro timeout logic
         elapsed_time = pygame.time.get_ticks()
@@ -210,9 +219,6 @@ class Intro(Scene):
             skip_text = assets.F_JERSEY10.render("ESC para pular", True, const.WHITE)
             surface.blit(skip_text, (20, const.WINDOW_HEIGHT - 40))
 
-        # Pilars
-        for i in range(4):
-            surface.blit(assets.S_PILLAR, camera_to_screen_parallax(self.camera, 200 + 700 * i, 0, 1.5))
 
         # Go to dialog
         if PLAYER.x >= 1160:

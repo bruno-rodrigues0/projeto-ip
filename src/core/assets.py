@@ -8,32 +8,32 @@ from utilities.sprite import slice_sheet
 ICON = pygame.image.load("src/assets/icon.png")
 
 
-S_COIN = pygame.image.load("src/assets/img/coin.png")
+S_COIN = pygame.image.load("src/assets/img/coin.png").convert_alpha()
 S_FRISK = slice_sheet("src/assets/img/frisk.png", 34, 58)
 for i, frame in enumerate(S_FRISK):
-    S_FRISK[i] = pygame.transform.scale_by(frame, 1.4)
+    S_FRISK[i] = pygame.transform.scale_by(frame, 1.4).convert_alpha()
 S_MICHAEL = pygame.transform.scale_by(
     pygame.image.load("src/assets/img/michael.png"), 0.4
-)
-S_MICHAEL_CLOSE = pygame.image.load("src/assets/img/michael_close.png")
+).convert_alpha()
+S_MICHAEL_CLOSE = pygame.image.load("src/assets/img/michael_close.png").convert_alpha()
 S_MICHAEL_BATTLE = slice_sheet("src/assets/img/lord.png", 65, 161)
 for i, sprite in enumerate(S_MICHAEL_BATTLE):
-    S_MICHAEL_BATTLE[i] = pygame.transform.scale_by(sprite, 1.4)
+    S_MICHAEL_BATTLE[i] = pygame.transform.scale_by(sprite, 1.4).convert_alpha()
 S_MICHAEL_BATTLE.append(S_MICHAEL_BATTLE[1])
-S_HEART = pygame.image.load("src/assets/img/heart.png")
+S_HEART = pygame.image.load("src/assets/img/heart.png").convert_alpha()
 
 
 S_ARENA = pygame.Surface((5, 220))
 S_ARENA.fill(const.WHITE)
 S_CORRIDOR = pygame.transform.scale(
-    pygame.image.load("src/assets/img/last_corridor.jpg"),
+    pygame.image.load("src/assets/img/last_corridor.jpg").convert(),
     (3000, 675),
 )
 S_MENU_OPTIONS = slice_sheet("src/assets/img/menu_options.png", 110, 42)
 for i, menu_option in enumerate(S_MENU_OPTIONS):
-    S_MENU_OPTIONS[i] = pygame.transform.scale_by(menu_option, 1.4)
-S_ATTACK_BAR = pygame.image.load("src/assets/img/attack_bar.png")
-S_PILLAR = pygame.image.load("src/assets/img/pillar.png")
+    S_MENU_OPTIONS[i] = pygame.transform.scale_by(menu_option, 1.4).convert_alpha()
+S_ATTACK_BAR = pygame.image.load("src/assets/img/attack_bar.png").convert_alpha()
+S_PILLAR = pygame.image.load("src/assets/img/pillar.png").convert_alpha()
 S_PILLAR = pygame.transform.scale(
     S_PILLAR,
     (
