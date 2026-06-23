@@ -127,6 +127,7 @@ class Fight(State):
         if collided:
             PLAYER.vy = 0
 
+
         # Collect items
         collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
 
@@ -135,14 +136,14 @@ class Fight(State):
             collectable_group.remove(item)
             self.has_collectable = False
             item.sound.play()
-            Context.collected_coins += 1
             if item.type == "healing":
                 PLAYER.heal(item.buff)
+                Context.collected_life_orbs += 1
             elif item.type == "defense":
                 PLAYER.buff_defense(item.buff, 1)
+                Context.collected_defense_orbs += 1
 
         PLAYER.update(dt)
-        print(PLAYER.defense)
 
 
         # WARN sistema de turno por tempo. mudar para attack.finished
@@ -151,6 +152,7 @@ class Fight(State):
             Context.battle_state = "battle_menu"
             self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
             return
+
 
         # Spawn chance of a collectable item (1 in 2000 per frame)
         # WARN mudar chance por tempo (quem tem +fps tem mais chance de pegar item assim)
@@ -161,7 +163,10 @@ class Fight(State):
             COLLECTABLE.type = types[randint(0, 1)]
 
             assert COLLECTABLE.image is not None
-            COLLECTABLE.image.fill(const.RED) if COLLECTABLE.type == "healing" else COLLECTABLE.image.fill(const.CYAN)
+            if COLLECTABLE.type == "healing":
+                COLLECTABLE.image.fill(const.RED)
+            else:
+                COLLECTABLE.image.fill(const.CYAN)
 
             COLLECTABLE.x_ref = randint(ARENA_RECT.topleft[0] + 50, ARENA_RECT.topright[0] - 50)
             COLLECTABLE.y = const.WINDOW_CENTRE[1] - 30

@@ -8,8 +8,8 @@ class Context:
 
     used_items: list[ItemInfo] = []
     dialog_text: list[str] = []
-    collected_coins = 0
-    collected_life_orbs = 0
+    collected_life_orbs: int = 0
+    collected_defense_orbs: int = 0
     last_scene: Scene
     paused: bool = False
     battle_state: str = "battle_menu"
