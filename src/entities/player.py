@@ -40,7 +40,7 @@ class Player(SimulatedObject):
         self.damage += amount
         self._damage_buff_count = buff_count
 
-    
+
     def buff_defense(self, amount, buff_count):
         self.defense = min(100, self.defense + amount)
         self._defense_buff_count = buff_count

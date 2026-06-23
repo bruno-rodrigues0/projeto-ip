@@ -29,6 +29,7 @@ class Attack(State):
         if (
             action_buffer[Action.START] == InputState.PRESSED
         ):
+            self.initial_time = pygame.time.get_ticks()
             Context.battle_state = "fight"
             return
 
