@@ -24,12 +24,12 @@ class Menu(Scene):
         dt: float,
         action_buffer: input.InputBuffer,
     ) -> None:
-        menu_options = ["CONTINUAR", "SAIR DO JOGO"] if Context.paused else ["COMEÇAR", "OPÇÕES", "SAIR DO JOGO"]
+        menu_options = ["CONTINUAR" if Context.paused else "COMEÇAR", "OPÇÕES", "SAIR DO JOGO"]
         if action_buffer[input.Action.DOWN] == input.InputState.PRESSED:
-            self.selected_option = (self.selected_option + 1) % (2 if Context.paused else 3)
+            self.selected_option = (self.selected_option + 1) % 3
             assets.SFX_MASTER.audios["move_selection"].play()
         if action_buffer[input.Action.UP] == input.InputState.PRESSED:
-            self.selected_option = (self.selected_option - 1) % (2 if Context.paused else 3)
+            self.selected_option = (self.selected_option - 1) % 3
             assets.SFX_MASTER.audios["move_selection"].play()
 
         if action_buffer[input.Action.START] == input.InputState.PRESSED:
@@ -43,13 +43,9 @@ class Menu(Scene):
                     Context.last_scene = Menu # type: ignore
                     self.statemachine.change_state(scenes.intro.Intro)  # type: ignore
                 return
-            elif self.selected_option == 1 and Context.paused: # settings
-                pygame.quit()
-                raise SystemExit
-            elif self.selected_option == 1 and not Context.paused:
-                Context.last_scene = Menu # type: ignore
+            elif self.selected_option == 1: # settings
                 self.statemachine.change_state(scenes.settings.Settings)
-            else:
+            else: #quit
                 pygame.quit()
                 raise SystemExit
 
