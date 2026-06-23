@@ -23,6 +23,7 @@ S_MICHAEL_BATTLE.append(S_MICHAEL_BATTLE[1])
 S_HEART = pygame.image.load("src/assets/img/heart.png").convert_alpha()
 S_COLLECTABLE = pygame.Surface((8, 8))
 S_COLLECTABLE.fill(const.RED)
+S_TALK_BOX = pygame.image.load("src/assets/img/talk.png").convert_alpha()
 
 
 S_ARENA = pygame.Surface((5, 220))

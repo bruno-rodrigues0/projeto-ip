@@ -7,11 +7,11 @@ def format_text(text: str, limit: int) -> list[str]:
     current_line = ""
 
     for word in words:
-        if len(word) > limit:
+        if len(word) > limit or word == "\n":
             if current_line:
                 final_lines.append(current_line)
                 current_line = ""
-            final_lines.append(word)
+            final_lines.append(word) if word != "\n" else ...
             continue
 
         space = " " if current_line else ""
