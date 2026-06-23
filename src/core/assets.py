@@ -21,6 +21,8 @@ for i, sprite in enumerate(S_MICHAEL_BATTLE):
     S_MICHAEL_BATTLE[i] = pygame.transform.scale_by(sprite, 1.4).convert_alpha()
 S_MICHAEL_BATTLE.append(S_MICHAEL_BATTLE[1])
 S_HEART = pygame.image.load("src/assets/img/heart.png").convert_alpha()
+S_COLLECTABLE = pygame.Surface((8, 8))
+S_COLLECTABLE.fill(const.RED)
 
 
 S_ARENA = pygame.Surface((5, 220))

@@ -44,6 +44,7 @@ class ItemUsed(State):
             ):
                 Context.items.remove(Context.item_used)
                 self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
+                self.initial_time = pygame.time.get_ticks()
                 Context.battle_state = "fight"
                 return
 
@@ -98,7 +99,7 @@ class Item(State):
         if (
             action_buffer[Action.START] == InputState.PRESSED
         ):
-            Context.item_used = Context.items[self.action_option] 
+            Context.item_used = Context.items[self.action_option]
             self.action_option = 0
             ItemUsed.enter(self, PLAYER)
             Context.battle_state = "item_used"

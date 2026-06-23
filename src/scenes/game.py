@@ -39,6 +39,8 @@ class Game(Scene):
         self.selected_option = 0
         self.action_option = 0
         self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
+        self.has_collectable = False
+        self.initial_time = pygame.time.get_ticks()
 
 
     def execute(
