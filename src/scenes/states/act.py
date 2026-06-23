@@ -1,3 +1,5 @@
+from random import randint
+
 import pygame
 from components.statemachine import State
 import core.assets as assets
@@ -19,7 +21,11 @@ class Check(State):
     ) -> None:
 
         if not self.printer.finished:
-            self.printer.update()
+            if action_buffer[Action.START] == InputState.PRESSED:
+                self.printer.skip()
+                assets.SFX_MASTER.audios["talking_long"].stop()
+            else:
+                self.printer.update()
         else:
             if (
                 action_buffer[Action.START] == InputState.PRESSED
@@ -39,6 +45,44 @@ class Check(State):
                 surface.blit(assets.S_MENU_OPTIONS[i], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
 
         self.printer.draw(surface, assets.F_JERSEY10_MEDIUM, (const.WINDOW_CENTRE[0] - 270, 400))
+
+class Talk(State):
+    @staticmethod
+    def execute(
+        self,
+        surface: pygame.Surface,
+        dt: float,
+        action_buffer: InputBuffer
+    ) -> None:
+
+        if not self.printer.finished:
+            if action_buffer[Action.START] == InputState.PRESSED:
+                self.printer.skip()
+                assets.SFX_MASTER.audios["talking_long"].stop()
+            else:
+                self.printer.update()
+        else:
+            assets.SFX_MASTER.audios["talking_long"].stop()
+            if (
+                action_buffer[Action.START] == InputState.PRESSED
+            ):
+                self.initial_time = pygame.time.get_ticks()
+                Context.battle_state = "fight"
+                return
+
+
+        pygame.draw.rect(
+            surface,
+            const.WHITE,
+            (const.WINDOW_CENTRE[0] - 300, 380, 600, 155), 5)
+        for i in range(0, 6, 2):
+            if self.selected_option == i:
+                surface.blit(assets.S_MENU_OPTIONS[i + 1], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
+            else:
+                surface.blit(assets.S_MENU_OPTIONS[i], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
+
+        surface.blit(assets.S_TALK_BOX, (const.WINDOW_CENTRE[0] + 100, 100))
+        self.printer.draw(surface, assets.F_JERSEY10_SMALL, (const.WINDOW_CENTRE[0] + 130, 110), color=const.BLACK)
 
 
 class Act(State):
@@ -71,22 +115,32 @@ class Act(State):
         ):
             if self.action_option == 0: # check
                 Context.battle_state = "check"
+                self.printer.change_text("* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * Vai ser uma luta dificil.", 40)
                 return
             else: # Talk
-                Context.battle_state = "fight"
+                assets.SFX_MASTER.audios["talking_long"].play(-1)
+                BOSS_DIALOGS = [
+                    "dal skj alsd jaslkda lka sjd al ks da klss jal sk ja sl jd als d ja sl",
+                    "Me chame de Lord.",
+                    "Not my problema, ouright?",
+                    "Tu conhece a grocada de trinta?",
+                    "Annie, ayuwoke?"
+                ]
+                self.printer.change_text(BOSS_DIALOGS[randint(0, len(BOSS_DIALOGS) - 1)], 23)
+                Context.battle_state = "talk"
                 return
 
 
         check_pos = (const.WINDOW_CENTRE[0] - 240, 400)
         check_option = assets.F_JERSEY10_MEDIUM.render(
-            "Check",
+            "Checar",
             True,
             const.WHITE
         )
 
         talk_pos = (const.WINDOW_CENTRE[0] - 240, 400 + 50)
         talk_option = assets.F_JERSEY10_MEDIUM.render(
-            "Talk",
+            "Conversar",
             True,
             const.WHITE
         )

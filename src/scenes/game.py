@@ -9,7 +9,7 @@ from core.input import InputBuffer, InputState, Action
 from entities.player import Player
 from scenes.scene import Scene
 from scenes.context import Context
-from scenes.states.act import Act, Check
+from scenes.states.act import Act, Check, Talk
 from components.dialog_printer import DialogPrinter
 from scenes.states.attack import Attack
 from scenes.states.battle_menu import BattleMenu
@@ -110,6 +110,8 @@ class Game(Scene):
             Attack.execute(self, surface, dt, action_buffer)
         elif Context.battle_state == "check":
             Check.execute(self, surface, dt, action_buffer)
+        elif Context.battle_state == "talk":
+            Talk.execute(self, surface, dt, action_buffer)
         elif Context.battle_state == "fight":
             Fight.execute(self, surface, dt, action_buffer, PLAYER)
         elif Context.battle_state == "act":

@@ -128,31 +128,32 @@ class Fight(State):
             PLAYER.vy = 0
 
 
-        # Collect items
-        collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
-
-        for item in collected:
-            all_objects_group.remove(item)
-            collectable_group.remove(item)
-            self.has_collectable = False
-            item.sound.play()
-            if item.type == "healing":
-                PLAYER.heal(item.buff)
-                Context.collected_life_orbs += 1
-            elif item.type == "defense":
-                PLAYER.buff_defense(item.buff, 1)
-                Context.collected_defense_orbs += 1
 
         PLAYER.update(dt)
 
 
         # WARN sistema de turno por tempo. mudar para attack.finished
-        if (pygame.time.get_ticks() - self.initial_time) / 1000 >= 10:
+        if (pygame.time.get_ticks() - self.initial_time) / 500 >= 10:
             PLAYER.update_buffs() # reseta os buffs de turno
             Context.battle_state = "battle_menu"
             self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
             return
 
+        # Collect items
+        if self.has_collectable:
+            collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
+
+            for item in collected:
+                all_objects_group.remove(item)
+                collectable_group.remove(item)
+                self.has_collectable = False
+                item.sound.play()
+                if item.type == "healing":
+                    PLAYER.heal(item.buff)
+                    Context.collected_life_orbs += 1
+                elif item.type == "defense":
+                    PLAYER.buff_defense(item.buff, 1)
+                    Context.collected_defense_orbs += 1
 
         # Spawn chance of a collectable item (1 in 2000 per frame)
         # WARN mudar chance por tempo (quem tem +fps tem mais chance de pegar item assim)
@@ -172,20 +173,20 @@ class Fight(State):
             COLLECTABLE.y = const.WINDOW_CENTRE[1] - 30
             COLLECTABLE.update(dt)
 
-            all_objects_group.add(COLLECTABLE)
             collectable_group.add(COLLECTABLE)
 
         # If have a collectable item in scene
         if self.has_collectable:
             COLLECTABLE.update(dt)
 
+            collectable_group.draw(surface)
             if COLLECTABLE.y >= ARENA_RECT.bottomleft[1] - 5:
                 self.has_collectable = False
-                all_objects_group.remove(COLLECTABLE)
                 collectable_group.remove(COLLECTABLE)
 
 
         surface.blit(PLAYER.image, PLAYER.get_pos())
+
         all_objects_group.draw(surface)
 
     def exit(self) -> None:
