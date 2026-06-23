@@ -31,10 +31,12 @@ class BattleMenu(State):
             action_buffer[Action.LEFT] == InputState.PRESSED
         ):
             self.selected_option = (self.selected_option - 2) % 6
+            assets.SFX_MASTER.audios["move_selection"].play()
         elif (
             action_buffer[Action.RIGHT] == InputState.PRESSED
         ):
             self.selected_option = (self.selected_option + 2) % 6
+            assets.SFX_MASTER.audios["move_selection"].play()
 
 
         if not self.printer.finished:
@@ -62,6 +64,7 @@ class BattleMenu(State):
             action_buffer[Action.START] == InputState.PRESSED
         ):
             self.printer.reset()
+            assets.SFX_MASTER.audios["select_option"].play()
             if self.selected_option == 0: # attack
                 Context.battle_state = "attack"
                 return

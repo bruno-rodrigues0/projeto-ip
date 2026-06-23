@@ -1,13 +1,13 @@
 import pygame
 import copy
-from decimal import Decimal
-from components.config import Config
 import core.constants as const
 import core.assets as assets
+import scenes.menu
 
+from decimal import Decimal
+from components.config import Config
 from scenes.scene import Scene
 from core.input import InputBuffer, InputState, Action
-from scenes.context import Context
 
 config = Config()
 
@@ -34,7 +34,7 @@ class Settings(Scene):
         if (
             action_buffer[Action.OPTIONS] == InputState.PRESSED
         ):
-            self.statemachine.change_state(Context.last_scene) # type: ignore
+            self.statemachine.change_state(scenes.menu.Menu) # type: ignore
 
         if action_buffer[Action.DOWN] == InputState.PRESSED:
             self.selected_option = (self.selected_option + 1) % len(menu_options)
