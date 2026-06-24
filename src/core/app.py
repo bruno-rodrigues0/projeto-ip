@@ -34,10 +34,6 @@ def game_loop(
         input.InputState.NOTHING for _ in input.Action
     ]
 
-    # last_action_mapping_pressed:  list[pygame.key] = [ # type: ignore
-    #     input.action_mappings[action][0] for action in input.Action
-    # ]
-
     joysticks = []
     for i in range(pygame.joystick.get_count()):
         joy = pygame.joystick.Joystick(i)
@@ -96,7 +92,6 @@ def input_event_queue() -> bool:
 
 def update_action_buffer(
     action_buffer: input.InputBuffer,
-    # last_action_mapping_pressed: list[pygame.key], # type: ignore
     joysticks: list[pygame.joystick.Joystick] # type: ignore
 ) -> None:
     keys_held = pygame.key.get_pressed()
