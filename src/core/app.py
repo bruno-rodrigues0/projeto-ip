@@ -5,6 +5,7 @@ import core.setup as setup
 import core.assets as assets
 import core.input as input
 
+from core.joystick import xbox_action_mapping, ps4_action_mapping, ps5_action_mapping, STICK_DEADZONE
 from components.config import Config
 from components.statemachine import StateMachine
 from scenes.menu import Menu
@@ -33,17 +34,22 @@ def game_loop(
         input.InputState.NOTHING for _ in input.Action
     ]
 
-    last_action_mapping_pressed:  list[pygame.key] = [ # type: ignore
-        input.action_mappings[action][0] for action in input.Action
-    ]
+    # last_action_mapping_pressed:  list[pygame.key] = [ # type: ignore
+    #     input.action_mappings[action][0] for action in input.Action
+    # ]
+
+    joysticks = []
+    for i in range(pygame.joystick.get_count()):
+        joy = pygame.joystick.Joystick(i)
+        joysticks.append(joy)
 
     print("Starting game loop")
 
     clock.tick()
-    joysticks = {}
 
     while True:
-        fps = Config().config["fps"]
+        config = Config()
+        fps = config.config["fps"]
         elapsed_time = clock.tick(fps)
         dt = elapsed_time / 1000.0  # Convert to seconds
         dt = min(dt, 0.05)
@@ -53,29 +59,18 @@ def game_loop(
         if not running:
             terminate(surface)
 
-        update_action_buffer(action_buffer, last_action_mapping_pressed)
-
-
-        for event in pygame.event.get():
-
-            if event.type == pygame.JOYBUTTONDOWN:
-                print("Joystick button pressed.")
-                if event.button == 0:
-                    joystick = joysticks[event.instance_id]
-                    if joystick.rumble(0, 0.7, 500):
-                        print(f"Rumble effect played on joystick {event.instance_id}")
-
+        update_action_buffer(action_buffer, joysticks)
 
         scene_manager.execute(surface, dt, action_buffer)
 
-        if Config().config["chromatic"]:
+        if config.config["chromatic"]:
             filtered = chromatic_distortion(surface)
 
-            if Config().config["crt"]:
+            if config.config["crt"]:
                 filtered.blit(crt_mask, (0, 0))
 
             surface.blit(filtered, (0, 0))
-        elif Config().config["crt"]:
+        elif config.config["crt"]:
             surface.blit(crt_mask, (0, 0))
 
 
@@ -101,20 +96,123 @@ def input_event_queue() -> bool:
 
 def update_action_buffer(
     action_buffer: input.InputBuffer,
-    last_action_mapping_pressed: list[pygame.key] # type: ignore
+    # last_action_mapping_pressed: list[pygame.key], # type: ignore
+    joysticks: list[pygame.joystick.Joystick] # type: ignore
 ) -> None:
     keys_held = pygame.key.get_pressed()
+
     for action in input.Action:
-        if (action_buffer[action] == input.InputState.NOTHING):
-            # Verifica se qualquer tecla de ação foi pressionada
-            for mapping in input.action_mappings[action]:
-                if mapping == last_action_mapping_pressed[action]:
-                    continue
+        action_active = any(keys_held[key] for key in input.action_mappings[action])
 
-                if keys_held[mapping]:
-                    last_action_mapping_pressed[action] = mapping # type: ignore
+        if not action_active:
+            for joy in joysticks:
+                if "xbox" in joy.get_name().lower():
+                    # Xbox controller buttons
+                    for button_id in xbox_action_mapping[action]:
+                        if joy.get_button(button_id):
+                            action_active = True
+                            break
 
-        if keys_held[last_action_mapping_pressed[action]]: # type: ignore
+                    # Xbox controller hat
+                    if not action_active:
+                        hat_x, hat_y = joy.get_hat(0)
+
+                        if action == input.Action.LEFT and hat_x == -1:
+                            action_active = True
+                        elif action == input.Action.RIGHT and hat_x == 1:
+                            action_active = True
+                        elif action == input.Action.UP and hat_y == 1:
+                            action_active = True
+                        elif action == input.Action.DOWN and hat_y == -1:
+                            action_active = True
+
+                    # Xbox controller stick
+                    if not action_active:
+
+                        if joy and joy.get_numaxes() >= 2:
+                            raw_x = joy.get_axis(0)
+                            raw_y = joy.get_axis(1)
+                            axis_x = raw_x if abs(raw_x) > STICK_DEADZONE else 0.0
+                            axis_y = raw_y if abs(raw_y) > STICK_DEADZONE else 0.0
+
+                            if action == input.Action.LEFT and axis_x < 0:
+                                action_active = True
+                            elif action == input.Action.RIGHT and axis_x > 0:
+                                action_active = True
+                            elif action == input.Action.UP and axis_y < 0:
+                                action_active = True
+                            elif action == input.Action.DOWN and axis_y > 0:
+                                action_active = True
+
+                if (
+                    "wireless controller" == joy.get_name().lower()
+                    or "ps4 controller" in joy.get_name().lower()
+                ):
+                    # PS4 controller buttons and dpad
+                    for button_id in ps4_action_mapping[action]:
+                        if joy.get_button(button_id):
+                            action_active = True
+                            break
+
+                    # PS4 controller sticks
+                    if not action_active:
+                        if joy and joy.get_numaxes() >= 2:
+                            raw_x = joy.get_axis(0)
+                            raw_y = joy.get_axis(1)
+                            axis_x = raw_x if abs(raw_x) > STICK_DEADZONE else 0.0
+                            axis_y = raw_y if abs(raw_y) > STICK_DEADZONE else 0.0
+
+                            if action == input.Action.LEFT and axis_x < 0:
+                                action_active = True
+                            elif action == input.Action.RIGHT and axis_x > 0:
+                                action_active = True
+                            elif action == input.Action.UP and axis_y < 0:
+                                action_active = True
+                            elif action == input.Action.DOWN and axis_y > 0:
+                                action_active = True
+
+                if "sony interactive" == joy.get_name().lower():
+                    # PS5 controller buttons
+                    for button_id in ps5_action_mapping[action]:
+                        if joy.get_button(button_id):
+                            action_active = True
+                            break
+
+                    # PS5 controller hat
+                    if not action_active:
+                        hat_x, hat_y = joy.get_hat(0)
+
+                        if action == input.Action.LEFT and hat_x == -1:
+                            action_active = True
+                        elif action == input.Action.RIGHT and hat_x == 1:
+                            action_active = True
+                        elif action == input.Action.UP and hat_y == 1:
+                            action_active = True
+                        elif action == input.Action.DOWN and hat_y == -1:
+                            action_active = True
+
+                    # PS5 controller stick
+                    if not action_active:
+
+                        if joy and joy.get_numaxes() >= 2:
+                            raw_x = joy.get_axis(0)
+                            raw_y = joy.get_axis(1)
+                            axis_x = raw_x if abs(raw_x) > STICK_DEADZONE else 0.0
+                            axis_y = raw_y if abs(raw_y) > STICK_DEADZONE else 0.0
+
+                            if action == input.Action.LEFT and axis_x < 0:
+                                action_active = True
+                            elif action == input.Action.RIGHT and axis_x > 0:
+                                action_active = True
+                            elif action == input.Action.UP and axis_y < 0:
+                                action_active = True
+                            elif action == input.Action.DOWN and axis_y > 0:
+                                action_active = True
+
+                if action_active:
+                    break
+
+        if action_active:
             if (action_buffer[action] == input.InputState.NOTHING or
                     action_buffer[action] == input.InputState.RELEASED):
                 action_buffer[action] = input.InputState.PRESSED
