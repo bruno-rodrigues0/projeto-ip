@@ -11,6 +11,8 @@ class Config:
     config: dict[str, Any] = {
         "master_volume": 0.5,
         "fullscreen": False,
+        "crt": False,
+        "chromatic": False,
         "fps": 60,
         "vsync": 1,
     }
