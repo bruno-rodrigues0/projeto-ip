@@ -40,6 +40,7 @@ def game_loop(
     print("Starting game loop")
 
     clock.tick()
+    joysticks = {}
 
     while True:
         fps = Config().config["fps"]
@@ -53,6 +54,17 @@ def game_loop(
             terminate(surface)
 
         update_action_buffer(action_buffer, last_action_mapping_pressed)
+
+
+        for event in pygame.event.get():
+
+            if event.type == pygame.JOYBUTTONDOWN:
+                print("Joystick button pressed.")
+                if event.button == 0:
+                    joystick = joysticks[event.instance_id]
+                    if joystick.rumble(0, 0.7, 500):
+                        print(f"Rumble effect played on joystick {event.instance_id}")
+
 
         scene_manager.execute(surface, dt, action_buffer)
 
