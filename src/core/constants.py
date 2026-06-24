@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 from pathlib import Path
 
@@ -8,7 +9,10 @@ WINDOW_HEIGHT = 675 #! CHANGE TO 1080
 WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HEIGHT)
 WINDOW_CENTRE = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
 
-ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    ROOT_DIR = Path(sys._MEIPASS)
+else:
+    ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 
 CAPTION = "Ayuwoke Time CINmulator"
 
