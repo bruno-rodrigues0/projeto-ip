@@ -1,12 +1,14 @@
 import pygame
 
-from components.config import Config
 import core.constants as const
 import core.setup as setup
 import core.assets as assets
 import core.input as input
+
+from components.config import Config
 from components.statemachine import StateMachine
 from scenes.menu import Menu
+from utilities.filters import chromatic_distortion, create_crt_mask
 
 
 def run() -> None:
@@ -17,13 +19,15 @@ def run() -> None:
     pygame.mixer.music.play(-1)
     pygame.mixer.music.pause()
     scene_manager = StateMachine(Menu) # type: ignore
-    game_loop(setup.window, setup.clock, scene_manager)
+    crt_mask = create_crt_mask(const.WINDOW_WIDTH, const.WINDOW_HEIGHT)
+    game_loop(setup.window, setup.clock, scene_manager, crt_mask)
 
 
 def game_loop(
-        surface: pygame.Surface,
-        clock: pygame.time.Clock,
-        scene_manager: StateMachine
+    surface: pygame.Surface,
+    clock: pygame.time.Clock,
+    scene_manager: StateMachine,
+    crt_mask: pygame.Surface
 ) -> None:
     action_buffer: input.InputBuffer = [
         input.InputState.NOTHING for _ in input.Action
@@ -51,6 +55,17 @@ def game_loop(
         update_action_buffer(action_buffer, last_action_mapping_pressed)
 
         scene_manager.execute(surface, dt, action_buffer)
+
+        if Config().config["chromatic"]:
+            filtered = chromatic_distortion(surface)
+
+            if Config().config["crt"]:
+                filtered.blit(crt_mask, (0, 0))
+
+            surface.blit(filtered, (0, 0))
+        elif Config().config["crt"]:
+            surface.blit(crt_mask, (0, 0))
+
 
         debug_str = f"FPS {clock.get_fps():.0f}"
         debug_text = assets.F_JERSEY10_SMALL.render(debug_str, False, const.WHITE, const.BLACK)

@@ -26,6 +26,8 @@ class Settings(Scene):
         menu_options = {
             "VOLUME": int(config.config["master_volume"] * 100),
             "TELA CHEIA": "ATIVADO" if config.config["fullscreen"] else "DESATIVADO",
+            "CRT": "ATIVADO" if config.config["crt"] else "DESATIVADO",
+            "ABERRAÇÃO CROMÁTICA": "ATIVADO" if config.config["chromatic"] else "DESATIVADO",
             "FPS": "ILIMITADO" if config.config["fps"] == 0  else config.config["fps"],
             "VSYNC": "ATIVADO" if config.config["vsync"] else "DESATIVADO",
             "SALVAR": "SALVAR"
@@ -73,6 +75,21 @@ class Settings(Scene):
                 config.config["fullscreen"] = not config.config["fullscreen"]
                 assets.SFX_MASTER.audios["move_selection"].play()
 
+        elif self.selected_option == list(menu_options.keys()).index("CRT"):
+            if (
+                action_buffer[Action.RIGHT] == InputState.PRESSED or
+                action_buffer[Action.LEFT] == InputState.PRESSED
+            ):
+                config.config["crt"] = not config.config["crt"]
+                assets.SFX_MASTER.audios["move_selection"].play()
+
+        elif self.selected_option == list(menu_options.keys()).index("ABERRAÇÃO CROMÁTICA"):
+            if (
+                action_buffer[Action.RIGHT] == InputState.PRESSED or
+                action_buffer[Action.LEFT] == InputState.PRESSED
+            ):
+                config.config["chromatic"] = not config.config["chromatic"]
+                assets.SFX_MASTER.audios["move_selection"].play()
 
         elif self.selected_option == list(menu_options.keys()).index("FPS"):
             values = [0, 60, 120, 240]
@@ -122,7 +139,7 @@ class Settings(Scene):
             )
 
             pos_value = (
-                300,
+                500,
                 100 + 50 * (i)
             )
 

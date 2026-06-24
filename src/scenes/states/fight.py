@@ -28,8 +28,8 @@ offset = assets.S_ARENA.get_size()[1] // 2
 ARENA_RECT = pygame.Rect(
     const.WINDOW_CENTRE[0] - offset,
     const.WINDOW_CENTRE[1] - offset + 80,
-    assets.S_ARENA.height,
-    assets.S_ARENA.height
+    assets.S_ARENA.get_height(),
+    assets.S_ARENA.get_height()
 )
 
 ARENA_WALL01 = SimulatedObject(

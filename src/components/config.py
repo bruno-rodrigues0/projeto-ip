@@ -11,6 +11,8 @@ class Config:
     config: dict[str, Any] = {
         "master_volume": 0.5,
         "fullscreen": False,
+        "crt": False,
+        "chromatic": False,
         "fps": 60,
         "vsync": 1,
     }
@@ -42,7 +44,11 @@ class Config:
             file_path = self.get_config_path()
             with open(file_path, "r") as file:
                 data = json.load(file)
+                for key in self.config:
+                    if key not in data.keys():
+                        data[key] = self.config[key]
                 self.config = data
+
         except Exception:
             self.save_file()
 
