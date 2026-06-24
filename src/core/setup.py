@@ -8,6 +8,7 @@ from components.config import Config
 
 
 pygame.init()
+pygame.joystick.init()
 config = Config()
 config.load_file()
 window_setup = config.get_window_setup()
