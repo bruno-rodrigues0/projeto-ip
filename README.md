@@ -24,10 +24,10 @@ O projeto foi estruturado seguindo boas práticas de modularização para desenv
 src
 ├── assets/          # Recursos estáticos divididos por tipo (fontes, imagens e efeitos sonoros).
 ├── core/            # O núcleo do motor do jogo (loop principal, inputs, configurações e assets managers).
-├── components/      # Sistemas e comportamentos genéricos acopláveis (animação, física, câmera, máquina de estados).
+├── components/      # Sistemas e comportamentos genéricos acopláveis (animação, filemanager, câmera, máquina de estados).
 ├── entities/        # Objetos dinâmicos do jogo que possuem comportamento próprio (player, boss, coletáveis).
 ├── scenes/          # Gerenciamento das telas do jogo (menus, transições) e sub-estados do combate.
-└── utilities/       # Funções matemáticas e filtros auxiliares sem contexto de negócio.
+└── utilities/       # Funções matemáticas e filtros auxiliares.
 ```
 
 ## 📁 Principais Módulos
@@ -37,7 +37,7 @@ src
 | `main.py` | Ponto de entrada (boot) que inicializa e delega a execução para o núcleo do sistema |
 | `core/app.py` | Centraliza o loop principal (Event Loop), gerenciando FPS, atualizações de estado e renderização |
 | `scenes/scene.py` & `scenes/states/` | Controle de telas via polimorfismo — alterna entre Introdução, Menu, Configurações e Cena de Jogo (`game.py`), que gerencia os estados de batalha (Act, Attack, Fight, Item) |
-| `components/statemachine.py` | Máquina de Estados que controla o comportamento das entidades (parado, andando, atacando, defendendo) |
+| `components/statemachine.py` | Máquina de Estados que controla o estado/cena do jogo |
 
 ---
 
@@ -49,19 +49,22 @@ Linguagem padrão da disciplina. A versão 3.11+ foi escolhida para utilizar rec
 ### Pygame
 Biblioteca robusta e multiplataforma para desenvolvimento de jogos 2D em Python. Fornece abstrações essenciais para manipulação de superfícies, renderização de imagens, controle de áudio (mixers) e captura de eventos de hardware (teclado, mouse e joysticks).
 
+### Bibliotecas padrão do pytho
+Bibliotecas como os, sys e math foram usadas para configurações do jogo e cálculos específicos.
+
 ---
 
 ## 📋 Conceitos de Programação Utilizados
 
 ### 1. Estruturas de Dados e Dicionários
-- **Onde foi usado:** `components/items_info.py` e `core/constants.py` — mapeamento de propriedades de itens e constantes de sistema.
+- **Onde foi usado:** `components/items_info.py`, `core/constants.py`, `core/inputs.py`, etc — mapeamento de propriedades de itens, constantes de sistema, mapeamento de inputs, etc.
 - **Técnica Avançada:** Desempacotamento de dicionários (`**kwargs`) em `core/setup.py` para passar parâmetros de configuração ao Pygame de forma limpa e legível.
 
 ### 2. Modularização e Pacotes (`__init__.py`)
 - **Onde foi usado:** Todos os diretórios (`core`, `components`, `scenes`, etc.). O `__init__.py` transforma as pastas em pacotes Python reutilizáveis, permitindo importações limpas entre os sub-módulos.
 
 ### 3. Tipagem Dinâmica e Avançada (Type Hinting)
-- **Onde foi usado:** Aplicado em todo o código para garantir robustez. Tipos explícitos em parâmetros e retornos de funções (ex: `utilities/math.py` e `scenes/context.py`), minimizando erros de atribuição no desenvolvimento em grupo.
+- **Onde foi usado:** Aplicado em todo o código para garantir robustez. Tipos explícitos em parâmetros e retornos de funções, minimizando erros de atribuição no desenvolvimento em grupo.
 
 ### 4. Programação Orientada a Objetos (POO) e Herança
 - **Onde foi usado:** Arquitetura de cenas e entidades. Classes base como `scenes/scene.py` e `components/object.py` definem contratos genéricos (`update` e `draw`) herdados e sobrescritos por `entities/player.py`, `scenes/menu.py` e outras.
