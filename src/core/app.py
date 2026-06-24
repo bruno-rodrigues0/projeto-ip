@@ -5,7 +5,7 @@ import core.setup as setup
 import core.assets as assets
 import core.input as input
 
-from core.joystick import xbox_action_mapping, ps4_action_mapping, ps5_action_mapping, STICK_DEADZONE
+from core.joystick import xbox_action_mapping, ps4_action_mapping, STICK_DEADZONE
 from components.config import Config
 from components.statemachine import StateMachine
 from scenes.menu import Menu
@@ -106,14 +106,17 @@ def update_action_buffer(
 
         if not action_active:
             for joy in joysticks:
-                if "xbox" in joy.get_name().lower():
-                    # Xbox controller buttons
+                if (
+                    "xbox" in joy.get_name().lower()
+                    or "sony interactive" == joy.get_name().lower()
+                ):
+                    # Xbox and PS5 controller buttons
                     for button_id in xbox_action_mapping[action]:
                         if joy.get_button(button_id):
                             action_active = True
                             break
 
-                    # Xbox controller hat
+                    # Xbox and PS5 controller hat
                     if not action_active:
                         hat_x, hat_y = joy.get_hat(0)
 
@@ -126,25 +129,7 @@ def update_action_buffer(
                         elif action == input.Action.DOWN and hat_y == -1:
                             action_active = True
 
-                    # Xbox controller stick
-                    if not action_active:
-
-                        if joy and joy.get_numaxes() >= 2:
-                            raw_x = joy.get_axis(0)
-                            raw_y = joy.get_axis(1)
-                            axis_x = raw_x if abs(raw_x) > STICK_DEADZONE else 0.0
-                            axis_y = raw_y if abs(raw_y) > STICK_DEADZONE else 0.0
-
-                            if action == input.Action.LEFT and axis_x < 0:
-                                action_active = True
-                            elif action == input.Action.RIGHT and axis_x > 0:
-                                action_active = True
-                            elif action == input.Action.UP and axis_y < 0:
-                                action_active = True
-                            elif action == input.Action.DOWN and axis_y > 0:
-                                action_active = True
-
-                if (
+                elif (
                     "wireless controller" == joy.get_name().lower()
                     or "ps4 controller" in joy.get_name().lower()
                 ):
@@ -154,60 +139,21 @@ def update_action_buffer(
                             action_active = True
                             break
 
-                    # PS4 controller sticks
-                    if not action_active:
-                        if joy and joy.get_numaxes() >= 2:
-                            raw_x = joy.get_axis(0)
-                            raw_y = joy.get_axis(1)
-                            axis_x = raw_x if abs(raw_x) > STICK_DEADZONE else 0.0
-                            axis_y = raw_y if abs(raw_y) > STICK_DEADZONE else 0.0
+                if not action_active:
+                    if joy and joy.get_numaxes() >= 2:
+                        raw_x = joy.get_axis(0)
+                        raw_y = joy.get_axis(1)
+                        axis_x = raw_x if abs(raw_x) > STICK_DEADZONE else 0.0
+                        axis_y = raw_y if abs(raw_y) > STICK_DEADZONE else 0.0
 
-                            if action == input.Action.LEFT and axis_x < 0:
-                                action_active = True
-                            elif action == input.Action.RIGHT and axis_x > 0:
-                                action_active = True
-                            elif action == input.Action.UP and axis_y < 0:
-                                action_active = True
-                            elif action == input.Action.DOWN and axis_y > 0:
-                                action_active = True
-
-                if "sony interactive" == joy.get_name().lower():
-                    # PS5 controller buttons
-                    for button_id in ps5_action_mapping[action]:
-                        if joy.get_button(button_id):
+                        if action == input.Action.LEFT and axis_x < 0:
                             action_active = True
-                            break
-
-                    # PS5 controller hat
-                    if not action_active:
-                        hat_x, hat_y = joy.get_hat(0)
-
-                        if action == input.Action.LEFT and hat_x == -1:
+                        elif action == input.Action.RIGHT and axis_x > 0:
                             action_active = True
-                        elif action == input.Action.RIGHT and hat_x == 1:
+                        elif action == input.Action.UP and axis_y < 0:
                             action_active = True
-                        elif action == input.Action.UP and hat_y == 1:
+                        elif action == input.Action.DOWN and axis_y > 0:
                             action_active = True
-                        elif action == input.Action.DOWN and hat_y == -1:
-                            action_active = True
-
-                    # PS5 controller stick
-                    if not action_active:
-
-                        if joy and joy.get_numaxes() >= 2:
-                            raw_x = joy.get_axis(0)
-                            raw_y = joy.get_axis(1)
-                            axis_x = raw_x if abs(raw_x) > STICK_DEADZONE else 0.0
-                            axis_y = raw_y if abs(raw_y) > STICK_DEADZONE else 0.0
-
-                            if action == input.Action.LEFT and axis_x < 0:
-                                action_active = True
-                            elif action == input.Action.RIGHT and axis_x > 0:
-                                action_active = True
-                            elif action == input.Action.UP and axis_y < 0:
-                                action_active = True
-                            elif action == input.Action.DOWN and axis_y > 0:
-                                action_active = True
 
                 if action_active:
                     break

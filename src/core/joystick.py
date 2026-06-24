@@ -27,14 +27,3 @@ ps4_action_mapping = {
     Action.OPTIONS: [pygame.CONTROLLER_BUTTON_B]
 }
 
-ps5_action_mapping = {
-    Action.LEFT: [], # Left empty to assign to stick and hat
-    Action.RIGHT: [],
-    Action.UP: [],
-    Action.DOWN: [],
-    Action.A: [],
-    Action.B: [],
-    Action.SELECT: [],
-    Action.START: [pygame.CONTROLLER_BUTTON_A],
-    Action.OPTIONS: [pygame.CONTROLLER_BUTTON_B]
-}
