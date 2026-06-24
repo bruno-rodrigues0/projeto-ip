@@ -10,6 +10,8 @@ from typing import Any
 class Config:
     config: dict[str, Any] = {
         "master_volume": 0.5,
+        "music_volume": 0.5,
+        "effect_volume": 0.5,
         "fullscreen": False,
         "crt": False,
         "chromatic": False,

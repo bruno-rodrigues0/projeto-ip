@@ -17,6 +17,9 @@ def run() -> None:
     pygame.display.set_caption(const.CAPTION)
     pygame.display.set_icon(assets.ICON)
     assets.SFX_MASTER.set_master_volume(config.config["master_volume"])
+    assets.SFX_MASTER.set_music_volume(config.config["master_volume"])
+    assets.SFX_MASTER.set_effect_volume(config.config["master_volume"])
+    assets.SFX_MASTER.update_volume()
     pygame.mixer.music.play(-1)
     pygame.mixer.music.pause()
     scene_manager = StateMachine(Menu) # type: ignore
