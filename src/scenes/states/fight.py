@@ -7,7 +7,9 @@ from core.input import InputBuffer, InputState, Action
 from components.statemachine import State
 from components.object import SimulatedObject
 from components.dialog_printer import DialogPrinter
+from entities.attacks.attack_list import ATTACK_LIST
 from entities.collectable import Collectable
+from entities.attacks.attack01 import Attack01
 from entities.player import Player
 from scenes.context import Context
 
@@ -55,14 +57,19 @@ ARENA_WALL04 = SimulatedObject(
 
 ARENA = [ARENA_WALL01, ARENA_WALL02, ARENA_WALL03, ARENA_WALL04]
 
-collectable_group = pygame.sprite.Group()
-all_objects_group = pygame.sprite.Group()
-arena_group = pygame.sprite.Group()
+E_ATTACK = Attack01()
 
+ellapsed_time = 0
+
+collectable_group = pygame.sprite.Group()
+arena_group = pygame.sprite.Group()
+enemy_group = pygame.sprite.Group()
 
 for wall in ARENA:
     arena_group.add(wall)
-    all_objects_group.add(wall)
+
+for proj in E_ATTACK.projectiles:
+    enemy_group.add(proj)
 
 
 class PredRect:
@@ -85,6 +92,13 @@ class Fight(State):
         action_buffer: InputBuffer,
         PLAYER: Player,
     ) -> None:
+        global E_ATTACK, ellapsed_time
+        if E_ATTACK.finished: # reset the attack for next turn
+            E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
+            enemy_group.empty()
+            for proj in E_ATTACK.projectiles:
+                enemy_group.add(proj)
+        ellapsed_time += dt
 
         # Move in X axis
         if (
@@ -128,12 +142,14 @@ class Fight(State):
             PLAYER.vy = 0
 
 
-
+        E_ATTACK.update(dt)
         PLAYER.update(dt)
 
 
-        # WARN sistema de turno por tempo. mudar para attack.finished
-        if (pygame.time.get_ticks() - self.initial_time) / 500 >= 10:
+        # WARN sistema de turno por tempo.
+        if ellapsed_time >= E_ATTACK.attack_time:
+            ellapsed_time = 0
+            E_ATTACK.finished = True
             PLAYER.update_buffs() # reseta os buffs de turno
             Context.battle_state = "battle_menu"
             self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
@@ -144,7 +160,6 @@ class Fight(State):
             collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
 
             for item in collected:
-                all_objects_group.remove(item)
                 collectable_group.remove(item)
                 self.has_collectable = False
                 item.sound.play()
@@ -184,10 +199,18 @@ class Fight(State):
                 self.has_collectable = False
                 collectable_group.remove(COLLECTABLE)
 
+        # Colide with enemy
+        collided_enemies = pygame.sprite.spritecollide(PLAYER, enemy_group, False)
+
+        for enemy in collided_enemies:
+            PLAYER.take_damage(1)
+
 
         surface.blit(PLAYER.image, PLAYER.get_pos())
 
-        all_objects_group.draw(surface)
+        arena_group.draw(surface)
+        collectable_group.draw(surface)
+        enemy_group.draw(surface)
 
     def exit(self) -> None:
         pass

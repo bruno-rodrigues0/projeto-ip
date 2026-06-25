@@ -5,6 +5,7 @@ import core.constants as const
 import core.assets as assets
 import scenes.menu
 
+from entities.attacks.attack01 import Attack01
 from core.input import InputBuffer, InputState, Action
 from entities.player import Player
 from scenes.scene import Scene

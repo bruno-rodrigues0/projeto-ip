@@ -22,7 +22,7 @@ for i, sprite in enumerate(S_MICHAEL_BATTLE):
     S_MICHAEL_BATTLE[i] = pygame.transform.scale_by(sprite, 1.4).convert_alpha()
 S_MICHAEL_BATTLE.append(S_MICHAEL_BATTLE[1])
 S_HEART = pygame.image.load(ROOT_DIR / "src/assets/img/heart.png").convert_alpha()
-S_COLLECTABLE = pygame.Surface((8, 8))
+S_COLLECTABLE = pygame.Surface((8, 8)).convert_alpha()
 S_COLLECTABLE.fill(const.RED)
 S_TALK_BOX = pygame.image.load(ROOT_DIR / "src/assets/img/talk.png").convert_alpha()
 
@@ -45,6 +45,10 @@ S_PILLAR = pygame.transform.scale(
         const.WINDOW_HEIGHT + 300,
     ),
 )
+
+# WARN sprite generico pra teste, adicione sprites para cada ataque
+S_ENEMY_ATTACK = pygame.Surface((10, 10)).convert_alpha()
+S_ENEMY_ATTACK.fill(const.WHITE)
 
 # Load audio (ogg for web compatibility)
 SFX_MASTER = AudioManager()
