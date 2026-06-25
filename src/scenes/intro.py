@@ -1,5 +1,6 @@
 import pygame
 from components.camera import Camera, camera_follow, camera_to_screen, camera_to_screen_parallax, camera_update
+from components.config import Config
 import core.constants as const
 import core.assets as assets
 import scenes.game
@@ -12,6 +13,7 @@ from scenes.scene import Scene
 from core.input import InputBuffer, InputState, Action
 from components.animation import AnimationPlayer
 from scenes.context import Context
+from utilities import languages
 
 
 MAX_VEL = 150
@@ -133,6 +135,9 @@ class Intro(Scene):
     def enter(self) -> None:
         self.dir = "right"
         assets.SFX_MASTER.audios["undertale"].play()
+        self.config = Config()
+        self.lang_inter = languages.INTERFACE[self.config.config["lang"]]
+        self.lang_dialog = languages.DIALOGS[self.config.config["lang"]]
         self.skip = False
         self.skip_timeout = 0
         self.camera = Camera.empty()
@@ -216,17 +221,13 @@ class Intro(Scene):
             self.skip = False
 
         if self.skip:
-            skip_text = assets.F_JERSEY10.render("ESC para pular", True, const.WHITE)
+            skip_text = assets.F_JERSEY10.render(self.lang_inter["skip"], True, const.WHITE)
             surface.blit(skip_text, (20, const.WINDOW_HEIGHT - 40))
 
 
         # Go to dialog
         if PLAYER.x >= 1160:
-            Context.dialog_text = [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            ]
-
+            Context.dialog_text = self.lang_dialog["intro"]
             self.statemachine.change_state(IntroDialog) # type: ignore
 
 

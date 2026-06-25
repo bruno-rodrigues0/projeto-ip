@@ -12,6 +12,7 @@ class Config:
         "master_volume": 0.5,
         "music_volume": 0.5,
         "effect_volume": 0.5,
+        "lang": "pt_br",
         "fullscreen": False,
         "crt": False,
         "chromatic": False,

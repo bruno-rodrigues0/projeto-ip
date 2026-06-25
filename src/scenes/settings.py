@@ -6,6 +6,7 @@ import core.constants as const
 import core.assets as assets
 import scenes.menu
 
+from utilities import languages
 from decimal import Decimal
 from components.config import Config
 from scenes.scene import Scene
@@ -25,16 +26,21 @@ class Settings(Scene):
         action_buffer: InputBuffer
     ) -> None:
         global config
+        lang = languages.INTERFACE[config.config["lang"]]
+        enabled = lang["options_menu"]["enabled"]
+        disabled = lang["options_menu"]["disabled"]
+
         menu_options = {
-            "VOLUME GERAL": int(config.config["master_volume"] * 100),
-            "MÚSICA": int(config.config["music_volume"] * 100),
-            "EFEITOS SONOROS": int(config.config["effect_volume"] * 100),
-            "TELA CHEIA": "ATIVADO" if config.config["fullscreen"] else "DESATIVADO",
-            "CRT": "ATIVADO" if config.config["crt"] else "DESATIVADO",
-            "ABERRAÇÃO CROMÁTICA": "ATIVADO" if config.config["chromatic"] else "DESATIVADO",
-            "FPS": "ILIMITADO" if config.config["fps"] == 0  else config.config["fps"],
-            "VSYNC": "ATIVADO" if config.config["vsync"] else "DESATIVADO",
-            "SALVAR": "SALVAR"
+            lang["options_menu"]["master_volume"]: int(config.config["master_volume"] * 100),
+            lang["options_menu"]["music_volume"]: int(config.config["music_volume"] * 100),
+            lang["options_menu"]["effect_volume"]: int(config.config["effect_volume"] * 100),
+            lang["options_menu"]["lang"]: "ENGLISH" if config.config["lang"] == "en_us" else "PORTUGUÊS",
+            lang["options_menu"]["fullscreen"]: enabled if config.config["fullscreen"] else disabled,
+            lang["options_menu"]["crt"]: enabled if config.config["crt"] else disabled,
+            lang["options_menu"]["chromatic"]: enabled if config.config["chromatic"] else disabled,
+            lang["options_menu"]["fps"]: lang["options_menu"]["unlimited"] if config.config["fps"] == 0  else config.config["fps"],
+            lang["options_menu"]["vsync"]: enabled if config.config["vsync"] else disabled,
+            lang["options_menu"]["save"]: lang["options_menu"]["save"]
         }
 
         if (
@@ -51,12 +57,12 @@ class Settings(Scene):
             assets.SFX_MASTER.audios["move_selection"].play()
 
 
-        if self.selected_option == list(menu_options.keys()).index("VOLUME GERAL"):
-            master_valume = Decimal(str(config.config["master_volume"])[:5])
+        if self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["master_volume"]):
+            master_volume = Decimal(str(config.config["master_volume"])[:5])
             if (
                 action_buffer[Action.RIGHT] == InputState.PRESSED
             ):
-                config.config["master_volume"] =  float(master_valume + Decimal("0.05"))
+                config.config["master_volume"] =  float(master_volume + Decimal("0.05"))
                 if config.config["master_volume"] > 1:
                     config.config["master_volume"] = 1
                 assets.SFX_MASTER.set_master_volume(config.config["master_volume"])
@@ -65,19 +71,19 @@ class Settings(Scene):
             elif (
                 action_buffer[Action.LEFT] == InputState.PRESSED
             ):
-                config.config["master_volume"] =  float(master_valume - Decimal("0.05"))
+                config.config["master_volume"] =  float(master_volume - Decimal("0.05"))
                 if config.config["master_volume"] < 0:
                     config.config["master_volume"] = 0
                 assets.SFX_MASTER.set_master_volume(config.config["master_volume"])
                 assets.SFX_MASTER.update_volume()
                 assets.SFX_MASTER.audios["move_selection"].play()
 
-        elif self.selected_option == list(menu_options.keys()).index("MÚSICA"):
-            master_valume = Decimal(str(config.config["music_volume"])[:5])
+        elif self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["music_volume"]):
+            master_volume = Decimal(str(config.config["music_volume"])[:5])
             if (
                 action_buffer[Action.RIGHT] == InputState.PRESSED
             ):
-                config.config["music_volume"] =  float(master_valume + Decimal("0.05"))
+                config.config["music_volume"] =  float(master_volume + Decimal("0.05"))
                 if config.config["music_volume"] > 1:
                     config.config["music_volume"] = 1
                 assets.SFX_MASTER.set_music_volume(config.config["music_volume"])
@@ -86,19 +92,19 @@ class Settings(Scene):
             elif (
                 action_buffer[Action.LEFT] == InputState.PRESSED
             ):
-                config.config["music_volume"] =  float(master_valume - Decimal("0.05"))
+                config.config["music_volume"] =  float(master_volume - Decimal("0.05"))
                 if config.config["music_volume"] < 0:
                     config.config["music_volume"] = 0
                 assets.SFX_MASTER.set_music_volume(config.config["music_volume"])
                 assets.SFX_MASTER.update_volume()
                 assets.SFX_MASTER.audios["move_selection"].play()
 
-        elif self.selected_option == list(menu_options.keys()).index("EFEITOS SONOROS"):
-            master_valume = Decimal(str(config.config["effect_volume"])[:5])
+        elif self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["effect_volume"]):
+            master_volume = Decimal(str(config.config["effect_volume"])[:5])
             if (
                 action_buffer[Action.RIGHT] == InputState.PRESSED
             ):
-                config.config["effect_volume"] =  float(master_valume + Decimal("0.05"))
+                config.config["effect_volume"] =  float(master_volume + Decimal("0.05"))
                 if config.config["effect_volume"] > 1:
                     config.config["effect_volume"] = 1
                 assets.SFX_MASTER.set_effect_volume(config.config["effect_volume"])
@@ -107,14 +113,22 @@ class Settings(Scene):
             elif (
                 action_buffer[Action.LEFT] == InputState.PRESSED
             ):
-                config.config["effect_volume"] =  float(master_valume - Decimal("0.05"))
+                config.config["effect_volume"] =  float(master_volume - Decimal("0.05"))
                 if config.config["effect_volume"] > 1:
                     config.config["effect_volume"] = 1
                 assets.SFX_MASTER.set_effect_volume(config.config["effect_volume"])
                 assets.SFX_MASTER.update_volume()
                 assets.SFX_MASTER.audios["move_selection"].play()
 
-        elif self.selected_option == list(menu_options.keys()).index("TELA CHEIA"):
+        elif self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["lang"]):
+            if (
+                action_buffer[Action.RIGHT] == InputState.PRESSED or
+                action_buffer[Action.LEFT] == InputState.PRESSED
+            ):
+                config.config["lang"] = "en_us" if config.config["lang"] == "pt_br" else "pt_br"
+                assets.SFX_MASTER.audios["move_selection"].play()
+
+        elif self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["fullscreen"]):
             if (
                 action_buffer[Action.RIGHT] == InputState.PRESSED or
                 action_buffer[Action.LEFT] == InputState.PRESSED
@@ -130,7 +144,7 @@ class Settings(Scene):
                 config.config["crt"] = not config.config["crt"]
                 assets.SFX_MASTER.audios["move_selection"].play()
 
-        elif self.selected_option == list(menu_options.keys()).index("ABERRAÇÃO CROMÁTICA"):
+        elif self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["chromatic"]):
             if (
                 action_buffer[Action.RIGHT] == InputState.PRESSED or
                 action_buffer[Action.LEFT] == InputState.PRESSED
@@ -138,7 +152,7 @@ class Settings(Scene):
                 config.config["chromatic"] = not config.config["chromatic"]
                 assets.SFX_MASTER.audios["move_selection"].play()
 
-        elif self.selected_option == list(menu_options.keys()).index("FPS"):
+        elif self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["fps"]):
             values = [0, 60, 120, 240]
             fps = config.config["fps"]
             if (
@@ -156,7 +170,7 @@ class Settings(Scene):
                 assets.SFX_MASTER.audios["move_selection"].play()
 
 
-        elif self.selected_option == list(menu_options.keys()).index("VSYNC"):
+        elif self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["vsync"]):
             if (
                 action_buffer[Action.RIGHT] == InputState.PRESSED or
                 action_buffer[Action.LEFT] == InputState.PRESSED
@@ -165,7 +179,7 @@ class Settings(Scene):
                 assets.SFX_MASTER.audios["move_selection"].play()
 
 
-        elif self.selected_option == list(menu_options.keys()).index("SALVAR"):
+        elif self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["save"]):
             if action_buffer[Action.START] == InputState.PRESSED:
                 if (
                     config.config["fullscreen"] != self.config_backup.config["fullscreen"] or
@@ -182,12 +196,12 @@ class Settings(Scene):
         for i, option in enumerate(menu_options):
             pos_option = (
                 100,
-                100 + 50 * (i)
+                50 + 50 * (i)
             )
 
             pos_value = (
                 500,
-                100 + 50 * (i)
+                50 + 50 * (i)
             )
 
             if self.selected_option == i:
@@ -200,10 +214,10 @@ class Settings(Scene):
             value_text = assets.F_JERSEY10_MEDIUM.render(str(menu_options[option]), True, color)
 
             surface.blit(option_text, pos_option)
-            if option != "SALVAR":
+            if option != lang["options_menu"]['save']:
                 surface.blit(value_text, pos_value)
 
-        subtitle = assets.F_JERSEY10_MEDIUM.render("VOLTAR [ESC]", True, const.WHITE)
+        subtitle = assets.F_JERSEY10_MEDIUM.render(f'{lang["options_menu"]["back"]} [ESC]', True, const.WHITE)
         surface.blit(assets.S_HEART, heart_pos)
         surface.blit(subtitle, (100, const.WINDOW_HEIGHT - 50))
 

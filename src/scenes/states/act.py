@@ -98,7 +98,7 @@ class Act(State):
         self,
         surface: pygame.Surface,
         dt: float,
-        action_buffer: InputBuffer
+        action_buffer: InputBuffer,
     ) -> None:
 
         if (
@@ -115,32 +115,25 @@ class Act(State):
         ):
             if self.action_option == 0: # check
                 Context.battle_state = "check"
-                self.printer.change_text("* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * Vai ser uma luta dificil.", 40)
+                self.printer.change_text(self.lang_dialog["check"], 40)
                 return
             else: # Talk
                 assets.SFX_MASTER.audios["talking_long"].play(-1)
-                BOSS_DIALOGS = [
-                    "dal skj alsd jaslkda lka sjd al ks da klss jal sk ja sl jd als d ja sl",
-                    "Me chame de Lord.",
-                    "Not my problema, ouright?",
-                    "Tu conhece a grocada de trinta?",
-                    "Annie, ayuwoke?"
-                ]
-                self.printer.change_text(BOSS_DIALOGS[randint(0, len(BOSS_DIALOGS) - 1)], 23)
+                self.printer.change_text(self.lang_dialog["talk"][randint(0, len(self.lang_dialog["talk"]) - 1)], 23)
                 Context.battle_state = "talk"
                 return
 
 
         check_pos = (const.WINDOW_CENTRE[0] - 240, 400)
         check_option = assets.F_JERSEY10_MEDIUM.render(
-            "Checar",
+            self.lang_inter["fight_menu"]["check"],
             True,
             const.WHITE
         )
 
         talk_pos = (const.WINDOW_CENTRE[0] - 240, 400 + 50)
         talk_option = assets.F_JERSEY10_MEDIUM.render(
-            "Conversar",
+            self.lang_inter["fight_menu"]["talk"],
             True,
             const.WHITE
         )

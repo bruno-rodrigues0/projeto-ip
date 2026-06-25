@@ -1,11 +1,11 @@
 import pygame
 from random import randint
 
+from components.config import Config
 import core.constants as const
 import core.assets as assets
 import scenes.menu
 
-from entities.attacks.attack01 import Attack01
 from core.input import InputBuffer, InputState, Action
 from entities.player import Player
 from scenes.scene import Scene
@@ -17,6 +17,7 @@ from scenes.states.battle_menu import BattleMenu
 from scenes.states.fight import Fight
 from scenes.states.item import Item, ItemUsed
 from components.animation import AnimationPlayer
+from utilities import languages
 
 
 MAX_VEL = 200
@@ -37,9 +38,12 @@ class Game(Scene):
 
     def enter(self) -> None:
         pygame.mixer.music.unpause()
+        self.config = Config()
+        self.lang_dialog = languages.DIALOGS[self.config.config["lang"]]
+        self.lang_inter = languages.INTERFACE[self.config.config["lang"]]
         self.selected_option = 0
         self.action_option = 0
-        self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
+        self.printer = DialogPrinter(self.lang_dialog["fight_menu"][randint(0, len(self.lang_dialog["fight_menu"]) - 1)], 40, 30)
         self.has_collectable = False
         self.initial_time = pygame.time.get_ticks()
 
@@ -84,7 +88,7 @@ class Game(Scene):
         elif Context.battle_state == "fight":
             Fight.execute(self, surface, dt, action_buffer, PLAYER)
         elif Context.battle_state == "act":
-            Act.execute(self, surface, dt, action_buffer)
+            Act.execute(self, surface, dt, action_buffer,)
         elif Context.battle_state == "item":
             Item.execute(self, surface, dt, action_buffer, PLAYER)
         elif Context.battle_state == "item_used":

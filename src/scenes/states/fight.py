@@ -104,7 +104,7 @@ class Fight(State):
             PLAYER.update_buffs() # reseta os buffs de turno
             PLAYER.x, PLAYER.y = (value - 5 for value in ARENA_RECT.center)
             Context.battle_state = "battle_menu"
-            self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
+            self.printer.change_text(self.lang_dialog["fight_menu"][randint(0, len(self.lang_dialog["fight_menu"]) - 1)], 40)
             return
 
 
