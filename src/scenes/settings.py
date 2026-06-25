@@ -128,6 +128,8 @@ class Settings(Scene):
                 action_buffer[Action.LEFT] == InputState.PRESSED
             ):
                 config.config["lang"] = "en_us" if config.config["lang"] == "pt_br" else "pt_br"
+                lang = languages.INTERFACE[config.config["lang"]]
+                dialog = languages.DIALOGS[config.config["lang"]]
                 for i, item in enumerate(AVALIABLE_ITEMS):
                     AVALIABLE_ITEMS[i].dialog = dialog["items"][item.tag]
                     AVALIABLE_ITEMS[i].name = lang["items"][item.tag]
