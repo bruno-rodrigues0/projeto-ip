@@ -18,7 +18,10 @@ DIALOGS = {
         ],
         "check": "* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * Vai ser uma luta dificil.",
         "items": {
-            "cake": {},
+            "cake": "... Então você decidiu comer o bolo?",
+            "strength": "Você usou toda sua força! Seu ataque aumentou em 1.",
+            "hee_hee": "Você imita 'Hee-Hee!' Perfeitamente. Seu ataque subiu em 50 no próximo turno!",
+            "moonwalk": "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 30!",
         }
     },
 
@@ -41,7 +44,10 @@ DIALOGS = {
         ],
         "check": "* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * It will be a dificult fight.",
         "items": {
-            "cake": {},
+            "cake": "... So you decided to eat the cake?",
+            "strength": "You used all your strength! Your attack damage increased by 1.",
+            "hee_hee": "You imitate 'Hee-Hee!' perfectly. Your attack damage increased by 50 for the next turn!",
+            "moonwalk": "You do a Moonwalk and move away from Michael. Your defense increased by 30!",
         }
     },
 }
@@ -73,6 +79,12 @@ INTERFACE = {
             "check": "Checar",
             "talk": "Conversar",
         },
+        "items": {
+            "cake": "Bolo",
+            "strength": "Bíceps",
+            "hee_hee": "Hee-Hee",
+            "moonwalk": "Moonwalk",
+        },
         "skip": "Aperte ESC para pular"
     },
 
@@ -101,6 +113,12 @@ INTERFACE = {
         "fight_menu": {
             "check": "Check",
             "talk": "Talk",
+        },
+        "items": {
+            "cake": "Cake",
+            "strength": "Biceps",
+            "hee_hee": "Hee-Hee",
+            "moonwalk": "Moonwalk",
         },
         "skip": "Press ESC to skip"
     },

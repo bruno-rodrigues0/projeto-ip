@@ -42,7 +42,8 @@ class ItemUsed(State):
             if (
                 action_buffer[Action.START] == InputState.PRESSED
             ):
-                Context.items.remove(Context.item_used)
+                if Context.item_used in Context.items:
+                    Context.items.remove(Context.item_used)
                 self.printer.change_text(self.lang_dialog["fight_menu"][randint(0, len(self.lang_dialog["fight_menu"]) - 1)], 40)
                 self.initial_time = pygame.time.get_ticks()
                 Context.battle_state = "fight"

@@ -70,7 +70,7 @@ class Config:
             "size": const.WINDOW_SIZE,
             "flags": pygame.FULLSCREEN | flags if self.config["fullscreen"] else flags,
             "depth": 0,
-            "display": 1,
+            "display": 0,
             "vsync": self.config["vsync"],
         }
 
