@@ -65,11 +65,12 @@ class Config:
 
     def get_window_setup(self) -> dict[str, Any]:
         flags = pygame.SCALED | pygame.DOUBLEBUF
+        display = int(os.environ.get('DISPLAY', ':0').split(':')[1].split('.')[0])
         window_setup = {
             "size": const.WINDOW_SIZE,
             "flags": pygame.FULLSCREEN | flags if self.config["fullscreen"] else flags,
             "depth": 0,
-            "display": 0,
+            "display": display if display else 0,
             "vsync": self.config["vsync"],
         }
 
