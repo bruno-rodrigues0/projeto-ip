@@ -1,3 +1,5 @@
+import random
+
 import pygame
 from random import randint
 
@@ -72,15 +74,6 @@ for proj in E_ATTACK.projectiles:
     enemy_group.add(proj)
 
 
-class PredRect:
-    """
-    Player movement prediction rect.
-    """
-
-    def __init__(self, rect):
-        self.rect = rect
-
-
 class Fight(State):
     def enter(self) -> None:
         pass
@@ -93,67 +86,33 @@ class Fight(State):
         PLAYER: Player,
     ) -> None:
         global E_ATTACK, ellapsed_time
-        if E_ATTACK.finished: # reset the attack for next turn
-            E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
-            enemy_group.empty()
-            for proj in E_ATTACK.projectiles:
-                enemy_group.add(proj)
         ellapsed_time += dt
 
-        # Move in X axis
-        if (
-            action_buffer[Action.RIGHT] == InputState.HELD
-            and action_buffer[Action.LEFT] == InputState.NOTHING
-        ):
-            PLAYER.vx = MAX_VEL
-        elif (
-            action_buffer[Action.LEFT] == InputState.HELD
-            and action_buffer[Action.RIGHT] == InputState.NOTHING
-        ):
-            PLAYER.vx = -MAX_VEL
-        else:
-            PLAYER.vx = 0
-
-        next_pos = PLAYER.get_next_pos(dt)
-        assert PLAYER.image is not None
-        pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
-        collided = pygame.sprite.spritecollide(pred_rect, arena_group, False)
-        if collided:
-            PLAYER.vx = 0
-
-        # Move in Y axis
-        if (
-            action_buffer[Action.UP] == InputState.HELD
-            and action_buffer[Action.DOWN] == InputState.NOTHING
-        ):
-            PLAYER.vy = -MAX_VEL
-        elif (
-            action_buffer[Action.DOWN] == InputState.HELD
-            and action_buffer[Action.UP] == InputState.NOTHING
-        ):
-            PLAYER.vy = MAX_VEL
-        else:
-            PLAYER.vy = 0
-
-        next_pos = PLAYER.get_next_pos(dt)
-        pred_rect = PredRect(PLAYER.image.get_rect(topleft=(next_pos[0], next_pos[1])))
-        collided = pygame.sprite.spritecollide(pred_rect, arena_group, False)
-        if collided:
-            PLAYER.vy = 0
-
-
+        PLAYER.move(action_buffer, arena_group, MAX_VEL, dt)
         E_ATTACK.update(dt)
         PLAYER.update(dt)
 
-
-        # WARN sistema de turno por tempo.
+        # finaliza o turno de ataque
         if ellapsed_time >= E_ATTACK.attack_time:
             ellapsed_time = 0
-            E_ATTACK.finished = True
+            enemy_group.empty()
+            collectable_group.empty()
+            self.has_collectable = False
+            E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
+            for proj in E_ATTACK.projectiles:
+                enemy_group.add(proj)
             PLAYER.update_buffs() # reseta os buffs de turno
+            PLAYER.x, PLAYER.y = (value - 5 for value in ARENA_RECT.center)
             Context.battle_state = "battle_menu"
             self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
             return
+
+
+        # Spawn chance of a collectable item (33% for 2 seconds)
+        if int(ellapsed_time) % 2 == 0:
+            if random.random() <= 0.01 and not self.has_collectable:
+                self.has_collectable = True
+                spawn_collectable(dt)
 
         # Collect items
         if self.has_collectable:
@@ -170,26 +129,6 @@ class Fight(State):
                     PLAYER.buff_defense(item.buff, 1)
                     Context.collected_defense_orbs += 1
 
-        # Spawn chance of a collectable item (1 in 2000 per frame)
-        # WARN mudar chance por tempo (quem tem +fps tem mais chance de pegar item assim)
-        if 1 == randint(0, 2000) and not self.has_collectable:
-            self.has_collectable = True
-
-            types = ["healing", "defense"]
-            COLLECTABLE.type = types[randint(0, 1)]
-
-            assert COLLECTABLE.image is not None
-            if COLLECTABLE.type == "healing":
-                COLLECTABLE.image.fill(const.RED)
-            else:
-                COLLECTABLE.image.fill(const.CYAN)
-
-            COLLECTABLE.x_ref = randint(ARENA_RECT.topleft[0] + 50, ARENA_RECT.topright[0] - 50)
-            COLLECTABLE.y = const.WINDOW_CENTRE[1] - 30
-            COLLECTABLE.update(dt)
-
-            collectable_group.add(COLLECTABLE)
-
         # If have a collectable item in scene
         if self.has_collectable:
             COLLECTABLE.update(dt)
@@ -205,12 +144,29 @@ class Fight(State):
         for enemy in collided_enemies:
             PLAYER.take_damage(1)
 
-
         surface.blit(PLAYER.image, PLAYER.get_pos())
-
         arena_group.draw(surface)
         collectable_group.draw(surface)
         enemy_group.draw(surface)
 
     def exit(self) -> None:
         pass
+
+
+def spawn_collectable(dt: float) -> None:
+    global COLLECTABLE, ARENA_RECT
+
+    types = ["healing", "defense"]
+    COLLECTABLE.type = types[randint(0, 1)]
+
+    assert COLLECTABLE.image is not None
+    if COLLECTABLE.type == "healing":
+        COLLECTABLE.image.fill(const.RED)
+    else:
+        COLLECTABLE.image.fill(const.CYAN)
+
+    COLLECTABLE.x_ref = randint(ARENA_RECT.topleft[0] + 50, ARENA_RECT.topright[0] - 50)
+    COLLECTABLE.y = const.WINDOW_CENTRE[1] - 30
+    COLLECTABLE.update(dt)
+
+    collectable_group.add(COLLECTABLE)

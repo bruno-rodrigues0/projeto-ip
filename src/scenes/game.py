@@ -25,8 +25,8 @@ MAX_VEL = 200
 MICHAEL_ANIMATION = AnimationPlayer("idle", assets.S_MICHAEL_BATTLE, .3)
 PLAYER = Player(
     pygame.transform.scale_by(assets.S_HEART, 0.8),
-    const.WINDOW_CENTRE[0],
-    const.WINDOW_CENTRE[1],
+    const.WINDOW_CENTRE[0] - 5,
+    const.WINDOW_CENTRE[1] + 60,
     100
 )
 
@@ -70,38 +70,6 @@ class Game(Scene):
             surface.blit(MICHAEL_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].get_width() // 2, const.WINDOW_CENTRE[1] - 200))
         MICHAEL_ANIMATION.update(dt)
 
-        # Display player's HP
-        hp_text = assets.F_JERSEY10.render("HP", True, const.WHITE)
-        hp_initial_pos = (
-            const.WINDOW_CENTRE[0] - (hp_text.get_size()[0] + 10 + 150 + 77) // 2,
-            const.WINDOW_CENTRE[1] + 210,
-        )
-
-        hp_yellow_bar_rect = pygame.draw.rect(
-            surface,
-            const.YELLOW,
-            (
-                hp_initial_pos[0] + hp_text.get_size()[0] + 10,
-                hp_initial_pos[1],
-                150 * PLAYER.hp_percent,
-                30,
-            ),
-        )
-        hp_red_bar_rect = pygame.draw.rect(
-            surface,
-            const.RED,
-            (
-                hp_yellow_bar_rect.right,
-                hp_yellow_bar_rect.y,
-                150 * (1 - PLAYER.hp_percent),
-                30,
-            ),
-        )
-
-        hp_values_text = assets.F_JERSEY10.render(
-            f"{str(PLAYER.current_hp).rjust(3)} / {PLAYER.max_hp}", True, const.WHITE
-        )
-
         for i in range(0, 6, 2):
             surface.blit(assets.S_MENU_OPTIONS[i], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
 
@@ -122,10 +90,46 @@ class Game(Scene):
         elif Context.battle_state == "item_used":
             ItemUsed.execute(self, surface, dt, action_buffer)
 
-        surface.blit(hp_text, hp_initial_pos)
-        surface.blit(
-            hp_values_text, (hp_red_bar_rect.right + 10, hp_red_bar_rect.y)
-        )
+        draw_hp(surface, PLAYER)
+
 
     def exit(self) -> None:
         pygame.mixer.music.pause()
+
+
+def draw_hp(surface, PLAYER) -> None:
+    hp_text = assets.F_JERSEY10.render("HP", True, const.WHITE)
+    hp_initial_pos = (
+        const.WINDOW_CENTRE[0] - (hp_text.get_size()[0] + 10 + 150 + 77) // 2,
+        const.WINDOW_CENTRE[1] + 210,
+    )
+
+    hp_yellow_bar_rect = pygame.draw.rect(
+        surface,
+        const.YELLOW,
+        (
+            hp_initial_pos[0] + hp_text.get_size()[0] + 10,
+            hp_initial_pos[1],
+            150 * PLAYER.hp_percent,
+            30,
+        ),
+    )
+    hp_red_bar_rect = pygame.draw.rect(
+        surface,
+        const.RED,
+        (
+            hp_yellow_bar_rect.right,
+            hp_yellow_bar_rect.y,
+            150 * (1 - PLAYER.hp_percent),
+            30,
+        ),
+    )
+
+    hp_values_text = assets.F_JERSEY10.render(
+        f"{str(PLAYER.current_hp).rjust(3)} / {PLAYER.max_hp}", True, const.WHITE
+    )
+
+    surface.blit(hp_text, hp_initial_pos)
+    surface.blit(
+        hp_values_text, (hp_red_bar_rect.right + 10, hp_red_bar_rect.y)
+    )
