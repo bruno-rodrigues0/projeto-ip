@@ -17,6 +17,8 @@ class Menu(Scene):
 
     def enter(self) -> None:
         self.selected_option = 0
+        for audio in assets.SFX_MASTER.audios:
+            assets.SFX_MASTER.audios[audio].stop()
 
     def execute(
         self,
