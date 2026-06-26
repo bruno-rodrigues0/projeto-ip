@@ -95,24 +95,24 @@ class Game(Scene):
         for i in range(0, 6, 2):
             surface.blit(assets.S_MENU_OPTIONS[i], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
 
-        # Despacha execute do subestado atual
         state = Context.battle_state
-        if state == "battle_menu":
-            BattleMenu.execute(self, surface, dt, action_buffer)
-        elif state == "attack":
-            Attack.execute(self, surface, dt, action_buffer)
-        elif state == "check":
-            Check.execute(self, surface, dt, action_buffer)
-        elif state == "talk":
-            Talk.execute(self, surface, dt, action_buffer)
-        elif state == "fight":
-            Fight.execute(self, surface, dt, action_buffer, PLAYER)
-        elif state == "act":
-            Act.execute(self, surface, dt, action_buffer)
-        elif state == "item":
-            Item.execute(self, surface, dt, action_buffer)
-        elif state == "item_used":
-            ItemUsed.execute(self, surface, dt, action_buffer)
+        match state:
+            case "battle_menu":
+                BattleMenu.execute(self, surface, dt, action_buffer)
+            case "attack":
+                Attack.execute(self, surface, dt, action_buffer)
+            case "check":
+                Check.execute(self, surface, dt, action_buffer)
+            case "talk":
+                Talk.execute(self, surface, dt, action_buffer)
+            case "fight":
+                Fight.execute(self, surface, dt, action_buffer, PLAYER)
+            case "act":
+                Act.execute(self, surface, dt, action_buffer)
+            case "item":
+                Item.execute(self, surface, dt, action_buffer)
+            case "item_used":
+                ItemUsed.execute(self, surface, dt, action_buffer)
 
         draw_hp(surface, PLAYER)
 
