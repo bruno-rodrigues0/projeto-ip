@@ -125,8 +125,8 @@ class Intro(Scene):
         self.dir  = "right"
         assets.SFX_MASTER.audios["undertale"].play()
         self.config = Config()
-        self.lang_inter = languages.INTERFACE[self.config.config["lang"]]
-        self.lang_dialog = languages.DIALOGS[self.config.config["lang"]]
+        self.lang_inter = languages.INTERFACE[self.config.data["lang"]]
+        self.lang_dialog = languages.DIALOGS[self.config.data["lang"]]
         self.skip = False
         self.skip_timeout = 0
         self.camera = Camera.empty()

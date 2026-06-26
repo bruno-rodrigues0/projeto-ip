@@ -5,8 +5,8 @@ import core.assets as assets
 from utilities import languages
 
 
-dialog = languages.DIALOGS[Config().config["lang"]]
-interface = languages.INTERFACE[Config().config["lang"]]
+dialog = languages.DIALOGS[Config().data["lang"]]
+interface = languages.INTERFACE[Config().data["lang"]]
 
 class ItemInfo:
     name: str

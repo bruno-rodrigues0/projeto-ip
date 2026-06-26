@@ -49,8 +49,8 @@ class Game(Scene):
     def enter(self) -> None:
         pygame.mixer.music.unpause()
         self.config = Config()
-        self.lang_dialog = languages.DIALOGS[self.config.config["lang"]]
-        self.lang_inter = languages.INTERFACE[self.config.config["lang"]]
+        self.lang_dialog = languages.DIALOGS[self.config.data["lang"]]
+        self.lang_inter = languages.INTERFACE[self.config.data["lang"]]
         self.selected_option = 0
         self.action_option = 0
         self.has_collectable = False

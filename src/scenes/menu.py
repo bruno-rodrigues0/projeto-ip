@@ -29,7 +29,7 @@ class Menu(Scene):
         action_buffer: input.InputBuffer,
     ) -> None:
         config = Config()
-        interface_texts = languages.INTERFACE[config.config["lang"]]
+        interface_texts = languages.INTERFACE[config.data["lang"]]
 
         menu_options = [
             interface_texts["initial_menu"]["start"][1] if Context.paused else interface_texts["initial_menu"]["start"][0],
@@ -58,8 +58,8 @@ class Menu(Scene):
             elif self.selected_option == 1: # settings
                 self.statemachine.change_state(scenes.settings.Settings)
             else: #quit
-                pygame.quit()
-                raise SystemExit
+                pygame.event.post(pygame.Event(pygame.QUIT))
+                return
 
         surface.fill(const.BLACK)
 
