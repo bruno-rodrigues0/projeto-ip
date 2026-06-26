@@ -12,6 +12,7 @@ class Config:
         "master_volume": 0.5,
         "music_volume": 0.5,
         "effect_volume": 0.5,
+        "lang": "pt_br",
         "fullscreen": False,
         "crt": False,
         "chromatic": False,
@@ -69,7 +70,7 @@ class Config:
             "size": const.WINDOW_SIZE,
             "flags": pygame.FULLSCREEN | flags if self.config["fullscreen"] else flags,
             "depth": 0,
-            "display": 1,
+            "display": 0,
             "vsync": self.config["vsync"],
         }
 

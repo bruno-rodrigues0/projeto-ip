@@ -16,12 +16,6 @@ else:
 
 CAPTION = "Ayuwoke Time CINmulator"
 
-BASE_DIALOGS = [
-  "É o Ayuwoke. Hee-Hee",
-  "Você sente que vai passar por um tempo ruim.",
-  "Michael Jackson faz Moonwalk enquanto olha pra você. É assustador."
-]
-
 # Colour constants
 WHITE = pygame.Color(255, 255, 255)
 BLACK = pygame.Color(0, 0, 0)

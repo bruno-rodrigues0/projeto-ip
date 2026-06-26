@@ -1,147 +1,114 @@
 import pygame
-import math
+from random import randint
+
 from components.statemachine import State
-from components.dialog_printer import DialogPrinter
+from components.dialog_printer import DialogConfig
 import core.assets as assets
 import core.constants as const
 from core.input import InputBuffer, InputState, Action
 from scenes.context import Context
 from entities.player import Player
-from random import randint
 
-
-menu_options_group = pygame.sprite.Group()
 
 class ItemUsed(State):
-    def enter(self, PLAYER: Player):
-        if Context.item_used:
-            item = Context.item_used
+    @staticmethod
+    def enter(game) -> None:
+        item = Context.item_used
+        if not item:
+            return
 
-            item.sound.play()
-            self.printer = DialogPrinter(item.dialog, 40, 30)
+        # Efeito aplicado aqui, uma única vez na transição
+        match item.type:
+            case "healing":
+                game.player.heal(item.buff)
+            case "damage":
+                game.player.buff_damage(item.buff, item.buff_count)
+            case "defense":
+                game.player.buff_defense(item.buff, item.buff_count)
 
-            match item.type:
-                case 'healing':
-                    PLAYER.heal(item.buff)
-                case 'damage':
-                    PLAYER.buff_damage(item.buff, item.buff_count)
-                case 'defense':
-                    PLAYER.buff_defense(item.buff, item.buff_count)
-
+        item.sound.play()
+        game.printer.set_text(item.dialog)
+        game.printer.set_config(DialogConfig.BATTLE)
 
     @staticmethod
     def execute(
-        self,
+        game,
         surface: pygame.Surface,
         dt: float,
         action_buffer: InputBuffer,
     ) -> None:
-        if not self.printer.finished:
-            self.printer.update()
+        if not game.printer.page_finished:
+            game.printer.update()
         else:
-            if (
-                action_buffer[Action.START] == InputState.PRESSED
-            ):
-                Context.items.remove(Context.item_used)
-                self.printer = DialogPrinter(const.BASE_DIALOGS[randint(0, len(const.BASE_DIALOGS) - 1)], 40, 30)
-                self.initial_time = pygame.time.get_ticks()
+            if action_buffer[Action.START] == InputState.PRESSED:
+                if Context.item_used in Context.items:
+                    Context.items.remove(Context.item_used)
                 Context.battle_state = "fight"
                 return
 
-        pygame.draw.rect(
-            surface,
-            const.WHITE,
-            (const.WINDOW_CENTRE[0] - 300, 380, 600, 155), 5)
+        pygame.draw.rect(surface, const.WHITE, (const.WINDOW_CENTRE[0] - 300, 380, 600, 155), 5)
         for i in range(0, 6, 2):
-            if self.selected_option == i:
+            if game.selected_option == i:
                 surface.blit(assets.S_MENU_OPTIONS[i + 1], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
             else:
                 surface.blit(assets.S_MENU_OPTIONS[i], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
-
-        self.printer.draw(surface, assets.F_JERSEY10_MEDIUM, (const.WINDOW_CENTRE[0] - 270, 400))
+        game.printer.draw(surface, assets.F_JERSEY10_MEDIUM, (const.WINDOW_CENTRE[0] - 270, 400))
 
 
 class Item(State):
-    """
-    Item menu.
-    """
+    """Menu de itens."""
 
-    def enter(self) -> None:
+    @staticmethod
+    def enter(game) -> None:
         pass
 
     @staticmethod
     def execute(
-        self,
+        game,
         surface: pygame.Surface,
         dt: float,
         action_buffer: InputBuffer,
-        PLAYER: Player
     ) -> None:
+        n = len(Context.items)
 
-        if (
-            action_buffer[Action.UP] == InputState.PRESSED
-        ):
-            self.action_option = (self.action_option - 1) % len(Context.items)
-        elif (
-            action_buffer[Action.DOWN] == InputState.PRESSED
-        ):
-            self.action_option = (self.action_option + 1) % len(Context.items)
-        elif (
-            action_buffer[Action.RIGHT] == InputState.PRESSED
-        ):
-            self.action_option = (self.action_option + 2) % len(Context.items)
-        elif (
-            action_buffer[Action.LEFT] == InputState.PRESSED
-        ):
-            self.action_option = (self.action_option - 2) % len(Context.items)
+        if action_buffer[Action.UP] == InputState.PRESSED:
+            game.action_option = (game.action_option - 1) % n
+        elif action_buffer[Action.DOWN] == InputState.PRESSED:
+            game.action_option = (game.action_option + 1) % n
+        elif action_buffer[Action.RIGHT] == InputState.PRESSED:
+            game.action_option = (game.action_option + 2) % n
+        elif action_buffer[Action.LEFT] == InputState.PRESSED:
+            game.action_option = (game.action_option - 2) % n
 
-
-        if (
-            action_buffer[Action.START] == InputState.PRESSED
-        ):
-            Context.item_used = Context.items[self.action_option]
-            self.action_option = 0
-            ItemUsed.enter(self, PLAYER)
+        if action_buffer[Action.START] == InputState.PRESSED:
+            Context.item_used = Context.items[game.action_option]
+            game.action_option = 0
             Context.battle_state = "item_used"
             return
 
-        items_pos = []
-        items_options = []
-        page = self.action_option // 6
+        page = game.action_option // 6
         page_start = page * 6
+        items_pos, items_options = [], []
 
         for i, item in enumerate(Context.items[page_start: page_start + 6]):
             pos = (const.WINDOW_CENTRE[0] - 240 + 150 * (i // 2), 400 + 50 * (i % 2))
-            option = assets.F_JERSEY10_MEDIUM.render(
-                item.name,
-                True,
-                const.WHITE
-            )
-
             items_pos.append(pos)
-            items_options.append(option)
-
+            items_options.append(assets.F_JERSEY10_MEDIUM.render(item.name, True, const.WHITE))
 
         heart_pos = (
-            const.WINDOW_CENTRE[0] - 280 + 150 * ((self.action_option % 6) // 2),
-            410 + 50 * ((self.action_option) % 2)
+            const.WINDOW_CENTRE[0] - 280 + 150 * ((game.action_option % 6) // 2),
+            410 + 50 * (game.action_option % 2),
         )
 
-        pygame.draw.rect(
-            surface,
-            const.WHITE,
-            (const.WINDOW_CENTRE[0] - 300, 380, 600, 155), 5)
+        pygame.draw.rect(surface, const.WHITE, (const.WINDOW_CENTRE[0] - 300, 380, 600, 155), 5)
 
         for i in range(0, 6, 2):
-            if self.selected_option == i:
+            if game.selected_option == i:
                 surface.blit(assets.S_MENU_OPTIONS[i + 1], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
             else:
                 surface.blit(assets.S_MENU_OPTIONS[i], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
 
-        for (pos, item) in zip(items_pos, items_options):
-            surface.blit(item, pos)
+        for pos, surf in zip(items_pos, items_options):
+            surface.blit(surf, pos)
 
         surface.blit(assets.S_HEART, heart_pos)
-
-    def exit(self) -> None:
-        pass

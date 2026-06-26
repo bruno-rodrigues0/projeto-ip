@@ -1,5 +1,6 @@
 import pygame
 
+from components.config import Config
 import core.constants as const
 import core.input as input
 import core.assets as assets
@@ -8,6 +9,7 @@ from scenes.context import Context
 from scenes.scene import Scene
 import scenes.intro
 import scenes.settings
+from utilities import languages
 
 
 class Menu(Scene):
@@ -26,7 +28,15 @@ class Menu(Scene):
         dt: float,
         action_buffer: input.InputBuffer,
     ) -> None:
-        menu_options = ["CONTINUAR" if Context.paused else "COMEÇAR", "OPÇÕES", "SAIR DO JOGO"]
+        config = Config()
+        interface_texts = languages.INTERFACE[config.config["lang"]]
+
+        menu_options = [
+            interface_texts["initial_menu"]["start"][1] if Context.paused else interface_texts["initial_menu"]["start"][0],
+            interface_texts["initial_menu"]["options"],
+            interface_texts["initial_menu"]["quit"]
+        ]
+
         if action_buffer[input.Action.DOWN] == input.InputState.PRESSED:
             self.selected_option = (self.selected_option + 1) % 3
             assets.SFX_MASTER.audios["move_selection"].play()
