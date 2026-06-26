@@ -1,4 +1,5 @@
 import pygame
+from components.dialog_printer import DialogConfig
 from components.statemachine import State
 import core.assets as assets
 import core.constants as const
@@ -17,6 +18,7 @@ class BattleMenu(State):
         game.printer.set_text(
             game.lang_dialog["fight_menu"][randint(0, len(game.lang_dialog["fight_menu"]) - 1)]
         )
+        game.printer.set_config(DialogConfig.BATTLE)
 
     @staticmethod
     def execute(

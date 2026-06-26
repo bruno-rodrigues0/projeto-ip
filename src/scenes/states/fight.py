@@ -63,14 +63,13 @@ class Fight(State):
         surface: pygame.Surface,
         dt: float,
         action_buffer: InputBuffer,
-        PLAYER: Player,
     ) -> None:
         global E_ATTACK, ellapsed_time
         ellapsed_time += dt
 
-        PLAYER.move(action_buffer, arena_group, MAX_VEL, dt)
+        game.player.move(action_buffer, arena_group, MAX_VEL, dt)
         E_ATTACK.update(dt)
-        PLAYER.update(dt)
+        game.player.update(dt)
 
         if ellapsed_time >= E_ATTACK.attack_time:
             ellapsed_time = 0
@@ -80,8 +79,8 @@ class Fight(State):
             E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
             for proj in E_ATTACK.projectiles:
                 enemy_group.add(proj)
-            PLAYER.update_buffs()
-            PLAYER.x, PLAYER.y = (v - 5 for v in ARENA_RECT.center)
+            game.player.update_buffs()
+            game.player.x, game.player.y = (v - 5 for v in ARENA_RECT.center)
             Context.battle_state = "battle_menu"
             return
 
@@ -91,18 +90,18 @@ class Fight(State):
                 spawn_collectable(dt)
 
         if game.has_collectable:
-            collected = pygame.sprite.spritecollide(PLAYER, collectable_group, True)
+            collected = pygame.sprite.spritecollide(game.player, collectable_group, True)
             for item in collected:
                 collectable_group.remove(item)
                 game.has_collectable = False
                 item.sound.play()
 
                 if item.type == "healing":
-                    PLAYER.heal(item.buff)
+                    game.player.heal(item.buff)
                     Context.collected_life_orbs += 1
 
                 elif item.type == "defense":
-                    PLAYER.buff_defense(item.buff, 1)
+                    game.player.buff_defense(item.buff, 1)
                     Context.collected_defense_orbs += 1
 
         if game.has_collectable:
@@ -113,10 +112,10 @@ class Fight(State):
                 game.has_collectable = False
                 collectable_group.remove(COLLECTABLE)
 
-        for _ in pygame.sprite.spritecollide(PLAYER, enemy_group, False):
-            PLAYER.take_damage(1)
+        for _ in pygame.sprite.spritecollide(game.player, enemy_group, False):
+            game.player.take_damage(1)
 
-        surface.blit(PLAYER.image, PLAYER.get_pos())
+        surface.blit(game.player.image, game.player.get_pos())
         arena_group.draw(surface)
         collectable_group.draw(surface)
         enemy_group.draw(surface)
