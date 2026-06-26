@@ -10,9 +10,10 @@ class Projectile01(Projectile):
 # WARN ataque generico de exemplo
 class Attack01(EnemyAttack):
     initial_time: int
-    attack_time = 3 # em segundos, serve como alternativa para finished (se o tempo == attack_time, finaliza o turno)
+    attack_time = 2 # em segundos, serve como alternativa para finished (se o tempo == attack_time, finaliza o turno)
 
     def __init__(self) -> None:
+        super().__init__()
         self.initial_time = pygame.time.get_ticks()
         self.create_projectiles()
 
