@@ -1,6 +1,6 @@
 import pygame
 
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 from components.object import SimulatedObject
 
 
@@ -11,7 +11,7 @@ class Projectile(SimulatedObject):
     @abstractmethod
     def move(self) -> None: ...
 
-class EnemyAttack:
+class EnemyAttack(ABC):
     attack_time: int
     finished: bool
 
