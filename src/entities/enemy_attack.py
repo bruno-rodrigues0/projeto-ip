@@ -12,9 +12,11 @@ class Projectile(SimulatedObject):
     def move(self) -> None: ...
 
 class EnemyAttack:
-    projectiles: list[Projectile] = []
     attack_time: int
     finished: bool
+
+    def __init__(self) -> None:
+        self.projectiles = []
 
     @abstractmethod
     def update(self, dt: float) -> None: ...

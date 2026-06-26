@@ -55,7 +55,7 @@ class Fight(State):
 
     @staticmethod
     def enter(game) -> None:
-        pass
+        game.last_collectable_check = -1
 
     @staticmethod
     def execute(
@@ -84,8 +84,13 @@ class Fight(State):
             Context.battle_state = "battle_menu"
             return
 
-        if int(ellapsed_time) % 2 == 0:
-            if random.random() <= 0.01 and not game.has_collectable:
+        current_second = int(ellapsed_time)
+        if (
+            current_second != game.last_collectable_check
+            and not game.has_collectable
+        ):
+            game.last_collectable_check = current_second
+            if random.random() <= 0.2:
                 game.has_collectable = True
                 spawn_collectable(dt)
 
@@ -126,7 +131,7 @@ def spawn_collectable(dt: float) -> None:
 
     types = ["healing", "defense"]
 
-    COLLECTABLE.type  = types[randint(0, 1)]
+    COLLECTABLE.type = types[randint(0, 1)]
     COLLECTABLE.image.fill(const.RED if COLLECTABLE.type == "healing" else const.CYAN)
     COLLECTABLE.x_ref = randint(ARENA_RECT.topleft[0] + 50, ARENA_RECT.topright[0] - 50)
     COLLECTABLE.y = const.WINDOW_CENTRE[1] - 30
