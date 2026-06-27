@@ -38,6 +38,7 @@ class Attack05(EnemyAttack):
     running_time: float = 0.0
 
     def __init__(self):
+        super().__init__()
         self.running_time = 0.0
         self.create_projectiles()
 

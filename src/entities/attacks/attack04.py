@@ -32,6 +32,7 @@ class Attack04(EnemyAttack):
     running_time: float = 0.0
 
     def __init__(self) -> None:
+        super().__init__()
         self.running_time = 0.0
         self.create_projectiles()
 
@@ -57,7 +58,7 @@ class Attack04(EnemyAttack):
                 proj.ax += 40
                 proj.move(20)
 
-            
+
             proj.update(dt)
 
         self.running_time += dt

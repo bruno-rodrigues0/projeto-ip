@@ -46,6 +46,7 @@ class Attack02(EnemyAttack):
     running_time = 0.0
 
     def __init__(self) -> None:
+        super().__init__()
         self.initial_time = pygame.time.get_ticks()
         self.create_projectiles()
 
@@ -63,4 +64,4 @@ class Attack02(EnemyAttack):
         for proj in self.projectiles:
             proj.move()
             proj.update(dt)
-        
+

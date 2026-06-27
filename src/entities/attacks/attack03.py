@@ -46,6 +46,7 @@ class Attack03(EnemyAttack):
     running_time: float = 0.0
 
     def __init__(self) -> None:
+        super().__init__()
         self.initial_time = pygame.time.get_ticks()
         self.running_time = 0.0
         self.create_projectiles()
