@@ -9,8 +9,6 @@ from components.statemachine import State
 from components.object import SimulatedObject
 from entities.attacks.attack_list import ATTACK_LIST
 from entities.collectable import Collectable
-from entities.attacks.attack01 import Attack01
-from entities.player import Player
 from scenes.context import Context
 
 MAX_VEL = 220
@@ -38,7 +36,8 @@ ARENA = [
     SimulatedObject(pygame.transform.rotate(assets.S_ARENA, 90), ARENA_RECT.bottomleft[0], ARENA_RECT.bottomleft[1] - 5),
 ]
 
-E_ATTACK = Attack01()
+E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
+
 ellapsed_time = 0
 
 collectable_group = pygame.sprite.Group()
@@ -76,6 +75,7 @@ class Fight(State):
             enemy_group.empty()
             collectable_group.empty()
             game.has_collectable = False
+            E_ATTACK.projectiles.clear()
             E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
             for proj in E_ATTACK.projectiles:
                 enemy_group.add(proj)
@@ -117,7 +117,10 @@ class Fight(State):
                 game.has_collectable = False
                 collectable_group.remove(COLLECTABLE)
 
-        for _ in pygame.sprite.spritecollide(game.player, enemy_group, False):
+        # Colide with enemy
+        collided_enemies = pygame.sprite.spritecollide(game.player, enemy_group, False)
+
+        for _enemy in collided_enemies:
             game.player.take_damage(1)
 
         surface.blit(game.player.image, game.player.get_pos())
