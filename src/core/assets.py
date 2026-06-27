@@ -47,12 +47,12 @@ S_PILLAR = pygame.transform.scale(
 )
 
 # WARN sprite generico pra teste, adicione sprites para cada ataque
-S_ENEMY_ATTACK = pygame.Surface((10, 10)).convert_alpha()
+S_ENEMY_ATTACK = pygame.Surface((25, 25)).convert_alpha()
 S_ENEMY_ATTACK.fill(const.WHITE)
 
 # Load audio (ogg for web compatibility)
 SFX_MASTER = AudioManager()
-pygame.mixer.music.load(ROOT_DIR / "src/assets/sfx/theme.ogg")
+pygame.mixer.music.load(ROOT_DIR / "src/assets/sfx/smooth-criminal.ogg")
 SFX_MASTER.load("move_selection", ROOT_DIR / "src/assets/sfx/move_selection.mp3")
 SFX_MASTER.load("select_option", ROOT_DIR / "src/assets/sfx/select-option.mp3")
 SFX_MASTER.load("undertale", ROOT_DIR / "src/assets/sfx/undertale.mp3")
@@ -71,5 +71,16 @@ F_JERSEY10_SMALL = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regula
 F_JERSEY10 = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 28)
 F_JERSEY10_MEDIUM = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 36)
 F_JERSEY10_LARGE = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 80)
+
+S_CIRCLE_ATTACK = pygame.Surface((24, 24)).convert_alpha()
+S_CIRCLE_ATTACK.fill((0, 0, 0, 0))
+pygame.draw.circle(S_CIRCLE_ATTACK, const.WHITE, (12, 12), 12)
+S_HEE_HEE_ATTACK = F_JERSEY10_MEDIUM.render("HEE-HEE!", True, const.WHITE)
+S_CRESCENDO_ATTACK = F_JERSEY10_MEDIUM.render("CRESCENDO", True, const.WHITE)
+S_AUW_ATTACK = F_JERSEY10_MEDIUM.render("AUW!", True, const.WHITE)
+S_ANNIE_ATTACK = F_JERSEY10_MEDIUM.render("ANNIE?", True, const.WHITE)
+S_AYUWOKI_ATTACK = F_JERSEY10_MEDIUM.render("AYUWOKI?", True, const.WHITE)
+S_SMOOTH_ATTACK = F_JERSEY10_MEDIUM.render("SMOOTH", True, const.WHITE)
+S_CRESCENDO_ATTACK = F_JERSEY10_MEDIUM.render("CRIMINAL", True, const.WHITE)
 
 print("Loaded assets")

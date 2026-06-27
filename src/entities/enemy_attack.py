@@ -9,7 +9,7 @@ class Projectile(SimulatedObject):
         super().__init__(image, x, y)
 
     @abstractmethod
-    def move(self) -> None: ...
+    def move(self, factor=1) -> None: ...
 
 class EnemyAttack:
     projectiles: list[Projectile] = []

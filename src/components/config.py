@@ -69,7 +69,7 @@ class Config:
             "size": const.WINDOW_SIZE,
             "flags": pygame.FULLSCREEN | flags if self.config["fullscreen"] else flags,
             "depth": 0,
-            "display": 1,
+            "display": 0, #! Mudei porque tava crashando com 0 no meu
             "vsync": self.config["vsync"],
         }
 

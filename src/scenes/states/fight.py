@@ -11,7 +11,7 @@ from components.object import SimulatedObject
 from components.dialog_printer import DialogPrinter
 from entities.attacks.attack_list import ATTACK_LIST
 from entities.collectable import Collectable
-from entities.attacks.attack01 import Attack01
+from entities.attacks.attack02 import Attack02
 from entities.player import Player
 from scenes.context import Context
 
@@ -59,7 +59,7 @@ ARENA_WALL04 = SimulatedObject(
 
 ARENA = [ARENA_WALL01, ARENA_WALL02, ARENA_WALL03, ARENA_WALL04]
 
-E_ATTACK = Attack01()
+E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
 
 ellapsed_time = 0
 
@@ -98,6 +98,7 @@ class Fight(State):
             enemy_group.empty()
             collectable_group.empty()
             self.has_collectable = False
+            E_ATTACK.projectiles.clear()
             E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
             for proj in E_ATTACK.projectiles:
                 enemy_group.add(proj)
@@ -141,7 +142,7 @@ class Fight(State):
         # Colide with enemy
         collided_enemies = pygame.sprite.spritecollide(PLAYER, enemy_group, False)
 
-        for enemy in collided_enemies:
+        for _enemy in collided_enemies:
             PLAYER.take_damage(1)
 
         surface.blit(PLAYER.image, PLAYER.get_pos())
