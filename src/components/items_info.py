@@ -1,10 +1,16 @@
-from typing import Literal
+from typing import Hashable, Literal
 import pygame.mixer
+from components.config import Config
 import core.assets as assets
+from utilities import languages
 
+
+dialog = languages.DIALOGS[Config().data["lang"]]
+interface = languages.INTERFACE[Config().data["lang"]]
 
 class ItemInfo:
     name: str
+    tag: str
     type: str
     buff: int
     dialog: str
@@ -14,6 +20,7 @@ class ItemInfo:
     def __init__(
         self,
         name: str,
+        tag: str,
         type: Literal["healing", "damage", "defense"],
         buff: int,
         dialog: str,
@@ -21,6 +28,7 @@ class ItemInfo:
         buff_count=1,
     ):
         self.name = name
+        self.tag = tag
         self.type = type
         self.buff = buff
         self.dialog = dialog
@@ -30,37 +38,42 @@ class ItemInfo:
 
 # Initial items
 cake_item = ItemInfo(
-    "Bolo",
+    interface["items"]["cake"],
+    "cake",
     "healing",
     99,
-    "... Então você decidiu comer o bolo?",
+    dialog["items"]["cake"],
     assets.SFX_MASTER.audios["healing_item"]
 )
 
 strength_item = ItemInfo(
-    "Bíceps",
+    interface["items"]["strength"],
+    "strength",
     "damage",
     1,
-    "Você usou toda sua força! Seu ataque aumentou em 1.",
+    dialog["items"]["strength"],
     assets.SFX_MASTER.audios["damage_item"],
     1
 )
 hee_hee_item = ItemInfo(
-    "Hee-Hee",
+    interface["items"]["hee_hee"],
+    "hee_hee",
     "damage",
     50,
-    "Você imita 'Hee-Hee!' Perfeitamente. Seu ataque subiu em 50 no próximo turno!",
+    dialog["items"]["hee_hee"],
     assets.SFX_MASTER.audios["hee_hee"],
     2
 )
 moonwalk_item = ItemInfo(
-    "Moonwalk",
+    interface["items"]["moonwalk"],
+    "moonwalk",
     "defense",
     30,
-    "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 30!",
+    dialog["items"]["moonwalk"],
     assets.SFX_MASTER.audios["defense_item"],
     2
 )
 
 
-AVALIABLE_ITEMS = [cake_item, strength_item, hee_hee_item, moonwalk_item]
+
+AVALIABLE_ITEMS = [cake_item, cake_item, strength_item, hee_hee_item, moonwalk_item]

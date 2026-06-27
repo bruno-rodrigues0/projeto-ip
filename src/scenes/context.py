@@ -15,4 +15,5 @@ class Context:
     battle_state: str = "battle_menu"
     item_used: ItemInfo
     items = AVALIABLE_ITEMS
+    deaths: int = 0
 

@@ -19,6 +19,7 @@ class Attack01(EnemyAttack):
     attack_time = 2
 
     def __init__(self) -> None:
+        super().__init__()
         self.initial_time = pygame.time.get_ticks()
         self.create_projectiles()
 

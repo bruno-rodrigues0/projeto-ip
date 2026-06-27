@@ -8,11 +8,13 @@ xbox_action_mapping = {
     Action.RIGHT: [],
     Action.UP: [],
     Action.DOWN: [],
-    Action.A: [],
-    Action.B: [],
+    Action.A: [pygame.CONTROLLER_BUTTON_A],
+    Action.B: [pygame.CONTROLLER_BUTTON_B],
+    Action.X: [pygame.CONTROLLER_BUTTON_X],
+    Action.Y: [pygame.CONTROLLER_BUTTON_Y],
     Action.SELECT: [],
-    Action.START: [pygame.CONTROLLER_BUTTON_A],
-    Action.OPTIONS: [pygame.CONTROLLER_BUTTON_B]
+    Action.START: [7],
+    Action.OPTIONS: [6]
 }
 
 ps4_action_mapping = {
@@ -20,10 +22,12 @@ ps4_action_mapping = {
     Action.RIGHT: [pygame.CONTROLLER_BUTTON_DPAD_RIGHT],
     Action.UP: [pygame.CONTROLLER_BUTTON_DPAD_UP],
     Action.DOWN: [pygame.CONTROLLER_BUTTON_DPAD_DOWN],
-    Action.A: [],
-    Action.B: [],
+    Action.A: [pygame.CONTROLLER_BUTTON_A],
+    Action.B: [pygame.CONTROLLER_BUTTON_B],
+    Action.X: [pygame.CONTROLLER_BUTTON_X],
+    Action.Y: [pygame.CONTROLLER_BUTTON_Y],
     Action.SELECT: [],
-    Action.START: [pygame.CONTROLLER_BUTTON_A],
-    Action.OPTIONS: [pygame.CONTROLLER_BUTTON_B]
+    Action.START: [],
+    Action.OPTIONS: [6]
 }
 

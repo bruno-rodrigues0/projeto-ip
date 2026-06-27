@@ -1,4 +1,5 @@
 import pygame
+import time
 
 import core.constants as const
 import core.setup as setup
@@ -7,18 +8,22 @@ import core.input as input
 
 from core.joystick import xbox_action_mapping, ps4_action_mapping, STICK_DEADZONE
 from components.config import Config
+from components.statistics import Statistics
 from components.statemachine import StateMachine
+from scenes.context import Context
 from scenes.menu import Menu
 from utilities.filters import chromatic_distortion, create_crt_mask
 
 
 def run() -> None:
     config = Config()
+    statistics = Statistics()
+    print(statistics.data)
     pygame.display.set_caption(const.CAPTION)
     pygame.display.set_icon(assets.ICON)
-    assets.SFX_MASTER.set_master_volume(config.config["master_volume"])
-    assets.SFX_MASTER.set_music_volume(config.config["music_volume"])
-    assets.SFX_MASTER.set_effect_volume(config.config["effect_volume"])
+    assets.SFX_MASTER.set_master_volume(config.data["master_volume"])
+    assets.SFX_MASTER.set_music_volume(config.data["music_volume"])
+    assets.SFX_MASTER.set_effect_volume(config.data["effect_volume"])
     assets.SFX_MASTER.update_volume()
     pygame.mixer.music.play(-1)
     pygame.mixer.music.pause()
@@ -33,6 +38,7 @@ def game_loop(
     scene_manager: StateMachine,
     crt_mask: pygame.Surface
 ) -> None:
+    initial_time = time.time()
     action_buffer: input.InputBuffer = [
         input.InputState.NOTHING for _ in input.Action
     ]
@@ -48,28 +54,28 @@ def game_loop(
 
     while True:
         config = Config()
-        fps = config.config["fps"]
+        fps = config.data["fps"]
         elapsed_time = clock.tick(fps)
         dt = elapsed_time / 1000.0  # Convert to seconds
         dt = min(dt, 0.05)
 
-        running = input_event_queue()
+        running = input_event_queue(joysticks)
 
         if not running:
-            terminate(surface)
+            terminate(surface, initial_time)
 
         update_action_buffer(action_buffer, joysticks)
 
         scene_manager.execute(surface, dt, action_buffer)
 
-        if config.config["chromatic"]:
+        if config.data["chromatic"]:
             filtered = chromatic_distortion(surface)
 
-            if config.config["crt"]:
+            if config.data["crt"]:
                 filtered.blit(crt_mask, (0, 0))
 
             surface.blit(filtered, (0, 0))
-        elif config.config["crt"]:
+        elif config.data["crt"]:
             surface.blit(crt_mask, (0, 0))
 
 
@@ -77,11 +83,12 @@ def game_loop(
         debug_text = assets.F_JERSEY10_SMALL.render(debug_str, False, const.WHITE, const.BLACK)
         surface.blit(debug_text, (1, 1))
 
-        # Keep these calls together in this order
+
+        pygame.time.wait(1) # libera a CPU
         pygame.display.flip()
 
 
-def input_event_queue() -> bool:
+def input_event_queue(joysticks: list) -> bool:
     '''
     Pumps the event queue and handle application events
     Return: False if should terminate, else True
@@ -89,6 +96,11 @@ def input_event_queue() -> bool:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
+        elif event.type == pygame.JOYDEVICEADDED:
+            joy = pygame.joystick.Joystick(event.device_index)
+            joysticks.append(joy)
+        elif event.type == pygame.JOYDEVICEREMOVED:
+            joysticks[:] = [j for j in joysticks if j.get_instance_id() != event.instance_id]
 
     return True
 
@@ -170,11 +182,19 @@ def update_action_buffer(
                 action_buffer[action] = input.InputState.NOTHING
 
 
-def terminate(surface: pygame.Surface) -> None:
+def terminate(surface: pygame.Surface, initial_time: float) -> None:
     print("Terminated application")
+
+    statistics = Statistics()
 
     pygame.mixer.stop()
     surface.fill(const.BLACK)
+    game_time = time.time() - initial_time
+
+    statistics.data["game_time"] += int(game_time)
+    statistics.data["deaths"] += Context.deaths
+    statistics.save_file()
+    print(statistics.data) # colocar na tela final
 
     pygame.quit()
     raise SystemExit
