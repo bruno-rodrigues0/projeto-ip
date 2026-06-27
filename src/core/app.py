@@ -1,5 +1,3 @@
-from posix import stat
-
 import pygame
 import time
 
@@ -61,7 +59,7 @@ def game_loop(
         dt = elapsed_time / 1000.0  # Convert to seconds
         dt = min(dt, 0.05)
 
-        running = input_event_queue()
+        running = input_event_queue(joysticks)
 
         if not running:
             terminate(surface, initial_time)
@@ -90,7 +88,7 @@ def game_loop(
         pygame.display.flip()
 
 
-def input_event_queue() -> bool:
+def input_event_queue(joysticks: list) -> bool:
     '''
     Pumps the event queue and handle application events
     Return: False if should terminate, else True
@@ -98,6 +96,11 @@ def input_event_queue() -> bool:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
+        elif event.type == pygame.JOYDEVICEADDED:
+            joy = pygame.joystick.Joystick(event.device_index)
+            joysticks.append(joy)
+        elif event.type == pygame.JOYDEVICEREMOVED:
+            joysticks[:] = [j for j in joysticks if j.get_instance_id() != event.instance_id]
 
     return True
 
