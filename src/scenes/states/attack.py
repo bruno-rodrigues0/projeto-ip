@@ -20,7 +20,7 @@ class Attack(State):
         dt: float,
         action_buffer: InputBuffer,
     ) -> None:
-        if action_buffer[Action.START] == InputState.PRESSED:
+        if action_buffer[Action.A] == InputState.PRESSED:
             game.initial_time = pygame.time.get_ticks()
             Context.battle_state = "fight"
             return

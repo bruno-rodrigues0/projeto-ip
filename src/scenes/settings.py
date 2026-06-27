@@ -2,6 +2,7 @@ from re import sub
 
 import pygame
 import copy
+from core import joystick
 import core.constants as const
 import core.assets as assets
 import scenes.menu
@@ -31,6 +32,7 @@ class Settings(Scene):
         dialog = languages.DIALOGS[config.data["lang"]]
         enabled = lang["options_menu"]["enabled"]
         disabled = lang["options_menu"]["disabled"]
+        has_joystick = pygame.joystick.get_count() > 0
 
         menu_options = {
             lang["options_menu"]["master_volume"]: int(config.data["master_volume"] * 100),
@@ -42,7 +44,6 @@ class Settings(Scene):
             lang["options_menu"]["chromatic"]: enabled if config.data["chromatic"] else disabled,
             lang["options_menu"]["fps"]: lang["options_menu"]["unlimited"] if config.data["fps"] == 0  else config.data["fps"],
             lang["options_menu"]["vsync"]: enabled if config.data["vsync"] else disabled,
-            lang["options_menu"]["save"]: lang["options_menu"]["save"]
         }
 
         if (
@@ -58,6 +59,15 @@ class Settings(Scene):
             self.selected_option = (self.selected_option - 1) % len(menu_options)
             assets.SFX_MASTER.audios["move_selection"].play()
 
+        if action_buffer[Action.Y] == InputState.PRESSED:
+            if (
+                config.data["fullscreen"] != self.config_backup.data["fullscreen"] or
+                config.data["vsync"] != self.config_backup.data["vsync"]
+            ):
+                config.apply_config()
+                self.config_backup = copy.deepcopy(config)
+            config.save_file()
+            assets.SFX_MASTER.audios["select_option"].play()
 
         if self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["master_volume"]):
             master_volume = Decimal(str(config.data["master_volume"])[:5])
@@ -185,18 +195,6 @@ class Settings(Scene):
                 config.data["vsync"] = (config.data["vsync"] + 1) % 2
                 assets.SFX_MASTER.audios["move_selection"].play()
 
-
-        elif self.selected_option == list(menu_options.keys()).index(lang["options_menu"]["save"]):
-            if action_buffer[Action.START] == InputState.PRESSED:
-                if (
-                    config.data["fullscreen"] != self.config_backup.config["fullscreen"] or
-                    config.data["vsync"] != self.config_backup.config["vsync"]
-                ):
-                    config.apply_config()
-                    self.config_backup = copy.deepcopy(config)
-                config.save_file()
-                assets.SFX_MASTER.audios["select_option"].play()
-
         surface.fill(const.BLACK)
         heart_pos = (0, 0)
 
@@ -224,9 +222,11 @@ class Settings(Scene):
             if option != lang["options_menu"]['save']:
                 surface.blit(value_text, pos_value)
 
-        subtitle = assets.F_JERSEY10_MEDIUM.render(f'{lang["options_menu"]["back"]} [ESC]', True, const.WHITE)
+        back_subtitle = assets.F_JERSEY10_MEDIUM.render(f'{lang["options_menu"]["back"]} [{"ESC" if not has_joystick else "Options"}]', True, const.WHITE)
+        save_subtitle = assets.F_JERSEY10_MEDIUM.render(f'{lang["options_menu"]["save"]} [{"V" if not has_joystick else "Y"}]', True, const.WHITE)
         surface.blit(assets.S_HEART, heart_pos)
-        surface.blit(subtitle, (100, const.WINDOW_HEIGHT - 50))
+        surface.blit(back_subtitle, (100, const.WINDOW_HEIGHT - 50))
+        surface.blit(save_subtitle, (350, const.WINDOW_HEIGHT - 50))
 
 
     def exit(self) -> None:

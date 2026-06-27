@@ -23,13 +23,13 @@ class Check(State):
         action_buffer: InputBuffer,
     ) -> None:
         if not game.printer.page_finished:
-            if action_buffer[Action.START] == InputState.PRESSED:
+            if action_buffer[Action.A] == InputState.PRESSED:
                 game.printer.advance()
                 assets.SFX_MASTER.audios["talking_long"].stop()
             else:
                 game.printer.update()
         else:
-            if action_buffer[Action.START] == InputState.PRESSED:
+            if action_buffer[Action.A] == InputState.PRESSED:
                 game.initial_time = pygame.time.get_ticks()
                 Context.battle_state = "fight"
                 return
@@ -60,14 +60,14 @@ class Talk(State):
         action_buffer: InputBuffer,
     ) -> None:
         if not game.printer.page_finished:
-            if action_buffer[Action.START] == InputState.PRESSED:
+            if action_buffer[Action.A] == InputState.PRESSED:
                 game.printer.advance()
                 assets.SFX_MASTER.audios["talking_long"].stop()
             else:
                 game.printer.update()
         else:
             assets.SFX_MASTER.audios["talking_long"].stop()
-            if action_buffer[Action.START] == InputState.PRESSED:
+            if action_buffer[Action.A] == InputState.PRESSED:
                 game.initial_time = pygame.time.get_ticks()
                 Context.battle_state = "fight"
                 return
@@ -102,7 +102,7 @@ class Act(State):
         elif action_buffer[Action.DOWN] == InputState.PRESSED:
             game.action_option = (game.action_option + 1) % 2
 
-        if action_buffer[Action.START] == InputState.PRESSED:
+        if action_buffer[Action.A] == InputState.PRESSED:
             if game.action_option == 0:
                 Context.battle_state = "check"
             else:
