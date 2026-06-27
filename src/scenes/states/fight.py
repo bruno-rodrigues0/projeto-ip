@@ -9,8 +9,6 @@ from components.statemachine import State
 from components.object import SimulatedObject
 from entities.attacks.attack_list import ATTACK_LIST
 from entities.collectable import Collectable
-from entities.attacks.attack02 import Attack02
-from entities.player import Player
 from scenes.context import Context
 
 MAX_VEL = 220
