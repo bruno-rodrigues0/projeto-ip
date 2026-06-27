@@ -44,7 +44,7 @@ class Menu(Scene):
             self.selected_option = (self.selected_option - 1) % 3
             assets.SFX_MASTER.audios["move_selection"].play()
 
-        if action_buffer[input.Action.START] == input.InputState.PRESSED:
+        if action_buffer[input.Action.A] == input.InputState.PRESSED:
             assets.SFX_MASTER.audios["select_option"].play()
             if self.selected_option == 0: # play
                 # If paused, back to last_scene, else go to Intro scene

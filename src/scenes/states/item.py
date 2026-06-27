@@ -40,7 +40,7 @@ class ItemUsed(State):
         if not game.printer.page_finished:
             game.printer.update()
         else:
-            if action_buffer[Action.START] == InputState.PRESSED:
+            if action_buffer[Action.A] == InputState.PRESSED:
                 if Context.item_used in Context.items:
                     Context.items.remove(Context.item_used)
                 Context.battle_state = "fight"
@@ -80,7 +80,7 @@ class Item(State):
         elif action_buffer[Action.LEFT] == InputState.PRESSED:
             game.action_option = (game.action_option - 2) % n
 
-        if action_buffer[Action.START] == InputState.PRESSED:
+        if action_buffer[Action.A] == InputState.PRESSED:
             Context.item_used = Context.items[game.action_option]
             game.action_option = 0
             Context.battle_state = "item_used"

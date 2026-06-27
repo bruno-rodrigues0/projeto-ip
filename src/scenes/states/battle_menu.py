@@ -51,7 +51,7 @@ class BattleMenu(State):
         surface.blit(assets.S_HEART, heart_pos)
         game.printer.draw(surface, assets.F_JERSEY10_MEDIUM, (const.WINDOW_CENTRE[0] - 270, 400))
 
-        if action_buffer[Action.START] == InputState.PRESSED:
+        if action_buffer[Action.A] == InputState.PRESSED:
             assets.SFX_MASTER.audios["select_option"].play()
             if game.selected_option == 0:
                 Context.battle_state = "attack"

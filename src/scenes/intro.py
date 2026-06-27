@@ -59,7 +59,7 @@ class IntroDialog(Scene):
             self.statemachine.change_state(scenes.game.Game)  # type: ignore
 
 
-        if action_buffer[Action.START] == InputState.PRESSED:
+        if action_buffer[Action.A] == InputState.PRESSED:
             advanced = self.printer.advance()
 
             if advanced:
