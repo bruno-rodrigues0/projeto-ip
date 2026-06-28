@@ -19,9 +19,10 @@ DIALOGS = {
         "check": "* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * Vai ser uma luta dificil.",
         "items": {
             "cake": "... Então você decidiu comer o bolo?",
+            "bandaid": "Você usou um curativo no dodói. Recuperou 40 de HP.",
             "strength": "Você usou toda sua força! Seu ataque aumentou em 1.",
             "hee_hee": "Você imita 'Hee-Hee!' Perfeitamente. Seu ataque subiu em 50 no próximo turno!",
-            "moonwalk": "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 30!",
+            "moonwalk": "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 10!",
         }
     },
 
@@ -45,9 +46,10 @@ DIALOGS = {
         "check": "* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * It will be a dificult fight.",
         "items": {
             "cake": "... So you decided to eat the cake?",
+            "bandaid": "You used a bandage on your boo-boo. You recovered 40 HP.",
             "strength": "You used all your strength! Your attack damage increased by 1.",
             "hee_hee": "You imitate 'Hee-Hee!' perfectly. Your attack damage increased by 50 for the next turn!",
-            "moonwalk": "You do a Moonwalk and move away from Michael. Your defense increased by 30!",
+            "moonwalk": "You do a Moonwalk and move away from Michael. Your defense increased by 10!",
         }
     },
 }
@@ -81,6 +83,7 @@ INTERFACE = {
         },
         "items": {
             "cake": "Bolo",
+            "bandaid": "Curativo",
             "strength": "Bíceps",
             "hee_hee": "Hee-Hee",
             "moonwalk": "Moonwalk",
@@ -116,6 +119,7 @@ INTERFACE = {
         },
         "items": {
             "cake": "Cake",
+            "bandaid": "BandAid",
             "strength": "Biceps",
             "hee_hee": "Hee-Hee",
             "moonwalk": "Moonwalk",

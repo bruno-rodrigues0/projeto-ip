@@ -37,11 +37,20 @@ class ItemInfo:
 
 
 # Initial items
+bandaid_item= ItemInfo(
+    interface["items"]["bandaid"],
+    "bandaid",
+    "healing",
+    40,
+    dialog["items"]["bandaid"],
+    assets.SFX_MASTER.audios["healing_item"]
+)
+
 cake_item = ItemInfo(
     interface["items"]["cake"],
     "cake",
     "healing",
-    99,
+    15,
     dialog["items"]["cake"],
     assets.SFX_MASTER.audios["healing_item"]
 )
@@ -68,7 +77,7 @@ moonwalk_item = ItemInfo(
     interface["items"]["moonwalk"],
     "moonwalk",
     "defense",
-    30,
+    10,
     dialog["items"]["moonwalk"],
     assets.SFX_MASTER.audios["defense_item"],
     2
@@ -76,4 +85,10 @@ moonwalk_item = ItemInfo(
 
 
 
-AVALIABLE_ITEMS = [cake_item, cake_item, strength_item, hee_hee_item, moonwalk_item]
+AVALIABLE_ITEMS = [
+    bandaid_item,
+    cake_item, cake_item,
+    strength_item, strength_item, strength_item,strength_item,strength_item,
+    hee_hee_item, hee_hee_item,
+    moonwalk_item, moonwalk_item
+]
