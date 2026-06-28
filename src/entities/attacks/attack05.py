@@ -8,29 +8,29 @@ import core.constants as const
 class ProjectileBounce(Projectile):
     def __init__(self, image, x, y, vx, vy):
         super().__init__(image, x, y)
-        self.vx = vx  # funciona! SimulatedObject usa vx/vy diretamente
+        self.vx = vx
         self.vy = vy
 
-    def move(self, factor=1):
+    def move(self, dt:float, factor=1):
         left = 490
         right = 710
         top = 307
         bottom = 527
 
-        margin   = 150
+        margin = 15
         strength = 400
 
         self.ax = 0
         self.ay = 0
 
         if self.x < left + margin:
-            self.ax += strength * (1 - (self.x - left) / margin) * factor
+            self.ax += strength * (1 - (self.x - left) / margin) * factor * (dt * 60)
         if self.x > right - margin:
-            self.ax -= strength * (1 - (right - self.x) / margin) * factor
+            self.ax -= strength * (1 - (right - self.x) / margin) * factor * (dt * 60)
         if self.y < top + margin:
-            self.ay += strength * (1 - (self.y - top) / margin) * factor
+            self.ay += strength * (1 - (self.y - top) / margin) * factor * (dt * 60)
         if self.y > bottom - margin:
-            self.ay -= strength * (1 - (bottom - self.y) / margin) * factor
+            self.ay -= strength * (1 - (bottom - self.y) / margin) * factor * (dt * 60)
 
 
 class Attack05(EnemyAttack):
@@ -68,7 +68,7 @@ class Attack05(EnemyAttack):
         self.running_time += dt
         for proj in self.projectiles:
             if self.running_time < 1:
-                proj.move(0.3)
+                proj.move(dt, 0.3)
             else:
-                proj.move()
+                proj.move(dt)
             proj.update(dt)

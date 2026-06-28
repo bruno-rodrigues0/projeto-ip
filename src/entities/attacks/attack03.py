@@ -5,39 +5,39 @@ from entities.enemy_attack import EnemyAttack, Projectile
 
 
 class Projectile01(Projectile):
-    def move(self, factor=1):
-        self.ax -= 4 * factor
-        self.ay += 1 * factor
+    def move(self, dt:float, factor=1):
+        self.ax -= 240 * factor * dt
+        self.ay += 60 * factor * dt
 
 
 class Projectile02(Projectile):
-    def move(self, factor=1):
-        self.ax -= 10 * factor
-        self.ay += 3.5 * factor
+    def move(self, dt:float, factor=1):
+        self.ax -= 600 * factor * dt
+        self.ay += 180.5 * factor * dt
 
 
 class Projectile03(Projectile):
-    def move(self, factor=1):
-        self.ax -= 8 * factor
-        self.ay -= 4 * factor
+    def move(self, dt:float, factor=1):
+        self.ax -= 480 * factor * dt
+        self.ay -= 240 * factor * dt
 
 
 class Projectile04(Projectile):
-    def move(self, factor=1):
-        self.ax += 5 * factor
-        self.ay -= 2 * factor
+    def move(self, dt:float, factor=1):
+        self.ax += 300 * factor * dt
+        self.ay -= 120 * factor * dt
 
 
 class Projectile05(Projectile):
-    def move(self, factor=1):
-        self.ax += 9 * factor
-        self.ay -= 0.5 * factor
+    def move(self, dt:float, factor=1):
+        self.ax += 540 * factor * dt
+        self.ay -= 30.5 * factor * dt
 
 
 class Projectile06(Projectile):
-    def move(self, factor=1):
-        self.ax += 3 * factor
-        self.ay += 2 * factor
+    def move(self, dt:float, factor=1):
+        self.ax += 180 * factor * dt
+        self.ay += 120 * factor * dt
 
 
 class Attack03(EnemyAttack):
@@ -64,9 +64,9 @@ class Attack03(EnemyAttack):
     def update(self, dt: float) -> None:
         for proj in self.projectiles:
             if self.running_time < 1.1:
-                proj.move()
+                proj.move(dt)
             else:
-                proj.move(-1)
+                proj.move(dt, -1)
             proj.update(dt)
 
         self.running_time += dt
