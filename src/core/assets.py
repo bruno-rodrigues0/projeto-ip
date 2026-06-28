@@ -44,11 +44,14 @@ S_PILLAR = pygame.transform.scale(
         S_PILLAR.get_width() * (const.WINDOW_WIDTH * 2.5 / const.WINDOW_HEIGHT),
         const.WINDOW_HEIGHT + 300,
     ),
-)
+).convert_alpha()
 
 # WARN sprite generico pra teste, adicione sprites para cada ataque
 S_ENEMY_ATTACK = pygame.Surface((25, 25)).convert_alpha()
 S_ENEMY_ATTACK.fill(const.WHITE)
+S_MOONWALK_ATTACK = slice_sheet(ROOT_DIR / "src/assets/img/moonwalk.png", 98, 191)
+for i, frame in enumerate(S_MOONWALK_ATTACK):
+    S_MOONWALK_ATTACK[i] = pygame.transform.scale_by(frame, 0.6).convert_alpha()
 
 # Load audio (ogg for web compatibility)
 SFX_MASTER = AudioManager()

@@ -118,7 +118,7 @@ class Fight(State):
                 collectable_group.remove(COLLECTABLE)
 
         # Colide with enemy
-        collided_enemies = pygame.sprite.spritecollide(game.player, enemy_group, False)
+        collided_enemies = pygame.sprite.spritecollide(game.player, enemy_group, False, pygame.sprite.collide_mask)
 
         for _enemy in collided_enemies:
             game.player.take_damage(1 * dt)
