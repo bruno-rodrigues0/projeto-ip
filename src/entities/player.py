@@ -26,6 +26,8 @@ class Player(SimulatedObject):
     _initial_defense: int
     defense: int
     _defense_buff_count: int
+    INVINCIBILITY_TIME = 0.02
+
     def __init__(self, image, x, y, max_hp):
         super().__init__(image, x, y)
         self.max_hp = max_hp
@@ -34,12 +36,16 @@ class Player(SimulatedObject):
         self.damage = self._initial_damage = 10
         self.defense = self._initial_defense = 10
         self._damage_buff_count = self._defense_buff_count = 0
+        self._invincible_timer = 0.0
 
 
-    def take_damage(self, amount):
+    def take_damage(self, amount: int) -> None:
+        if self._invincible_timer > 0:
+            return
         assets.SFX_MASTER.audios["damage_taken"].play()
         self.current_hp = int(max(0, self.current_hp - (amount - (self.defense / 100) * amount)))
         self.hp_percent = self.current_hp / self.max_hp
+        self._invincible_timer = self.INVINCIBILITY_TIME
 
 
     def heal(self, amount):
@@ -108,4 +114,9 @@ class Player(SimulatedObject):
             self._defense_buff_count -= 1
         if self._defense_buff_count == 0:
                 self.defense = self._initial_defense
+
+    def update(self, dt: float) -> None:
+        super().update(dt)
+        if self._invincible_timer > 0:
+            self._invincible_timer -= dt
 

@@ -4,27 +4,27 @@ from entities.enemy_attack import EnemyAttack, Projectile
 
 # ! CONSERTAR ESSE ATAQUE
 class ProjectileUp01(Projectile):
-    def move(self, factor=1):
-        self.ax -= 2 * factor
-        self.ay -= 8 * factor
+    def move(self, dt:float, factor=1):
+        self.ax -= 120 * factor * dt
+        self.ay -= 480 * factor * dt
 
 
 class ProjectileUp02(Projectile):
-    def move(self, factor=1):
-        self.ax += 2 * factor
-        self.ay -= 10 * factor
+    def move(self, dt:float, factor=1):
+        self.ax += 120 * factor * dt
+        self.ay -= 600 * factor * dt
 
 
 class ProjectileUp03(Projectile):
-    def move(self, factor=1):
-        self.ax -= 4 * factor
-        self.ay -= 7 * factor
+    def move(self, dt:float, factor=1):
+        self.ax -= 240 * factor * dt
+        self.ay -= 420 * factor * dt
 
 
 class ProjectileUp04(Projectile):
-    def move(self, factor=1):
-        self.ax += 4 * factor
-        self.ay -= 9 * factor
+    def move(self, dt:float, factor=1):
+        self.ax += 240 * factor * dt
+        self.ay -= 540 * factor * dt
 
 
 class Attack04(EnemyAttack):
@@ -45,18 +45,18 @@ class Attack04(EnemyAttack):
     def update(self, dt: float) -> None:
         for proj in self.projectiles:
             if self.running_time < 0.65:
-                proj.move(2)
+                proj.move(dt, 2)
             elif 0.7 <= self.running_time < 1.93:
-                proj.move(-3)
+                proj.move(dt, -3)
             elif 2.1 <= self.running_time < 3.2:
                 proj.ax += 2
-                proj.move(6.5)
+                proj.move(dt, 6.5)
             elif 3 <= self.running_time < 3.95:
                 proj.ax -= 16.5
-                proj.move(-15.5)
+                proj.move(dt, -15.5)
             elif 4 <= self.running_time:
                 proj.ax += 40
-                proj.move(20)
+                proj.move(dt, 20)
 
 
             proj.update(dt)

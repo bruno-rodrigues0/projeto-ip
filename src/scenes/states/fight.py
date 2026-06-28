@@ -121,7 +121,7 @@ class Fight(State):
         collided_enemies = pygame.sprite.spritecollide(game.player, enemy_group, False)
 
         for _enemy in collided_enemies:
-            game.player.take_damage(1)
+            game.player.take_damage(1 * dt)
 
         surface.blit(game.player.image, game.player.get_pos())
         arena_group.draw(surface)

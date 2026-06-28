@@ -2,16 +2,16 @@ import pygame
 
 from core import assets
 from entities.enemy_attack import EnemyAttack, Projectile
-    
+
 
 class Projectile01(Projectile):
-    def move(self) -> None:
-        self.ax += 10
+    def move(self, dt:float) -> None:
+        self.ax += 600 * dt
 
 
 class Projectile02(Projectile):
-    def move(self) -> None:
-        self.ax -= 10
+    def move(self, dt:float) -> None:
+        self.ax -= 600 * dt
 
 
 class Attack01(EnemyAttack):
@@ -36,5 +36,5 @@ class Attack01(EnemyAttack):
 
     def update(self, dt: float) -> None:
         for proj in self.projectiles:
-            proj.move()
+            proj.move(dt)
             proj.update(dt)

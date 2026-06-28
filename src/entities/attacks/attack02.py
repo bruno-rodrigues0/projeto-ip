@@ -5,39 +5,39 @@ from entities.enemy_attack import EnemyAttack, Projectile
 
 
 class Projectile01(Projectile):
-    def move(self):
-        self.ax -= 4
-        self.ay += 1
+    def move(self, dt:float):
+        self.ax -= 240 * dt
+        self.ay += 60 * dt
 
 
 class Projectile02(Projectile):
-    def move(self):
-        self.ax -= 10
-        self.ay += 3.5
+    def move(self, dt:float):
+        self.ax -= 600 * dt
+        self.ay += 180.5 * dt
 
 
 class Projectile03(Projectile):
-    def move(self):
-        self.ax -= 8
-        self.ay -= 4
+    def move(self, dt:float):
+        self.ax -= 480 * dt
+        self.ay -= 240 * dt
 
 
 class Projectile04(Projectile):
-    def move(self):
-        self.ax += 5
-        self.ay -= 2
+    def move(self, dt:float):
+        self.ax += 300 * dt
+        self.ay -= 120 * dt
 
 
 class Projectile05(Projectile):
-    def move(self):
-        self.ax += 9
-        self.ay -= 0.5
+    def move(self, dt:float):
+        self.ax += 540 * dt
+        self.ay -= 30 * dt
 
 
 class Projectile06(Projectile):
-    def move(self):
-        self.ax += 3
-        self.ay += 2
+    def move(self, dt:float):
+        self.ax += 180 * dt
+        self.ay += 120 * dt
 
 
 class Attack02(EnemyAttack):
@@ -62,6 +62,6 @@ class Attack02(EnemyAttack):
 
     def update(self, dt: float) -> None:
         for proj in self.projectiles:
-            proj.move()
+            proj.move(dt)
             proj.update(dt)
 
