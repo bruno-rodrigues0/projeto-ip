@@ -26,7 +26,7 @@ class Player(SimulatedObject):
     _initial_defense: int
     defense: int
     _defense_buff_count: int
-    INVINCIBILITY_TIME = 0.02
+    INVINCIBILITY_TIME = 0.01
 
     def __init__(self, image, x, y, max_hp):
         super().__init__(image, x, y)
