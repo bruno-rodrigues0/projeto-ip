@@ -17,8 +17,6 @@ from utilities.filters import chromatic_distortion, create_crt_mask
 
 def run() -> None:
     config = Config()
-    statistics = Statistics()
-    print(statistics.data)
     pygame.display.set_caption(const.CAPTION)
     pygame.display.set_icon(assets.ICON)
     assets.SFX_MASTER.set_master_volume(config.data["master_volume"])
