@@ -19,7 +19,7 @@ CAPTION = "Ayuwoke Time CINmulator"
 # Colour constants
 WHITE = pygame.Color(255, 255, 255)
 BLACK = pygame.Color(0, 0, 0)
-GRAY = pygame.Color(16, 16, 16)
+GRAY = pygame.Color(40, 40, 40)
 RED = pygame.Color(255, 0, 0)
 YELLOW = pygame.Color(255, 255, 0)
 ORANGE = pygame.Color(233, 117, 34)

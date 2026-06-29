@@ -10,6 +10,7 @@ from scenes.scene import Scene
 import scenes.intro
 import scenes.settings
 import scenes.stats
+import scenes.achievements
 from utilities import languages
 
 
@@ -36,6 +37,7 @@ class Menu(Scene):
             interface["initial_menu"]["start"][1] if Context.paused else interface["initial_menu"]["start"][0],
             interface["initial_menu"]["options"],
             interface["initial_menu"]["stats"],
+            interface["initial_menu"]["achievements"],
             interface["initial_menu"]["quit"]
         ]
 
@@ -64,6 +66,8 @@ class Menu(Scene):
                 self.statemachine.change_state(scenes.settings.Settings)
             elif self.selected_option == menu_options.index(interface["initial_menu"]["stats"]):
                 self.statemachine.change_state(scenes.stats.Stats)
+            elif self.selected_option == menu_options.index(interface["initial_menu"]["achievements"]):
+                self.statemachine.change_state(scenes.achievements.Achievements)
             else:
                 pygame.event.post(pygame.Event(pygame.QUIT))
                 return

@@ -29,7 +29,6 @@ class Stats(Scene):
         if (
             action_buffer[Action.OPTIONS] == InputState.PRESSED
         ):
-            assets.SFX_MASTER.audios["select_option"].play()
             self.statemachine.change_state(scenes.menu.Menu) # type: ignore
 
 
