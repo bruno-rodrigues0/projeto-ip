@@ -62,7 +62,7 @@ strength_item = ItemInfo(
     1,
     dialog["items"]["strength"],
     assets.SFX_MASTER.audios["damage_item"],
-    1
+    2
 )
 hee_hee_item = ItemInfo(
     interface["items"]["hee_hee"],

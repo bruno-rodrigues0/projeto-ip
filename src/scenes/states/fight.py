@@ -7,7 +7,7 @@ import core.constants as const
 from core.input import InputBuffer
 from components.statemachine import State
 from components.object import SimulatedObject
-from entities.attacks.attack_list import ATTACK_LIST
+from entities.bosses.michael_jackson.attacks.attack_list import ATTACK_LIST
 from entities.collectable import Collectable
 from scenes.context import Context
 

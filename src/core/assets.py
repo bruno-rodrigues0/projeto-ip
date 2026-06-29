@@ -72,6 +72,7 @@ SFX_MASTER.load("healing_item", ROOT_DIR / "src/assets/sfx/healing-item.mp3")
 SFX_MASTER.load("damage_taken", ROOT_DIR / "src/assets/sfx/damage-taken.mp3")
 SFX_MASTER.load("defense_item", ROOT_DIR / "src/assets/sfx/defense-item.mp3")
 SFX_MASTER.load("no_items", ROOT_DIR / "src/assets/sfx/no-items.mp3")
+SFX_MASTER.load("player_attack", ROOT_DIR / "src/assets/sfx/player_attack.mp3")
 
 # Load fonts (ttf for web compatibility)
 F_JERSEY10_SMALL = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 18)

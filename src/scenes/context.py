@@ -1,5 +1,7 @@
 from scenes.scene import Scene
 from components.items_info import ItemInfo, AVALIABLE_ITEMS
+from entities.bosses.bosses_info import AVALIABLE_BOSSES
+from entities.boss import Boss
 
 
 class Context:
@@ -18,4 +20,5 @@ class Context:
     item_used: ItemInfo
     items = AVALIABLE_ITEMS
     deaths: int = 0
-
+    boss_idx: int = 0
+    BOSS: Boss = AVALIABLE_BOSSES[boss_idx]

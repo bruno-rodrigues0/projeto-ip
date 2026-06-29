@@ -1,8 +1,6 @@
 import pygame
-import math
 from core import assets
 from entities.enemy_attack import EnemyAttack, Projectile
-import core.constants as const
 
 
 class ProjectileBounce(Projectile):
@@ -43,10 +41,10 @@ class Attack05(EnemyAttack):
         self.create_projectiles()
 
     def create_projectiles(self):
-        left = 450 # 490
-        right = 760 # 710
-        top = 257 # 307
-        bottom = 587 # 527
+        left = 450
+        right = 760
+        top = 257
+        bottom = 587
         cx = (left + right) // 2
         cy = (top + bottom) // 2
 

@@ -8,10 +8,13 @@ from scenes.context import Context
 
 class Attack(State):
     """Attack — exibe a barra de ataque."""
+    wait_timer = 0.0
+    is_waiting = False
 
     @staticmethod
     def enter(game) -> None:
-        pass
+        Attack.wait_timer = 0.0
+        Attack.is_waiting = False
 
     @staticmethod
     def execute(
@@ -20,10 +23,19 @@ class Attack(State):
         dt: float,
         action_buffer: InputBuffer,
     ) -> None:
-        if action_buffer[Action.A] == InputState.PRESSED:
-            game.initial_time = pygame.time.get_ticks()
-            Context.battle_state = "fight"
-            return
+        if Attack.is_waiting:
+            Attack.wait_timer -= dt
+            if Attack.wait_timer <= 0:
+                game.initial_time = pygame.time.get_ticks()
+                Context.battle_state = "fight"
+                Attack.is_waiting = False
+                Attack.wait_timer = 0.0
+                return
+
+        if action_buffer[Action.A] == InputState.PRESSED and not Attack.is_waiting:
+            Context.BOSS.take_damage(game.player.damage)
+            Attack.wait_timer = 1.0
+            Attack.is_waiting = True
 
         pygame.draw.rect(surface, const.WHITE, (const.WINDOW_CENTRE[0] - 300, 380, 600, 155), 5)
         for i in range(0, 6, 2):

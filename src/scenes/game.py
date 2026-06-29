@@ -1,28 +1,27 @@
 import pygame
 from random import randint
 
+from components.animation import AnimationPlayer
+from components.dialog_printer import DialogPrinter, DialogConfig
 from components.config import Config
 import core.constants as const
 import core.assets as assets
-import scenes.menu
-
 from core.input import InputBuffer, InputState, Action
+import scenes.menu
 from entities.player import Player
 from scenes.scene import Scene
 from scenes.context import Context
 from scenes.states.act import Act, Check, Talk
-from components.dialog_printer import DialogPrinter, DialogConfig
 from scenes.states.attack import Attack
 from scenes.states.battle_menu import BattleMenu
 from scenes.states.fight import Fight
 from scenes.states.item import Item, ItemUsed
-from components.animation import AnimationPlayer
 from utilities import languages
 
 
 MAX_VEL = 200
 
-MICHAEL_ANIMATION = AnimationPlayer("idle", assets.S_MICHAEL_BATTLE, .3)
+BOSS_ANIMATION = Context.BOSS.sprite_animation
 PLAYER = Player(
     pygame.transform.scale_by(assets.S_HEART, 0.8),
     const.WINDOW_CENTRE[0] - 5,
@@ -87,10 +86,10 @@ class Game(Scene):
 
         michael_y = const.WINDOW_CENTRE[1] - (270 if Context.battle_state == "fight" else 200)
         surface.blit(
-            MICHAEL_ANIMATION.get_frame(),
+            BOSS_ANIMATION.get_frame(),
             (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].get_width() // 2, michael_y)
         )
-        MICHAEL_ANIMATION.update(dt)
+        BOSS_ANIMATION.update(dt)
 
         for i in range(0, 6, 2):
             surface.blit(assets.S_MENU_OPTIONS[i], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
