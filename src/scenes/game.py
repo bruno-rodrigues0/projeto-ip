@@ -116,6 +116,11 @@ class Game(Scene):
         #         ItemUsed.execute(self, surface, dt, action_buffer)
 
         draw_hp(surface, PLAYER)
+        def_text = assets.F_JERSEY10.render(f"DEF: {PLAYER.defense}", True, const.WHITE)
+        damage_text = assets.F_JERSEY10.render(f"ATK: {PLAYER.damage}", True, const.WHITE)
+        surface.blit(def_text, (800, const.WINDOW_CENTRE[1] + 210))
+        surface.blit(damage_text, (300, const.WINDOW_CENTRE[1] + 210))
+
 
     def exit(self) -> None:
         pygame.mixer.music.pause()
