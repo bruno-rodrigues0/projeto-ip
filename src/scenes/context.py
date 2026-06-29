@@ -1,5 +1,7 @@
 from scenes.scene import Scene
 from components.items_info import ItemInfo, AVALIABLE_ITEMS
+from entities.bosses.bosses_info import AVALIABLE_BOSSES
+from entities.boss import Boss
 
 class Context:
     """
@@ -14,6 +16,7 @@ class Context:
     paused: bool = False
     battle_state: str = "battle_menu"
     item_used: ItemInfo
-    items = AVALIABLE_ITEMS
+    items = AVALIABLE_ITEMS #TODO: Mudar para ITEMS (indicando imutabilidade)
     deaths: int = 0
-
+    BOSSES = AVALIABLE_BOSSES
+    boss_idx: int = 0
