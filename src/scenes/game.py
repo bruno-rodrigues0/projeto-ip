@@ -21,7 +21,7 @@ from utilities import languages
 
 MAX_VEL = 200
 
-BOSS_ANIMATION = (Context.BOSSES[Context.boss_idx]).sprite_animation
+BOSS_ANIMATION = Context.BOSS.sprite_animation
 PLAYER = Player(
     pygame.transform.scale_by(assets.S_HEART, 0.8),
     const.WINDOW_CENTRE[0] - 5,

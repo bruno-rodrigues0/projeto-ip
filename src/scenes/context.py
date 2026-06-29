@@ -16,7 +16,7 @@ class Context:
     paused: bool = False
     battle_state: str = "battle_menu"
     item_used: ItemInfo
-    items = AVALIABLE_ITEMS #TODO: Mudar para ITEMS (indicando imutabilidade)
+    items = AVALIABLE_ITEMS
     deaths: int = 0
-    BOSSES = AVALIABLE_BOSSES
     boss_idx: int = 0
+    BOSS: Boss = AVALIABLE_BOSSES[boss_idx]
