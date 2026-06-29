@@ -97,34 +97,17 @@ class Game(Scene):
 
         state = Context.battle_state
         _STATE_MAP[state].execute(self, surface, dt, action_buffer)
-        # match state:
-        #     case "battle_menu":
-        #         BattleMenu.execute(self, surface, dt, action_buffer)
-        #     case "attack":
-        #         Attack.execute(self, surface, dt, action_buffer)
-        #     case "check":
-        #         Check.execute(self, surface, dt, action_buffer)
-        #     case "talk":
-        #         Talk.execute(self, surface, dt, action_buffer)
-        #     case "fight":
-        #         Fight.execute(self, surface, dt, action_buffer)
-        #     case "act":
-        #         Act.execute(self, surface, dt, action_buffer)
-        #     case "item":
-        #         Item.execute(self, surface, dt, action_buffer)
-        #     case "item_used":
-        #         ItemUsed.execute(self, surface, dt, action_buffer)
 
-        draw_hp(surface, PLAYER)
+        draw_stats(surface, PLAYER)
 
     def exit(self) -> None:
         pygame.mixer.music.pause()
 
 
-def draw_hp(surface: pygame.Surface, player: Player) -> None:
+def draw_stats(surface: pygame.Surface, player: Player) -> None:
     hp_text = assets.F_JERSEY10.render("HP", True, const.WHITE)
     hp_initial_pos = (
-        const.WINDOW_CENTRE[0] - (hp_text.get_size()[0] + 10 + 150 + 77) // 2,
+        const.WINDOW_CENTRE[0] - 300,
         const.WINDOW_CENTRE[1] + 210,
     )
     hp_yellow = pygame.draw.rect(
@@ -136,5 +119,11 @@ def draw_hp(surface: pygame.Surface, player: Player) -> None:
         (hp_yellow.right, hp_yellow.y, 150 * (1 - player.hp_percent), 30),
     )
     hp_values = assets.F_JERSEY10.render(f"{str(player.current_hp).rjust(3)} / {player.max_hp}", True, const.WHITE)
+
+    def_text = assets.F_JERSEY10.render(f"DEF: {PLAYER.defense}", True, const.WHITE)
+    damage_text = assets.F_JERSEY10.render(f"ATK: {PLAYER.damage}", True, const.WHITE)
+
+    surface.blit(def_text, (hp_initial_pos[0] + 300, const.WINDOW_CENTRE[1] + 210))
+    surface.blit(damage_text, (hp_initial_pos[0] + 400, const.WINDOW_CENTRE[1] + 210))
     surface.blit(hp_text, hp_initial_pos)
     surface.blit(hp_values, (hp_red.right + 10, hp_red.y))

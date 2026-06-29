@@ -104,10 +104,12 @@ class Fight(State):
                 if item.type == "healing":
                     game.player.heal(item.buff)
                     Context.collected_life_orbs += 1
-
                 elif item.type == "defense":
                     game.player.buff_defense(item.buff, 1)
                     Context.collected_defense_orbs += 1
+                elif item.type == "damage":
+                    game.player.buff_damage(item.buff, 2)
+                    Context.collected_damage_orbs += 1
 
         if game.has_collectable:
             COLLECTABLE.update(dt)
@@ -132,10 +134,14 @@ def spawn_collectable(dt: float) -> None:
     global COLLECTABLE
     assert COLLECTABLE.image is not None
 
-    types = ["healing", "defense"]
+    types = {
+        "healing": assets.S_LIFE,
+        "defense": assets.S_SHIELD,
+        "damage": assets.S_SWORD
+    }
 
-    COLLECTABLE.type = types[randint(0, 1)]
-    COLLECTABLE.image.fill(const.RED if COLLECTABLE.type == "healing" else const.CYAN)
+    COLLECTABLE.type = list(types.keys())[randint(0, 2)]
+    COLLECTABLE.image = types[COLLECTABLE.type]
     COLLECTABLE.x_ref = randint(ARENA_RECT.topleft[0] + 50, ARENA_RECT.topright[0] - 50)
     COLLECTABLE.y = const.WINDOW_CENTRE[1] - 30
     COLLECTABLE.update(dt)
