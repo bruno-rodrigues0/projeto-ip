@@ -59,6 +59,7 @@ INTERFACE = {
         "initial_menu": {
             "start": ["COMEÇAR", "CONTINUAR"],
             "options": "OPÇÕES",
+            "stats": "ESTATÍSTICAS",
             "quit": "SAIR DO JOGO"
         },
         "options_menu": {
@@ -76,6 +77,13 @@ INTERFACE = {
             "back": "VOLTAR",
             "enabled": "ATIVADO",
             "disabled": "DESATIVADO"
+        },
+        "stats": {
+            "game_time": "TEMPO DE JOGO",
+            "deaths": "MORTES",
+            "life_orbs": "ORBES DE VIDA",
+            "defense_orbs": "ORBES DE DEFESA",
+            "damage_orbs": "ORBES DE DANO",
         },
         "fight_menu": {
             "check": "Checar",
@@ -95,6 +103,7 @@ INTERFACE = {
         "initial_menu": {
             "start": ["START", "CONTINUE"],
             "options": "OPTIONS",
+            "stats": "STATS",
             "quit": "QUIT"
         },
         "options_menu": {
@@ -112,6 +121,13 @@ INTERFACE = {
             "back": "BACK",
             "enabled": "ENABLED",
             "disabled": "DISABLED"
+        },
+        "stats": {
+            "game_time": "GAME TIME",
+            "deaths": "DEATHS",
+            "life_orbs": "LIFE ORBS",
+            "defense_orbs": "DEFENSE ORBS",
+            "damage_orbs": "DAMAGE ORBS",
         },
         "fight_menu": {
             "check": "Check",

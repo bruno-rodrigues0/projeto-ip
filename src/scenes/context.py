@@ -1,6 +1,7 @@
 from scenes.scene import Scene
 from components.items_info import ItemInfo, AVALIABLE_ITEMS
 
+
 class Context:
     """
     Persistent data betwen scenes.

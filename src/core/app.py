@@ -193,8 +193,10 @@ def terminate(surface: pygame.Surface, initial_time: float) -> None:
 
     statistics.data["game_time"] += int(game_time)
     statistics.data["deaths"] += Context.deaths
+    statistics.data["life_orbs"] += Context.collected_life_orbs
+    statistics.data["damage_orbs"] += Context.collected_damage_orbs
+    statistics.data["defense_orbs"] += Context.collected_defense_orbs
     statistics.save_file()
-    print(statistics.data) # colocar na tela final
 
     pygame.quit()
     raise SystemExit

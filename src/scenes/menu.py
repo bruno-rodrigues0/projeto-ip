@@ -9,6 +9,7 @@ from scenes.context import Context
 from scenes.scene import Scene
 import scenes.intro
 import scenes.settings
+import scenes.stats
 from utilities import languages
 
 
@@ -29,24 +30,28 @@ class Menu(Scene):
         action_buffer: input.InputBuffer,
     ) -> None:
         config = Config()
-        interface_texts = languages.INTERFACE[config.data["lang"]]
+        interface = languages.INTERFACE[config.data["lang"]]
 
         menu_options = [
-            interface_texts["initial_menu"]["start"][1] if Context.paused else interface_texts["initial_menu"]["start"][0],
-            interface_texts["initial_menu"]["options"],
-            interface_texts["initial_menu"]["quit"]
+            interface["initial_menu"]["start"][1] if Context.paused else interface["initial_menu"]["start"][0],
+            interface["initial_menu"]["options"],
+            interface["initial_menu"]["stats"],
+            interface["initial_menu"]["quit"]
         ]
 
         if action_buffer[input.Action.DOWN] == input.InputState.PRESSED:
-            self.selected_option = (self.selected_option + 1) % 3
+            self.selected_option = (self.selected_option + 1) % len(menu_options)
             assets.SFX_MASTER.audios["move_selection"].play()
         if action_buffer[input.Action.UP] == input.InputState.PRESSED:
-            self.selected_option = (self.selected_option - 1) % 3
+            self.selected_option = (self.selected_option - 1) % len(menu_options)
             assets.SFX_MASTER.audios["move_selection"].play()
 
         if action_buffer[input.Action.A] == input.InputState.PRESSED:
             assets.SFX_MASTER.audios["select_option"].play()
-            if self.selected_option == 0: # play
+            if (
+                self.selected_option == menu_options.index(interface["initial_menu"]["start"][0])
+                if not Context.paused else self.selected_option == menu_options.index(interface["initial_menu"]["start"][1])
+            ):
                 # If paused, back to last_scene, else go to Intro scene
                 if Context.paused:
                     self.statemachine.change_state(Context.last_scene)
@@ -55,9 +60,11 @@ class Menu(Scene):
                     Context.last_scene = Menu # type: ignore
                     self.statemachine.change_state(scenes.intro.Intro)  # type: ignore
                 return
-            elif self.selected_option == 1: # settings
+            elif self.selected_option == menu_options.index(interface["initial_menu"]["options"]):
                 self.statemachine.change_state(scenes.settings.Settings)
-            else: #quit
+            elif self.selected_option == menu_options.index(interface["initial_menu"]["stats"]):
+                self.statemachine.change_state(scenes.stats.Stats)
+            else:
                 pygame.event.post(pygame.Event(pygame.QUIT))
                 return
 
@@ -83,7 +90,7 @@ class Menu(Scene):
             pos = (
                 const.WINDOW_CENTRE[0]
                 - assets.F_JERSEY10_MEDIUM.size(option)[0] // 2,
-                title2_text_pos[1] + 300 + 50 * (i),
+                title2_text_pos[1] + 250 + 50 * (i),
             )
 
             if self.selected_option == i:
