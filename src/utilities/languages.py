@@ -60,6 +60,7 @@ INTERFACE = {
             "start": ["COMEÇAR", "CONTINUAR"],
             "options": "OPÇÕES",
             "stats": "ESTATÍSTICAS",
+            "achievements": "CONQUISTAS",
             "quit": "SAIR DO JOGO"
         },
         "options_menu": {
@@ -96,6 +97,14 @@ INTERFACE = {
             "hee_hee": "Hee-Hee",
             "moonwalk": "Moonwalk",
         },
+        "achievements": {
+            "you_are_god": "Você é Deus",
+            "defeat_michael": "Derrote Michael",
+            "defeat_chapolin": "Derrote Chapolin",
+            "no_item": "Sem itens",
+            "shit": "Bosta",
+            "locked": "BLOQUEADO"
+        },
         "skip": "Aperte ESC para pular"
     },
 
@@ -104,6 +113,7 @@ INTERFACE = {
             "start": ["START", "CONTINUE"],
             "options": "OPTIONS",
             "stats": "STATS",
+            "achievements": "ACHIEVEMENTS",
             "quit": "QUIT"
         },
         "options_menu": {
@@ -139,6 +149,14 @@ INTERFACE = {
             "strength": "Biceps",
             "hee_hee": "Hee-Hee",
             "moonwalk": "Moonwalk",
+        },
+        "achievements": {
+            "you_are_god": "You are God",
+            "defeat_michael": "Defeat Michael",
+            "defeat_chapolin": "Defeat Chapolin",
+            "no_item": "No items",
+            "shit": "Shit",
+            "locked": "LOCKED"
         },
         "skip": "Press ESC to skip"
     },
