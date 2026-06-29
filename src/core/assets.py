@@ -46,6 +46,10 @@ S_PILLAR = pygame.transform.scale(
     ),
 ).convert_alpha()
 
+S_SHIELD = pygame.image.load(ROOT_DIR / "src/assets/img/shield.png").convert_alpha()
+S_SWORD = pygame.image.load(ROOT_DIR / "src/assets/img/sword.png").convert_alpha()
+S_LIFE = pygame.image.load(ROOT_DIR / "src/assets/img/life.png").convert_alpha()
+
 # WARN sprite generico pra teste, adicione sprites para cada ataque
 S_ENEMY_ATTACK = pygame.Surface((25, 25)).convert_alpha()
 S_ENEMY_ATTACK.fill(const.WHITE)

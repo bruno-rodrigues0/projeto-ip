@@ -135,13 +135,13 @@ def spawn_collectable(dt: float) -> None:
     assert COLLECTABLE.image is not None
 
     types = {
-        "healing": const.RED,
-        "defense": const.CYAN,
-        "damage": const.WHITE
+        "healing": assets.S_LIFE,
+        "defense": assets.S_SHIELD,
+        "damage": assets.S_SWORD
     }
 
     COLLECTABLE.type = list(types.keys())[randint(0, 2)]
-    COLLECTABLE.image.fill(types[COLLECTABLE.type])
+    COLLECTABLE.image = types[COLLECTABLE.type]
     COLLECTABLE.x_ref = randint(ARENA_RECT.topleft[0] + 50, ARENA_RECT.topright[0] - 50)
     COLLECTABLE.y = const.WINDOW_CENTRE[1] - 30
     COLLECTABLE.update(dt)
