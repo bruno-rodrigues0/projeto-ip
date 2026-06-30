@@ -6,6 +6,7 @@ import core.assets as assets
 from scenes.scene import Scene
 from scenes.context import Context
 from core.input import InputBuffer, InputState, Action
+from components.statistics import Statistics
 
 
 class Victory(Scene):
@@ -89,9 +90,10 @@ class Victory(Scene):
 
 
 def reset_match() -> None:
-    #zera os coletaveis e a vida do player e do boss
     import scenes.game
     import entities.player
+
+    statistics = Statistics()
 
     # Restaura o player
     pygame.mixer.music.rewind()
@@ -105,6 +107,13 @@ def reset_match() -> None:
 
     # Restaura o boss
     Context.BOSS.current_hp = Context.BOSS.max_hp
+
+    # Salva os dados
+    statistics.data["deaths"] += Context.deaths
+    statistics.data["life_orbs"] += Context.collected_life_orbs
+    statistics.data["damage_orbs"] += Context.collected_damage_orbs
+    statistics.data["defense_orbs"] += Context.collected_defense_orbs
+    statistics.save_file()
 
     # Zera os contadores da partida
     Context.collected_life_orbs = 0

@@ -139,7 +139,7 @@ class Fight(State):
             E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
             for proj in E_ATTACK.projectiles:
                 enemy_group.add(proj)
-            game.statemachine.change_state(scenes.gameover.GameOver)  # type: ignore
+            Context.battle_state = "gameover_cutscene"
             return
 
         surface.blit(game.player.image, game.player.get_pos())
