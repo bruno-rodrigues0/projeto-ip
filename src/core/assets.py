@@ -78,6 +78,7 @@ SFX_MASTER.load("player_attack", ROOT_DIR / "src/assets/sfx/player_attack.mp3")
 F_JERSEY10_SMALL = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 18)
 F_JERSEY10 = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 28)
 F_JERSEY10_MEDIUM = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 36)
+F_JERSEY10_MEDIUM_LARGE = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 54)
 F_JERSEY10_LARGE = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 80)
 
 S_CIRCLE_ATTACK = pygame.Surface((24, 24)).convert_alpha()
