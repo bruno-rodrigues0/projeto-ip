@@ -8,6 +8,8 @@ import core.constants as const
 import core.assets as assets
 from core.input import InputBuffer, InputState, Action
 import scenes.menu
+import scenes.gameover
+import scenes.victory
 from entities.player import Player
 from scenes.scene import Scene
 from scenes.context import Context
@@ -96,6 +98,20 @@ class Game(Scene):
 
         state = Context.battle_state
         _STATE_MAP[state].execute(self, surface, dt, action_buffer)
+
+
+        #Game over - player perdeu
+        if self.player.current_hp <= 0:
+            Context.deaths += 1
+            self.statemachine.change_state(scenes.gameover.GameOver)  # type: ignore
+            return
+
+        #Vitoria
+        if Context.BOSS.current_hp <= 0:
+            self.statemachine.change_state(scenes.victory.Victory)  # type: ignore
+            return
+
+
 
         draw_stats(surface, PLAYER)
 
