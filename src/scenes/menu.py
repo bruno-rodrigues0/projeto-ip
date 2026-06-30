@@ -20,9 +20,11 @@ class Menu(Scene):
     """
 
     def enter(self) -> None:
+        pygame.time.wait(1000)
         self.selected_option = 0
         for audio in assets.SFX_MASTER.audios:
             assets.SFX_MASTER.audios[audio].stop()
+        assets.SFX_MASTER.audios["intro_menu_sound"].play()
 
     def execute(
         self,
