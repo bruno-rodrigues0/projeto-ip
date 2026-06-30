@@ -1,4 +1,6 @@
 import pygame
+from components.config import Config
+from components.dialog_printer import DialogConfig, DialogPrinter
 import scenes.menu
 import core.constants as const
 import core.assets as assets
@@ -7,12 +9,17 @@ from components.statistics import Statistics
 from scenes.scene import Scene
 from scenes.context import Context
 from core.input import InputBuffer, InputState, Action
+from utilities import languages
 
 
 class GameOver(Scene):
     def enter(self) -> None:
         self.selected_option = 'retry'
-        self.tempo = 0.0                       # digitando
+        self.config = Config()
+        printer_config = DialogConfig(20, 150, const.WHITE)
+        self.printer = DialogPrinter(["HEE HEE"], printer_config)
+        self.interface = languages.INTERFACE[self.config.data["lang"]]
+        pygame.time.wait(10)
         assets.SFX_MASTER.audios["hee_hee"].play()
 
     def execute(
@@ -46,35 +53,36 @@ class GameOver(Scene):
         )
         surface.blit(game_over_text, game_over_pos)
 
-        # "-HEE HEE" aparecendo letra por letra
-        self.tempo += dt
-        texto_completo = "-HEE HEE"
-        VELOCIDADE = 8                         # letras por segundo
-        n_letras = int(self.tempo * VELOCIDADE)
-        texto_visivel = texto_completo[:min(n_letras, len(texto_completo))]
 
-        hee_text = assets.F_JERSEY10_MEDIUM.render(texto_visivel, True, const.WHITE)
         hee_pos = (
-            const.WINDOW_CENTRE[0] - hee_text.get_width() // 2,
+            const.WINDOW_CENTRE[0] - 40,
             game_over_pos[1] + 90,
         )
-        surface.blit(hee_text, hee_pos)
+        self.printer.update()
+        self.printer.draw(surface, assets.F_JERSEY10_MEDIUM, hee_pos)
 
-        # OPÇÕES: amarela na selecionada, branca na outra
         retry_pos = (
-            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size("VOLTAR AO MENU")[0] // 2,
+            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(self.interface["initial_menu"]["back_menu"])[0] // 2,
             const.WINDOW_CENTRE[1] + 60,
         )
         quit_pos = (
-            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size("SAIR DO JOGO")[0] // 2,
+            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(self.interface["initial_menu"]["quit"])[0] // 2,
             retry_pos[1] + 50,
         )
 
-        retry_color = const.YELLOW if self.selected_option == 'retry' else const.WHITE
-        quit_color = const.YELLOW if self.selected_option == 'quit' else const.WHITE
+        heart_pos = (0, 0)
 
-        retry_text = assets.F_JERSEY10_MEDIUM.render("TENTAR DE NOVO", True, retry_color)
-        quit_text = assets.F_JERSEY10_MEDIUM.render("SAIR DO JOGO", True, quit_color)
+        retry_color = const.YELLOW if self.selected_option == 'retry' else const.ORANGE
+        quit_color = const.YELLOW if self.selected_option == 'quit' else const.ORANGE
+
+        if self.selected_option == "retry":
+            heart_pos = (retry_pos[0] - 40, retry_pos[1] + 7)
+        else:
+            heart_pos = (quit_pos[0] - 40, quit_pos[1] + 7)
+
+        retry_text = assets.F_JERSEY10_MEDIUM.render(self.interface["initial_menu"]["back_menu"], True, retry_color)
+        quit_text = assets.F_JERSEY10_MEDIUM.render(self.interface["initial_menu"]["quit"], True, quit_color)
+        surface.blit(assets.S_HEART, heart_pos)
         surface.blit(retry_text, retry_pos)
         surface.blit(quit_text, quit_pos)
 

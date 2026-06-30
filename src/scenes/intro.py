@@ -67,6 +67,7 @@ class IntroDialog(Scene):
                 assets.SFX_MASTER.audios["talking_long"].play(-1)
             elif self.printer.finished:
                 # Última página já estava concluída e não tem mais texto
+                Context.start_time = pygame.time.get_ticks()
                 self.statemachine.change_state(scenes.game.Game)  # type: ignore
                 return
             else:
