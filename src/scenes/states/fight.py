@@ -1,15 +1,17 @@
 import random
 import pygame
-from random import randint
-
+import scenes.gameover
 import core.assets as assets
 import core.constants as const
+
+from random import randint
 from core.input import InputBuffer
 from components.statemachine import State
 from components.object import SimulatedObject
 from entities.bosses.michael_jackson.attacks.attack_list import ATTACK_LIST
 from entities.collectable import Collectable
 from scenes.context import Context
+
 
 MAX_VEL = 220
 
@@ -124,6 +126,21 @@ class Fight(State):
 
         for _enemy in collided_enemies:
             game.player.take_damage(1 * dt)
+
+        #Game over
+        if game.player.current_hp <= 0:
+            Context.deaths += 1
+            Context.paused = False
+            ellapsed_time = 0
+            enemy_group.empty()
+            collectable_group.empty()
+            game.has_collectable = False
+            E_ATTACK.projectiles.clear()
+            E_ATTACK = ATTACK_LIST[randint(0, len(ATTACK_LIST) - 1)]()
+            for proj in E_ATTACK.projectiles:
+                enemy_group.add(proj)
+            game.statemachine.change_state(scenes.gameover.GameOver)  # type: ignore
+            return
 
         surface.blit(game.player.image, game.player.get_pos())
         arena_group.draw(surface)

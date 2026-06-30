@@ -43,7 +43,7 @@ class Victory(Scene):
         surface.fill(const.BLACK)
 
         # "VITÓRIA" grande, em amarelo, centralizado
-        title = assets.F_JERSEY10_LARGE.render("VITORIA!", True, const.YELLOW)
+        title = assets.F_JERSEY10_LARGE.render("VITÓRIA!", True, const.YELLOW)
         title_pos = (
             const.WINDOW_CENTRE[0] - title.get_width() // 2,
             80,
@@ -51,7 +51,7 @@ class Victory(Scene):
         surface.blit(title, title_pos)
 
         # Subtítulo
-        subtitle = assets.F_JERSEY10_MEDIUM.render("Voce derrotou Michael Jackson", True, const.WHITE)
+        subtitle = assets.F_JERSEY10_MEDIUM.render("Você derrotou Michael Jackson", True, const.WHITE)
         surface.blit(
             subtitle,
             (const.WINDOW_CENTRE[0] - subtitle.get_width() // 2, title_pos[1] + 100),
@@ -94,7 +94,10 @@ def reset_match() -> None:
     import entities.player
 
     # Restaura o player
+    pygame.mixer.music.rewind()
     player = scenes.game.PLAYER
+    player.x = const.WINDOW_CENTRE[0]
+    player.y = const.WINDOW_CENTRE[1] + 60
     player.current_hp = player.max_hp
     player.hp_percent = 1.0
     player.damage = player._initial_damage

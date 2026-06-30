@@ -1,7 +1,6 @@
 import pygame
 from random import randint
 
-from components.animation import AnimationPlayer
 from components.dialog_printer import DialogPrinter, DialogConfig
 from components.config import Config
 import core.constants as const
@@ -96,18 +95,15 @@ class Game(Scene):
         for i in range(0, 6, 2):
             surface.blit(assets.S_MENU_OPTIONS[i], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
 
+
         state = Context.battle_state
         _STATE_MAP[state].execute(self, surface, dt, action_buffer)
 
 
-        #Game over - player perdeu
-        if self.player.current_hp <= 0:
-            Context.deaths += 1
-            self.statemachine.change_state(scenes.gameover.GameOver)  # type: ignore
-            return
 
         #Vitoria
         if Context.BOSS.current_hp <= 0:
+            Context.paused = False
             self.statemachine.change_state(scenes.victory.Victory)  # type: ignore
             return
 
