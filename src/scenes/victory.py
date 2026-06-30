@@ -37,7 +37,7 @@ class Victory(Scene):
                 self.statemachine.change_state(scenes.menu.Menu)  # type: ignore
                 return
             else:
-                pygame.event.post(pygame.Event(pygame.QUIT))
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
                 return
 
         # FUNDO preto
@@ -69,7 +69,7 @@ class Victory(Scene):
 
         # OPÇÕES: amarela na selecionada, branca na outra
         retry_pos = (
-            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size("JOGAR DE NOVO")[0] // 2,
+            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size("VOLTAR AO MENU")[0] // 2,
             const.WINDOW_HEIGHT - 130,
         )
         quit_pos = (
@@ -119,5 +119,6 @@ def reset_match() -> None:
     Context.collected_life_orbs = 0
     Context.collected_defense_orbs = 0
     Context.collected_damage_orbs = 0
+    Context.deaths = 0
     Context.used_items = []
     Context.battle_state = "battle_menu"
