@@ -1,7 +1,8 @@
 import pygame
-
+import scenes.menu
 import core.constants as const
 import core.assets as assets
+
 from scenes.scene import Scene
 from scenes.context import Context
 from core.input import InputBuffer, InputState, Action
@@ -32,12 +33,11 @@ class Victory(Scene):
         if action_buffer[Action.A] == InputState.PRESSED:
             if self.selected_option == 'retry':
                 reset_match()
-                import scenes.menu
                 self.statemachine.change_state(scenes.menu.Menu)  # type: ignore
                 return
             else:
-                pygame.quit()
-                raise SystemExit
+                pygame.event.post(pygame.Event(pygame.QUIT))
+                return
 
         # FUNDO preto
         surface.fill(const.BLACK)
