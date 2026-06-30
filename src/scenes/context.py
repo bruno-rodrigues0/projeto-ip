@@ -9,6 +9,7 @@ class Context:
     Persistent data betwen scenes.
     """
 
+    start_time: int = 0
     used_items: list[ItemInfo] = []
     dialog_text: list[str] = []
     collected_life_orbs: int = 0

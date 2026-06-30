@@ -1,4 +1,5 @@
 import pygame
+from components.config import Config
 import scenes.menu
 import core.constants as const
 import core.assets as assets
@@ -7,16 +8,25 @@ from scenes.scene import Scene
 from scenes.context import Context
 from core.input import InputBuffer, InputState, Action
 from components.statistics import Statistics
+from utilities import languages
 
 
 class Victory(Scene):
     def enter(self) -> None:
+        self.config = Config()
         self.selected_option = 'retry'
-        # Guarda o score da partida antes de qualquer reset, para colocar na tela
+        self.interface = languages.INTERFACE[self.config.data["lang"]]
+
+        final_time = pygame.time.get_ticks()
+        session_time = (final_time - Context.start_time) / 1000.0
+        min = session_time < 3600
+        session_time = session_time / 60 if session_time < 3600 else session_time / 3600
+        session_time = f"{session_time:.1f} {'min' if min else 'h'}"
         self.score = {
-            "Orbes de vida": Context.collected_life_orbs,
-            "Orbes de defesa": Context.collected_defense_orbs,
-            "Orbes de dano": Context.collected_damage_orbs,
+            self.interface["victory"]["session_time"]: session_time,
+            self.interface["stats"]["life_orbs"]: Context.collected_life_orbs,
+            self.interface["stats"]["defense_orbs"]: Context.collected_defense_orbs,
+            self.interface["stats"]["damage_orbs"]: Context.collected_damage_orbs,
         }
         assets.SFX_MASTER.audios["undertale"].play()
 
@@ -40,19 +50,16 @@ class Victory(Scene):
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
                 return
 
-        # FUNDO preto
         surface.fill(const.BLACK)
 
-        # "VITÓRIA" grande, em amarelo, centralizado
-        title = assets.F_JERSEY10_LARGE.render("VITÓRIA!", True, const.YELLOW)
+        title = assets.F_JERSEY10_LARGE.render(self.interface["victory"]["title"], True, const.YELLOW)
         title_pos = (
             const.WINDOW_CENTRE[0] - title.get_width() // 2,
             80,
         )
         surface.blit(title, title_pos)
 
-        # Subtítulo
-        subtitle = assets.F_JERSEY10_MEDIUM.render("Você derrotou Michael Jackson", True, const.WHITE)
+        subtitle = assets.F_JERSEY10_MEDIUM.render(self.interface["victory"]["subtitle"], True, const.WHITE)
         surface.blit(
             subtitle,
             (const.WINDOW_CENTRE[0] - subtitle.get_width() // 2, title_pos[1] + 100),
@@ -67,21 +74,29 @@ class Victory(Scene):
                 (const.WINDOW_CENTRE[0] - line.get_width() // 2, score_y + 40 * i),
             )
 
-        # OPÇÕES: amarela na selecionada, branca na outra
+        heart_pos = (0, 0)
         retry_pos = (
-            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size("VOLTAR AO MENU")[0] // 2,
+            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(self.interface["initial_menu"]["back_menu"])[0] // 2,
             const.WINDOW_HEIGHT - 130,
         )
         quit_pos = (
-            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size("SAIR DO JOGO")[0] // 2,
+            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(self.interface["initial_menu"]["quit"])[0] // 2,
             retry_pos[1] + 50,
         )
 
-        retry_color = const.YELLOW if self.selected_option == 'retry' else const.WHITE
-        quit_color = const.YELLOW if self.selected_option == 'quit' else const.WHITE
 
-        retry_text = assets.F_JERSEY10_MEDIUM.render("JOGAR DE NOVO", True, retry_color)
-        quit_text = assets.F_JERSEY10_MEDIUM.render("SAIR DO JOGO", True, quit_color)
+        retry_color = const.YELLOW if self.selected_option == 'retry' else const.ORANGE
+        quit_color = const.YELLOW if self.selected_option == 'quit' else const.ORANGE
+
+        retry_text = assets.F_JERSEY10_MEDIUM.render(self.interface["initial_menu"]["back_menu"], True, retry_color)
+        quit_text = assets.F_JERSEY10_MEDIUM.render(self.interface["initial_menu"]["quit"], True, quit_color)
+
+        if self.selected_option == "retry":
+            heart_pos = (retry_pos[0] - 40, retry_pos[1] + 7)
+        else:
+            heart_pos = (quit_pos[0] - 40, quit_pos[1] + 7)
+
+        surface.blit(assets.S_HEART, heart_pos)
         surface.blit(retry_text, retry_pos)
         surface.blit(quit_text, quit_pos)
 

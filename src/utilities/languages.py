@@ -61,6 +61,7 @@ INTERFACE = {
             "options": "OPÇÕES",
             "stats": "ESTATÍSTICAS",
             "achievements": "CONQUISTAS",
+            "back_menu": "VOLTAR AO MENU",
             "quit": "SAIR DO JOGO"
         },
         "options_menu": {
@@ -105,6 +106,11 @@ INTERFACE = {
             "shit": "Bosta",
             "locked": "BLOQUEADO"
         },
+        "victory": {
+            "title": "VITÓRIA!",
+            "subtitle": "Você derrotou Michael Jackson.",
+            "session_time": "TEMPO NA SESSÃO",
+        },
         "skip": "Aperte ESC para pular"
     },
 
@@ -114,6 +120,7 @@ INTERFACE = {
             "options": "OPTIONS",
             "stats": "STATS",
             "achievements": "ACHIEVEMENTS",
+            "back_menu": "BACK TO MENU",
             "quit": "QUIT"
         },
         "options_menu": {
@@ -157,6 +164,11 @@ INTERFACE = {
             "no_item": "No items",
             "shit": "Shit",
             "locked": "LOCKED"
+        },
+        "victory": {
+            "title": "VICTORY!",
+            "subtitle": "You defeated Michael Jackson.",
+            "session_time": "SESSION TIME",
         },
         "skip": "Press ESC to skip"
     },
