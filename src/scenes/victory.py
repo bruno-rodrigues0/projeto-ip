@@ -69,7 +69,7 @@ class Victory(Scene):
 
         # OPÇÕES: amarela na selecionada, branca na outra
         retry_pos = (
-            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size("JOGAR DE NOVO")[0] // 2,
+            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size("VOLTAR AO MENU")[0] // 2,
             const.WINDOW_HEIGHT - 130,
         )
         quit_pos = (
