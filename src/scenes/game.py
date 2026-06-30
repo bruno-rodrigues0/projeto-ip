@@ -8,6 +8,7 @@ import core.assets as assets
 from core.input import InputBuffer, InputState, Action
 import scenes.menu
 import scenes.gameover
+from scenes.states.gameover_cutscene import GameOverCutscene
 import scenes.victory
 from entities.player import Player
 from scenes.scene import Scene
@@ -40,6 +41,7 @@ _STATE_MAP = {
     "fight":       Fight,
     "item":        Item,
     "item_used":   ItemUsed,
+    "gameover_cutscene": GameOverCutscene,
 }
 
 
@@ -108,8 +110,8 @@ class Game(Scene):
             return
 
 
-
-        draw_stats(surface, PLAYER)
+        if state != "gameover_cutscene":
+            draw_stats(surface, PLAYER)
 
     def exit(self) -> None:
         pygame.mixer.music.pause()
