@@ -87,7 +87,10 @@ def reset_match() -> None:
     import entities.player
 
     # Restaura o player
+    pygame.mixer.music.rewind()
     player = scenes.game.PLAYER
+    player.x = const.WINDOW_CENTRE[0]
+    player.y = const.WINDOW_CENTRE[1] + 60
     player.current_hp = player.max_hp
     player.hp_percent = 1.0
     player.damage = player._initial_damage
