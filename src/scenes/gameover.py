@@ -1,5 +1,7 @@
 import pygame
 
+from components import statistics
+from components.statistics import Statistics
 import core.constants as const
 import core.assets as assets
 from scenes.scene import Scene
@@ -82,11 +84,11 @@ class GameOver(Scene):
 
 
 def reset_match() -> None:
-    #zera os coletaveis e a vida do player e do boss
     import scenes.game
     import entities.player
 
     # Restaura o player
+    statistics = Statistics()
     pygame.mixer.music.rewind()
     player = scenes.game.PLAYER
     player.x = const.WINDOW_CENTRE[0]
@@ -98,6 +100,13 @@ def reset_match() -> None:
 
     # Restaura o boss
     Context.BOSS.current_hp = Context.BOSS.max_hp
+
+    # Salva os dados
+    statistics.data["deaths"] += Context.deaths
+    statistics.data["life_orbs"] += Context.collected_life_orbs
+    statistics.data["damage_orbs"] += Context.collected_damage_orbs
+    statistics.data["defense_orbs"] += Context.collected_defense_orbs
+    statistics.save_file()
 
     # Zera os contadores da partida
     Context.collected_life_orbs = 0
