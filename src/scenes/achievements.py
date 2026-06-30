@@ -1,5 +1,3 @@
-from os import confstr
-
 import pygame
 import scenes.menu
 import core.assets as assets
