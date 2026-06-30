@@ -31,8 +31,8 @@ class GameOver(Scene):
                 self.statemachine.change_state(scenes.menu.Menu)  # type: ignore
                 return
             else:
-                pygame.quit()
-                raise SystemExit
+                pygame.event.post(pygame.Event(pygame.QUIT))
+                return
 
         # FUNDO preto
         surface.fill(const.BLACK)
@@ -45,7 +45,7 @@ class GameOver(Scene):
         )
         surface.blit(game_over_text, game_over_pos)
 
-        # "-HEE HEE" aparecendo letra por letra 
+        # "-HEE HEE" aparecendo letra por letra
         self.tempo += dt
         texto_completo = "-HEE HEE"
         VELOCIDADE = 8                         # letras por segundo
