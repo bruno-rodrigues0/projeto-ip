@@ -84,6 +84,7 @@ class Fight(State):
             game.player.update_buffs()
             game.player.x, game.player.y = (v - 5 for v in ARENA_RECT.center)
             Context.battle_state = "battle_menu"
+            Context.is_first_attack = False
             return
 
         current_second = int(ellapsed_time)
@@ -126,6 +127,7 @@ class Fight(State):
 
         for _enemy in collided_enemies:
             game.player.take_damage(1 * dt)
+            Context.has_taken_damage = True
 
         #Game over
         if game.player.current_hp <= 0:
