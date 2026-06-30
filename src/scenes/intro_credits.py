@@ -132,6 +132,7 @@ class IntroCredits(Scene):
     def handle_printer_writing(self, printer: DialogPrinter, now: int, delay: int):
         if not self.waiting:
             printer.update()
+            assets.SFX_MASTER.audios["intro_talking"].set_volume(0.08)
             assets.SFX_MASTER.audios["intro_talking"].play(-1)
 
             if printer.finished:
