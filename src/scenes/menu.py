@@ -69,7 +69,7 @@ class Menu(Scene):
             elif self.selected_option == menu_options.index(interface["initial_menu"]["achievements"]):
                 self.statemachine.change_state(scenes.achievements.Achievements)
             else:
-                pygame.event.post(pygame.Event(pygame.QUIT))
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
                 return
 
         surface.fill(const.BLACK)

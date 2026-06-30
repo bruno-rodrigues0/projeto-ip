@@ -36,7 +36,7 @@ class Victory(Scene):
                 self.statemachine.change_state(scenes.menu.Menu)  # type: ignore
                 return
             else:
-                pygame.event.post(pygame.Event(pygame.QUIT))
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
                 return
 
         # FUNDO preto
@@ -110,5 +110,6 @@ def reset_match() -> None:
     Context.collected_life_orbs = 0
     Context.collected_defense_orbs = 0
     Context.collected_damage_orbs = 0
+    Context.deaths = 0
     Context.used_items = []
     Context.battle_state = "battle_menu"
