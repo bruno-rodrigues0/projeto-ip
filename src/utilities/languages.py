@@ -12,6 +12,12 @@ DIALOGS = {
             "Ele está te observando calmamente, mas ele desconfia que você não é aquilo o que ouviu falar",
             "Você se enche de música"
         ],
+        "flowey_dialog": [
+            "Olá... você conseguiu chegar até aqui.",
+            "Eu sou Flowey, a flor que sempre esteve do seu lado.",
+            "Mesmo no meio do caos, ainda existe uma chance de recomeçar.",
+            "Então, o que você acha de dar mais um passo?"
+        ],
         "talk": [
             "Como você mesmo tão pequeno conseguiu fazer aquilo?",
             "Me chame de Lord, será a única coisa que você vai lembrar.",
@@ -28,9 +34,16 @@ DIALOGS = {
             "strength": "Você usou toda sua força! Seu ataque aumentou em 1.",
             "hee_hee": "Você imita 'Hee-Hee!' Perfeitamente. Seu ataque subiu em 50 no próximo turno!",
             "moonwalk": "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 10!",
-        }
+        },
+        "final_cutscene": [
+            "Talvez aquela flor não estivesse mentindo no final das contas.",
+            "Não fui páreo para sua força",
+            "Mas por que comçar a matar agora? Todos os monstros desse universo ainda estão vivos...",
+            "?",
+            "Entendo, realmente não pertenço a esse mundo.",
+            "Adeus..."
+        ]
     },
-
     "en_us": {
         "intro": [
             "So you're the kid that strange flower was talking about? Unfortunately, your crimes cannot be forgiven.",
@@ -43,6 +56,12 @@ DIALOGS = {
             "Michael Jackson does a Moonwalk while looking at you. It's creepy.",
             "He is watching you calmly, but he suspects you are not what you seem.",
             "You are filled with music."
+        ],
+        "flowey_dialog": [
+            "Hello... you made it this far.",
+            "I am Flowey, the flower who has always been by your side.",
+            "Even in the middle of chaos, there is still a chance to start over.",
+            "So, what do you say to take one more step?"
         ],
         "talk": [
             "How could you, so small, accomplish such a thing?",
@@ -60,19 +79,28 @@ DIALOGS = {
             "strength": "You used all your strength! Your attack damage increased by 1.",
             "hee_hee": "You imitate 'Hee-Hee!' perfectly. Your attack damage increased by 50 for the next turn!",
             "moonwalk": "You do a Moonwalk and move away from Michael. Your defense increased by 10!",
-        }
+        },
+        "final_cutscene": [
+            "Maybe that flower wasn't lying after all.",
+            "I was no match for your strength.",
+            "But why start killing now? All the monsters in this universe are still alive...",
+            "?",
+            "I understand, I really don't belong to this world.",
+            "Goodbye..."
+        ]
     },
 }
 
 INTERFACE = {
     "pt_br": {
+        "intro_credits": {"made_by": "UM JOGO FEITO POR:"},
         "initial_menu": {
             "start": ["COMEÇAR", "CONTINUAR"],
             "options": "OPÇÕES",
             "stats": "ESTATÍSTICAS",
             "achievements": "CONQUISTAS",
             "back_menu": "VOLTAR AO MENU",
-            "quit": "SAIR DO JOGO"
+            "quit": "SAIR DO JOGO",
         },
         "options_menu": {
             "master_volume": "VOLUME GERAL",
@@ -88,7 +116,7 @@ INTERFACE = {
             "save": "SALVAR",
             "back": "VOLTAR",
             "enabled": "ATIVADO",
-            "disabled": "DESATIVADO"
+            "disabled": "DESATIVADO",
         },
         "stats": {
             "game_time": "TEMPO DE JOGO",
@@ -111,27 +139,28 @@ INTERFACE = {
         "achievements": {
             "you_are_god": "Você é Deus",
             "defeat_michael": "Derrote Michael",
-            "defeat_chapolin": "Derrote Chapolin",
+            "no_damage": "Sem dano",
             "no_item": "Sem itens",
             "shit": "Bosta",
-            "locked": "BLOQUEADO"
+            "locked": "BLOQUEADO",
         },
         "victory": {
             "title": "VITÓRIA!",
             "subtitle": "Você derrotou Michael Jackson.",
             "session_time": "TEMPO NA SESSÃO",
+            "secret": "???",
         },
-        "skip": "Aperte ESC para pular"
+        "skip": "Aperte ESC para pular",
     },
-
     "en_us": {
+        "intro_credits": {"made_by": "A GAME MADE BY:"},
         "initial_menu": {
             "start": ["START", "CONTINUE"],
             "options": "OPTIONS",
             "stats": "STATS",
             "achievements": "ACHIEVEMENTS",
             "back_menu": "BACK TO MENU",
-            "quit": "QUIT"
+            "quit": "QUIT",
         },
         "options_menu": {
             "master_volume": "MASTER VOLUME",
@@ -147,7 +176,7 @@ INTERFACE = {
             "save": "SAVE",
             "back": "BACK",
             "enabled": "ENABLED",
-            "disabled": "DISABLED"
+            "disabled": "DISABLED",
         },
         "stats": {
             "game_time": "GAME TIME",
@@ -170,16 +199,17 @@ INTERFACE = {
         "achievements": {
             "you_are_god": "You are God",
             "defeat_michael": "Defeat Michael",
-            "defeat_chapolin": "Defeat Chapolin",
+            "no_damage": "No damage",
             "no_item": "No items",
             "shit": "Shit",
-            "locked": "LOCKED"
+            "locked": "LOCKED",
         },
         "victory": {
             "title": "VICTORY!",
             "subtitle": "You defeated Michael Jackson.",
             "session_time": "SESSION TIME",
+            "secret": "???",
         },
-        "skip": "Press ESC to skip"
+        "skip": "Press ESC to skip",
     },
 }

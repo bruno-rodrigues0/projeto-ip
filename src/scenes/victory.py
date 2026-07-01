@@ -1,5 +1,6 @@
 import pygame
 from components.config import Config
+import scenes.flowey
 import scenes.menu
 import core.constants as const
 import core.assets as assets
@@ -38,17 +39,29 @@ class Victory(Scene):
     ) -> None:
         #troca a opção e confirma
         if action_buffer[Action.DOWN] == InputState.PRESSED:
-            self.selected_option = 'quit'
+            if self.selected_option == 'retry':
+                self.selected_option = 'secret'
+            elif self.selected_option == 'secret':
+                self.selected_option = 'quit'
+            else:
+                self.selected_option = 'retry'
         if action_buffer[Action.UP] == InputState.PRESSED:
-            self.selected_option = 'retry'
+            if self.selected_option == 'retry':
+                self.selected_option = 'quit'
+            elif self.selected_option == 'secret':
+                self.selected_option = 'retry'
+            else:
+                self.selected_option = 'secret'
         if action_buffer[Action.A] == InputState.PRESSED:
             if self.selected_option == 'retry':
                 reset_match()
                 self.statemachine.change_state(scenes.menu.Menu)  # type: ignore
                 return
-            else:
-                pygame.event.post(pygame.event.Event(pygame.QUIT))
+            if self.selected_option == 'secret':
+                self.statemachine.change_state(scenes.flowey.FloweyIntro)  # type: ignore
                 return
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
+            return
 
         surface.fill(const.BLACK)
 
@@ -62,7 +75,7 @@ class Victory(Scene):
         subtitle = assets.F_JERSEY10_MEDIUM.render(self.interface["victory"]["subtitle"], True, const.WHITE)
         surface.blit(
             subtitle,
-            (const.WINDOW_CENTRE[0] - subtitle.get_width() // 2, title_pos[1] + 100),
+            (const.WINDOW_CENTRE[0] - subtitle.get_width() // 2, title_pos[1] + 70),
         )
 
         # SCORE da partida: itens coletados
@@ -77,27 +90,35 @@ class Victory(Scene):
         heart_pos = (0, 0)
         retry_pos = (
             const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(self.interface["initial_menu"]["back_menu"])[0] // 2,
-            const.WINDOW_HEIGHT - 130,
+            const.WINDOW_HEIGHT - 118,
+        )
+        secret_pos = (
+            const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(self.interface["victory"]["secret"])[0] // 2,
+            retry_pos[1] + 38,
         )
         quit_pos = (
             const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(self.interface["initial_menu"]["quit"])[0] // 2,
-            retry_pos[1] + 50,
+            secret_pos[1] + 38,
         )
 
-
         retry_color = const.YELLOW if self.selected_option == 'retry' else const.ORANGE
+        secret_color = const.YELLOW if self.selected_option == 'secret' else const.ORANGE
         quit_color = const.YELLOW if self.selected_option == 'quit' else const.ORANGE
 
         retry_text = assets.F_JERSEY10_MEDIUM.render(self.interface["initial_menu"]["back_menu"], True, retry_color)
+        secret_text = assets.F_JERSEY10_MEDIUM.render(self.interface["victory"]["secret"], True, secret_color)
         quit_text = assets.F_JERSEY10_MEDIUM.render(self.interface["initial_menu"]["quit"], True, quit_color)
 
         if self.selected_option == "retry":
             heart_pos = (retry_pos[0] - 40, retry_pos[1] + 7)
+        elif self.selected_option == "secret":
+            heart_pos = (secret_pos[0] - 40, secret_pos[1] + 7)
         else:
             heart_pos = (quit_pos[0] - 40, quit_pos[1] + 7)
 
         surface.blit(assets.S_HEART, heart_pos)
         surface.blit(retry_text, retry_pos)
+        surface.blit(secret_text, secret_pos)
         surface.blit(quit_text, quit_pos)
 
     def exit(self) -> None:

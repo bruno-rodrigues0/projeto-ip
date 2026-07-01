@@ -13,6 +13,12 @@ S_COIN = pygame.image.load(ROOT_DIR / "src/assets/img/coin.png").convert_alpha()
 S_FRISK = slice_sheet(ROOT_DIR / "src/assets/img/frisk.png", 34, 58)
 for i, frame in enumerate(S_FRISK):
     S_FRISK[i] = pygame.transform.scale_by(frame, 1.4).convert_alpha()
+S_FLOWEY = slice_sheet(ROOT_DIR / "src/assets/img/flowey.png", 50, 25)
+for i, frame in enumerate(S_FLOWEY):
+    S_FLOWEY[i] = pygame.transform.scale_by(frame, 2.2).convert_alpha()
+S_FLOWEY_NICE = slice_sheet(ROOT_DIR / "src/assets/img/flowey_nice.png", 84, 44)
+for i, frame in enumerate(S_FLOWEY_NICE):
+    S_FLOWEY_NICE[i] = pygame.transform.scale_by(frame, 1.3).convert_alpha()
 S_MICHAEL = pygame.transform.scale_by(
     pygame.image.load(ROOT_DIR / "src/assets/img/michael.png"), 0.4
 ).convert_alpha()
