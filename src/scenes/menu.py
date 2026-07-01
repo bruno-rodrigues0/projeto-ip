@@ -18,11 +18,16 @@ class Menu(Scene):
     """
     Main/pause menu scene.
     """
-
+    is_start: bool = True
     def enter(self) -> None:
         self.selected_option = 0
         for audio in assets.SFX_MASTER.audios:
             assets.SFX_MASTER.audios[audio].stop()
+        
+        if Menu.is_start:
+            pygame.time.wait(1000)
+            assets.SFX_MASTER.audios["intro_menu_sound"].play()
+            Menu.is_start = False
 
     def execute(
         self,

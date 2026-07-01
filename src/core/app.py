@@ -11,7 +11,7 @@ from components.config import Config
 from components.statistics import Statistics
 from components.statemachine import StateMachine
 from scenes.context import Context
-from scenes.menu import Menu
+from scenes.intro_credits import IntroCredits
 from utilities.filters import chromatic_distortion, create_crt_mask
 
 
@@ -25,7 +25,7 @@ def run() -> None:
     assets.SFX_MASTER.update_volume()
     pygame.mixer.music.play(-1)
     pygame.mixer.music.pause()
-    scene_manager = StateMachine(Menu) # type: ignore
+    scene_manager = StateMachine(IntroCredits) # type: ignore
     crt_mask = create_crt_mask(const.WINDOW_WIDTH, const.WINDOW_HEIGHT)
     game_loop(setup.window, setup.clock, scene_manager, crt_mask)
 
