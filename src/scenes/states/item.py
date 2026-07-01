@@ -1,5 +1,4 @@
 import pygame
-from random import randint
 
 from components.statemachine import State
 from components.dialog_printer import DialogConfig
@@ -7,7 +6,6 @@ import core.assets as assets
 import core.constants as const
 from core.input import InputBuffer, InputState, Action
 from scenes.context import Context
-from entities.player import Player
 
 
 class ItemUsed(State):
