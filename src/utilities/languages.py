@@ -29,6 +29,13 @@ DIALOGS = {
             "hee_hee": "Você imita 'Hee-Hee!' Perfeitamente. Seu ataque subiu em 50 no próximo turno!",
             "moonwalk": "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 10!",
         },
+        "final_cutscene": [
+            "daksjdakjd aahdaskjd sadba hdaskjd as",
+            "asld hasjd asld asjd as",
+            "...",
+            "dasd hasj dhaskjd ahskdja",
+            "Adeus..."
+        ]
     },
     "en_us": {
         "intro": [
@@ -60,6 +67,13 @@ DIALOGS = {
             "hee_hee": "You imitate 'Hee-Hee!' perfectly. Your attack damage increased by 50 for the next turn!",
             "moonwalk": "You do a Moonwalk and move away from Michael. Your defense increased by 10!",
         },
+        "final_cutscene": [
+            "daksjdakjd aahdaskjd sadba hdaskjd as",
+            "asld hasjd asld asjd as",
+            "...",
+            "dasd hasj dhaskjd ahskdja",
+            "Goodbye..."
+        ]
     },
 }
 
