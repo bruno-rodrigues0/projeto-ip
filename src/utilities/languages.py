@@ -1,20 +1,25 @@
 DIALOGS = {
     "pt_br": {
         "intro": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "Então você é a criança que aquela flor estranha estava falando? Infelizmente, seus crimes não poderão ser perdoados.",
+            "Que flor você pergunta? Uma flor falante me disse que você matou incontaveis monstros e que você é uma ameaça ao mundo dos monstros.",
+            "Pelo o exterminio dos monstros, eu devo mostrar o verdadeiro poder do lord."
         ],
         "fight_menu": [
             "É o Ayuwoke. Hee-Hee",
-            "Você sente que vai passar por um tempo ruim.",
+            "Você sente os pecados de um outro você subindo pela espinha.",
             "Michael Jackson faz Moonwalk enquanto olha pra você. É assustador.",
+            "Ele está te observando calmamente, mas ele desconfia que você não é aquilo o que ouviu falar",
+            "Você se enche de música"
         ],
         "talk": [
-            "dal skj alsd jaslkda lka sjd al ks da klss jal sk ja sl jd als d ja sl",
-            "Me chame de Lord.",
-            "Not my problema, ouright?",
+            "Como você mesmo tão pequeno conseguiu fazer aquilo?",
+            "Me chame de Lord, será a única coisa que você vai lembrar.",
+            "Vai virar estampa de camisa, que nem aqueles que você matou.",
             "Tu conhece a grocada de trinta?",
             "Annie, ayuwoke?",
+            "Sinceramente, por que estamos fazendo isso?",
+            "Será que realmente posso confiar naquela flor?"
         ],
         "check": "* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * Vai ser uma luta dificil.",
         "items": {
@@ -27,20 +32,25 @@ DIALOGS = {
     },
     "en_us": {
         "intro": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "So you're the kid that strange flower was talking about? Unfortunately, your crimes cannot be forgiven.",
+            "Which flower, you ask? A talking flower told me that you killed countless monsters and that you are a threat to the monster world.",
+            "For the extermination of the monsters, I must show the true power of the lord."
         ],
         "fight_menu": [
-            "It's the Ayuwoke. Hee-Hee",
-            "You feel like you're going to have a bad time.",
-            "Michael Jackson do a Moonwalk while look at you. It's creepy.",
+            "It's Ayuwoke. Hee-Hee.",
+            "You feel the sins of another you rising up your spine.",
+            "Michael Jackson does a Moonwalk while looking at you. It's creepy.",
+            "He is watching you calmly, but he suspects you are not what you seem.",
+            "You are filled with music."
         ],
         "talk": [
-            "dal skj alsd jaslkda lka sjd al ks da klss jal sk ja sl jd als d ja sl",
-            "Me chame de Lord.",
-            "Not my problema, ouright?",
-            "Tu conhece a grocada de trinta?",
+            "How could you, so small, accomplish such a thing?",
+            "Call me Lord, that's the only thing you'll remember.",
+            "You'll become a t-shirt design, just like those you've killed.",
+            "Do you know the glocked of 30?",
             "Annie, ayuwoke?",
+            "Honestly, why are we doing this?",
+            "Can I really trust that flower?"
         ],
         "check": "* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * It will be a dificult fight.",
         "items": {
