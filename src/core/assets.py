@@ -15,12 +15,12 @@ S_COIN = pygame.image.load(ROOT_DIR / "src/assets/img/coin.png").convert_alpha()
 S_FRISK = slice_sheet(ROOT_DIR / "src/assets/img/frisk.png", 34, 58)
 for i, frame in enumerate(S_FRISK):
     S_FRISK[i] = pygame.transform.scale_by(frame, 1.4).convert_alpha()
-S_FLOWEY = slice_sheet(ROOT_DIR / "src/assets/img/flowey.png", 50, 25)
+S_FLOWEY = slice_sheet(ROOT_DIR / "src/assets/img/flowey.png", 25, 25)
 for i, frame in enumerate(S_FLOWEY):
-    S_FLOWEY[i] = pygame.transform.scale_by(frame, 2.2).convert_alpha()
-S_FLOWEY_NICE = slice_sheet(ROOT_DIR / "src/assets/img/flowey_nice.png", 84, 44)
+    S_FLOWEY[i] = pygame.transform.scale_by(frame, 2.6).convert_alpha()
+S_FLOWEY_NICE = slice_sheet(ROOT_DIR / "src/assets/img/flowey_nice.png", 42, 44)
 for i, frame in enumerate(S_FLOWEY_NICE):
-    S_FLOWEY_NICE[i] = pygame.transform.scale_by(frame, 1.3).convert_alpha()
+    S_FLOWEY_NICE[i] = pygame.transform.scale_by(frame, 2).convert_alpha()
 S_MICHAEL = pygame.transform.scale_by(
     pygame.image.load(ROOT_DIR / "src/assets/img/michael.png"), 0.4
 ).convert_alpha()
@@ -91,6 +91,7 @@ SFX_MASTER.load("no_items", ROOT_DIR / "src/assets/sfx/no-items.mp3")
 SFX_MASTER.load("player_attack", ROOT_DIR / "src/assets/sfx/player_attack.mp3")
 SFX_MASTER.load("soul_shatter", ROOT_DIR / "src/assets/sfx/soul_shatter.mp3")
 SFX_MASTER.load("dust", ROOT_DIR / "src/assets/sfx/dust.mp3")
+SFX_MASTER.load("flowey_laugh", ROOT_DIR / "src/assets/sfx/flowey_laugh.mp3")
 
 # Load fonts (ttf for web compatibility)
 F_JERSEY10_SMALL = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 18)

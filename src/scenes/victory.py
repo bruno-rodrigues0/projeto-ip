@@ -115,7 +115,7 @@ class Victory(Scene):
         heart_pos = (0, 0)
         retry_pos = (
             const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(self.interface["initial_menu"]["back_menu"])[0] // 2,
-            const.WINDOW_HEIGHT - 118,
+            const.WINDOW_HEIGHT - 140,
         )
         secret_pos = (
             const.WINDOW_CENTRE[0] - assets.F_JERSEY10_MEDIUM.size(self.interface["victory"]["secret"])[0] // 2,
