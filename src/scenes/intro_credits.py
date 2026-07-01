@@ -5,7 +5,7 @@ from components.dialog_printer import DialogConfig, DialogPrinter
 import core.constants as const
 import core.assets as assets
 from scenes.menu import Menu
-from core.input import InputBuffer
+from core.input import InputBuffer, Action, InputState
 from scenes.scene import Scene
 from utilities import languages
 
@@ -70,6 +70,9 @@ class IntroCredits(Scene):
         surface.fill(const.BLACK)
         now = pygame.time.get_ticks()
 
+        if _action_buffer[Action.A] == InputState.PRESSED:
+            self.statemachine.change_state(Menu)
+
         # Display all the texts letter by letter
         if self.printer_fase == 0:
             self.handle_printer_writing(self.printer_made_by, now, 1000)
@@ -124,6 +127,7 @@ class IntroCredits(Scene):
             if self.fade_alpha < 255:
                 self.fade_alpha = min(255, self.fade_alpha + 3)
             else:
+                pygame.time.wait(1000)
                 self.statemachine.change_state(Menu)
 
     def exit(self) -> None:

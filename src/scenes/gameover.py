@@ -39,10 +39,13 @@ class GameOver(Scene):
     ) -> None:
         # troca de opcao
         if action_buffer[Action.DOWN] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             self.selected_option = 'quit'
         if action_buffer[Action.UP] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             self.selected_option = 'retry'
         if action_buffer[Action.A] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["select_option"].play()
             if self.selected_option == 'retry':
                 reset_match()
                 self.statemachine.change_state(scenes.menu.Menu)  # type: ignore

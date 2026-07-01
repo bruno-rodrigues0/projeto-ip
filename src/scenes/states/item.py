@@ -72,12 +72,16 @@ class Item(State):
         n = len(Context.items)
 
         if action_buffer[Action.UP] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option - 1) % n
         elif action_buffer[Action.DOWN] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option + 1) % n
         elif action_buffer[Action.RIGHT] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option + 2) % n
         elif action_buffer[Action.LEFT] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option - 2) % n
 
         if action_buffer[Action.A] == InputState.PRESSED:

@@ -65,7 +65,7 @@ class Attack(State):
         if action_buffer[Action.A] == InputState.PRESSED and not Attack.is_waiting:
             distance = min(abs(Attack.cursor_x - const.WINDOW_CENTRE[0]), 273)
             attack_factor = 1 - (distance / 273)
-            player_final_attack = int(game.player.damage * (1 + attack_factor))
+            player_final_attack = int(game.player.damage * (.5 + attack_factor))
             Context.BOSS.take_damage(player_final_attack)
             Attack.wait_timer = 1.0
             Attack.is_waiting = True
