@@ -22,7 +22,8 @@ class Menu(Scene):
     def enter(self) -> None:
         self.selected_option = 0
         for audio in assets.SFX_MASTER.audios:
-            assets.SFX_MASTER.audios[audio].stop()
+            if audio != "flowey_laugh":
+                assets.SFX_MASTER.audios[audio].stop()
 
         if Menu.is_start:
             assets.SFX_MASTER.audios["intro_menu_sound"].play()

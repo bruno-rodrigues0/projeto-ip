@@ -12,6 +12,12 @@ DIALOGS = {
             "Ele está te observando calmamente, mas ele desconfia que você não é aquilo o que ouviu falar",
             "Você se enche de música"
         ],
+        "flowey_dialog": [
+            "Olá... você conseguiu chegar até aqui.",
+            "Eu sou Flowey, a flor que sempre esteve do seu lado.",
+            "Mesmo no meio do caos, ainda existe uma chance de recomeçar.",
+            "Então, o que você acha de dar mais um passo?"
+        ],
         "talk": [
             "Como você mesmo tão pequeno conseguiu fazer aquilo?",
             "Me chame de Lord, será a única coisa que você vai lembrar.",
@@ -30,10 +36,11 @@ DIALOGS = {
             "moonwalk": "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 10!",
         },
         "final_cutscene": [
-            "daksjdakjd aahdaskjd sadba hdaskjd as",
-            "asld hasjd asld asjd as",
-            "...",
-            "dasd hasj dhaskjd ahskdja",
+            "Talvez aquela flor não estivesse mentindo no final das contas.",
+            "Não fui páreo para sua força",
+            "Mas por que comçar a matar agora? Todos os monstros desse universo ainda estão vivos...",
+            "?",
+            "Entendo, realmente não pertenço a esse mundo.",
             "Adeus..."
         ]
     },
@@ -49,6 +56,12 @@ DIALOGS = {
             "Michael Jackson does a Moonwalk while looking at you. It's creepy.",
             "He is watching you calmly, but he suspects you are not what you seem.",
             "You are filled with music."
+        ],
+        "flowey_dialog": [
+            "Hello... you made it this far.",
+            "I am Flowey, the flower who has always been by your side.",
+            "Even in the middle of chaos, there is still a chance to start over.",
+            "So, what do you say to take one more step?"
         ],
         "talk": [
             "How could you, so small, accomplish such a thing?",
@@ -68,10 +81,11 @@ DIALOGS = {
             "moonwalk": "You do a Moonwalk and move away from Michael. Your defense increased by 10!",
         },
         "final_cutscene": [
-            "daksjdakjd aahdaskjd sadba hdaskjd as",
-            "asld hasjd asld asjd as",
-            "...",
-            "dasd hasj dhaskjd ahskdja",
+            "Maybe that flower wasn't lying after all.",
+            "I was no match for your strength.",
+            "But why start killing now? All the monsters in this universe are still alive...",
+            "?",
+            "I understand, I really don't belong to this world.",
             "Goodbye..."
         ]
     },
@@ -134,6 +148,7 @@ INTERFACE = {
             "title": "VITÓRIA!",
             "subtitle": "Você derrotou Michael Jackson.",
             "session_time": "TEMPO NA SESSÃO",
+            "secret": "???",
         },
         "skip": "Aperte ESC para pular",
     },
@@ -193,6 +208,7 @@ INTERFACE = {
             "title": "VICTORY!",
             "subtitle": "You defeated Michael Jackson.",
             "session_time": "SESSION TIME",
+            "secret": "???",
         },
         "skip": "Press ESC to skip",
     },
