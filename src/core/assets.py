@@ -92,6 +92,9 @@ S_ANNIE_ATTACK = F_JERSEY10_MEDIUM.render("ANNIE?", True, const.WHITE)
 S_AYUWOKI_ATTACK = F_JERSEY10_MEDIUM.render("AYUWOKI?", True, const.WHITE)
 S_SMOOTH_ATTACK = F_JERSEY10_MEDIUM.render("SMOOTH", True, const.WHITE)
 S_CRIMINAL_ATTACK = F_JERSEY10_MEDIUM.render("CRIMINAL", True, const.WHITE)
+S_SAW = slice_sheet(ROOT_DIR / "src/assets/img/saw.png", 300, 300)
+for i, frame in enumerate(S_SAW):
+    S_SAW[i] = pygame.transform.scale_by(frame, .5)
 
 print("Loaded assets")
 
