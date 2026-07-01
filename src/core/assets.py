@@ -1,4 +1,5 @@
 import pygame
+import math
 import core.constants as const
 
 from components.audio_manager import AudioManager
@@ -101,6 +102,41 @@ S_AUW_ATTACK = F_JERSEY10_MEDIUM.render("AUW!", True, const.WHITE)
 S_ANNIE_ATTACK = F_JERSEY10_MEDIUM.render("ANNIE?", True, const.WHITE)
 S_AYUWOKI_ATTACK = F_JERSEY10_MEDIUM.render("AYUWOKI?", True, const.WHITE)
 S_SMOOTH_ATTACK = F_JERSEY10_MEDIUM.render("SMOOTH", True, const.WHITE)
-S_CRESCENDO_ATTACK = F_JERSEY10_MEDIUM.render("CRIMINAL", True, const.WHITE)
+S_CRIMINAL_ATTACK = F_JERSEY10_MEDIUM.render("CRIMINAL", True, const.WHITE)
+S_SAW = slice_sheet(ROOT_DIR / "src/assets/img/saw.png", 300, 300)
+for i, frame in enumerate(S_SAW):
+    S_SAW[i] = pygame.transform.scale_by(frame, .5)
 
 print("Loaded assets")
+
+#laser funcional?
+def create_laser_surface(width=100, height=8):
+    surface = pygame.Surface((width, height), pygame.SRCALPHA)
+    pygame.draw.rect(surface, (255, 50, 50), (0, 0, width, height))
+    pygame.draw.rect(surface, (255, 255, 255), (0, 2, width, height - 4))
+    return surface
+
+def create_vertical_laser(width=10, height=200):
+    surface = pygame.Surface((width, height), pygame.SRCALPHA)
+    pygame.draw.rect(surface, (255, 255, 255), (0, 0, width, height))
+    return surface
+
+def create_diagonal_laser_1(size=200, thickness=10):
+    surface = pygame.Surface((size, size), pygame.SRCALPHA)
+    pygame.draw.line(surface, (255, 255, 255), (0, 0), (size, size), thickness)
+    return surface
+
+def create_diagonal_laser_2(size=200, thickness=10):
+    surface = pygame.Surface((size, size), pygame.SRCALPHA)
+    pygame.draw.line(surface, (255, 255, 255), (0, size), (size, 0), thickness)
+    return surface
+
+S_LASER = create_laser_surface(120, 10)
+
+S_LASER_H_WHITE = pygame.Surface((200, 10))
+S_LASER_H_WHITE.fill((255, 255, 255))
+
+S_LASER_V = create_vertical_laser(10, 200)
+S_LASER_D1 = create_diagonal_laser_1(200, 10)
+S_LASER_D2 = create_diagonal_laser_2(200, 10)
+
