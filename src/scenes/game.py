@@ -1,15 +1,14 @@
 import pygame
 from random import randint
 
-from components.animation import AnimationPlayer
 from components.dialog_printer import DialogPrinter, DialogConfig
 from components.config import Config
 import core.constants as const
 import core.assets as assets
 from core.input import InputBuffer, InputState, Action
 import scenes.menu
-import scenes.gameover
-import scenes.victory
+from scenes.states.final_cutscene import FinalCutscene
+from scenes.states.gameover_cutscene import GameOverCutscene
 from entities.player import Player
 from scenes.scene import Scene
 from scenes.context import Context
@@ -41,6 +40,8 @@ _STATE_MAP = {
     "fight":       Fight,
     "item":        Item,
     "item_used":   ItemUsed,
+    "gameover_cutscene": GameOverCutscene,
+    "final_cutscene": FinalCutscene,
 }
 
 
@@ -87,33 +88,24 @@ class Game(Scene):
         surface.fill(const.BLACK)
 
         michael_y = const.WINDOW_CENTRE[1] - (270 if Context.battle_state == "fight" else 200)
-        surface.blit(
-            BOSS_ANIMATION.get_frame(),
-            (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].get_width() // 2, michael_y)
-        )
-        BOSS_ANIMATION.update(dt)
+        if Context.battle_state != "final_cutscene":
+            BOSS_ANIMATION.update(dt)
+            surface.blit(
+                BOSS_ANIMATION.get_frame(),
+                (const.WINDOW_CENTRE[0] - assets.S_MICHAEL_BATTLE[0].get_width() // 2, michael_y)
+            )
 
         for i in range(0, 6, 2):
             surface.blit(assets.S_MENU_OPTIONS[i], (const.WINDOW_CENTRE[0] - 300 + 112 * i, 600))
 
+        if Context.BOSS.current_hp <= 0:
+            pygame.mixer.music.stop()
+
         state = Context.battle_state
         _STATE_MAP[state].execute(self, surface, dt, action_buffer)
 
-
-        #Game over - player perdeu
-        if self.player.current_hp <= 0:
-            Context.deaths += 1
-            self.statemachine.change_state(scenes.gameover.GameOver)  # type: ignore
-            return
-
-        #Vitoria
-        if Context.BOSS.current_hp <= 0:
-            self.statemachine.change_state(scenes.victory.Victory)  # type: ignore
-            return
-
-
-
-        draw_stats(surface, PLAYER)
+        if state != "gameover_cutscene":
+            draw_stats(surface, PLAYER)
 
     def exit(self) -> None:
         pygame.mixer.music.pause()

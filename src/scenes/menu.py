@@ -18,11 +18,15 @@ class Menu(Scene):
     """
     Main/pause menu scene.
     """
-
+    is_start: bool = True
     def enter(self) -> None:
         self.selected_option = 0
         for audio in assets.SFX_MASTER.audios:
             assets.SFX_MASTER.audios[audio].stop()
+
+        if Menu.is_start:
+            assets.SFX_MASTER.audios["intro_menu_sound"].play()
+            Menu.is_start = False
 
     def execute(
         self,
@@ -69,7 +73,7 @@ class Menu(Scene):
             elif self.selected_option == menu_options.index(interface["initial_menu"]["achievements"]):
                 self.statemachine.change_state(scenes.achievements.Achievements)
             else:
-                pygame.event.post(pygame.Event(pygame.QUIT))
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
                 return
 
         surface.fill(const.BLACK)

@@ -23,6 +23,7 @@ class Stats(Scene):
         action_buffer: InputBuffer
     ) -> None:
         global stats
+        stats.load_file()
         config = Config()
         lang = languages.INTERFACE[config.data["lang"]]
 

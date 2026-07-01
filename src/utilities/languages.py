@@ -1,20 +1,25 @@
 DIALOGS = {
     "pt_br": {
         "intro": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            "Então você é a criança que aquela flor estranha estava falando? Infelizmente, seus crimes não poderão ser perdoados.",
+            "Que flor você pergunta? Uma flor falante me disse que você matou incontaveis monstros e que você é uma ameaça ao mundo dos monstros.",
+            "Pelo o exterminio dos monstros, eu devo mostrar o verdadeiro poder do lord."
         ],
         "fight_menu": [
             "É o Ayuwoke. Hee-Hee",
-            "Você sente que vai passar por um tempo ruim.",
-            "Michael Jackson faz Moonwalk enquanto olha pra você. É assustador."
+            "Você sente os pecados de um outro você subindo pela espinha.",
+            "Michael Jackson faz Moonwalk enquanto olha pra você. É assustador.",
+            "Ele está te observando calmamente, mas ele desconfia que você não é aquilo o que ouviu falar",
+            "Você se enche de música"
         ],
         "talk": [
-            "dal skj alsd jaslkda lka sjd al ks da klss jal sk ja sl jd als d ja sl",
-            "Me chame de Lord.",
-            "Not my problema, ouright?",
+            "Como você mesmo tão pequeno conseguiu fazer aquilo?",
+            "Me chame de Lord, será a única coisa que você vai lembrar.",
+            "Vai virar estampa de camisa, que nem aqueles que você matou.",
             "Tu conhece a grocada de trinta?",
-            "Annie, ayuwoke?"
+            "Annie, ayuwoke?",
+            "Sinceramente, por que estamos fazendo isso?",
+            "Será que realmente posso confiar naquela flor?"
         ],
         "check": "* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * Vai ser uma luta dificil.",
         "items": {
@@ -23,25 +28,36 @@ DIALOGS = {
             "strength": "Você usou toda sua força! Seu ataque aumentou em 1.",
             "hee_hee": "Você imita 'Hee-Hee!' Perfeitamente. Seu ataque subiu em 50 no próximo turno!",
             "moonwalk": "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 10!",
-        }
+        },
+        "final_cutscene": [
+            "daksjdakjd aahdaskjd sadba hdaskjd as",
+            "asld hasjd asld asjd as",
+            "...",
+            "dasd hasj dhaskjd ahskdja",
+            "Adeus..."
+        ]
     },
-
     "en_us": {
         "intro": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            "So you're the kid that strange flower was talking about? Unfortunately, your crimes cannot be forgiven.",
+            "Which flower, you ask? A talking flower told me that you killed countless monsters and that you are a threat to the monster world.",
+            "For the extermination of the monsters, I must show the true power of the lord."
         ],
         "fight_menu": [
-            "It's the Ayuwoke. Hee-Hee",
-            "You feel like you're going to have a bad time.",
-            "Michael Jackson do a Moonwalk while look at you. It's creepy."
+            "It's Ayuwoke. Hee-Hee.",
+            "You feel the sins of another you rising up your spine.",
+            "Michael Jackson does a Moonwalk while looking at you. It's creepy.",
+            "He is watching you calmly, but he suspects you are not what you seem.",
+            "You are filled with music."
         ],
         "talk": [
-            "dal skj alsd jaslkda lka sjd al ks da klss jal sk ja sl jd als d ja sl",
-            "Me chame de Lord.",
-            "Not my problema, ouright?",
-            "Tu conhece a grocada de trinta?",
-            "Annie, ayuwoke?"
+            "How could you, so small, accomplish such a thing?",
+            "Call me Lord, that's the only thing you'll remember.",
+            "You'll become a t-shirt design, just like those you've killed.",
+            "Do you know the glocked of 30?",
+            "Annie, ayuwoke?",
+            "Honestly, why are we doing this?",
+            "Can I really trust that flower?"
         ],
         "check": "* MICHAEL 10 ATK 10 DEF. \n * Moonwalker. \n * It will be a dificult fight.",
         "items": {
@@ -50,18 +66,27 @@ DIALOGS = {
             "strength": "You used all your strength! Your attack damage increased by 1.",
             "hee_hee": "You imitate 'Hee-Hee!' perfectly. Your attack damage increased by 50 for the next turn!",
             "moonwalk": "You do a Moonwalk and move away from Michael. Your defense increased by 10!",
-        }
+        },
+        "final_cutscene": [
+            "daksjdakjd aahdaskjd sadba hdaskjd as",
+            "asld hasjd asld asjd as",
+            "...",
+            "dasd hasj dhaskjd ahskdja",
+            "Goodbye..."
+        ]
     },
 }
 
 INTERFACE = {
     "pt_br": {
+        "intro_credits": {"made_by": "UM JOGO FEITO POR:"},
         "initial_menu": {
             "start": ["COMEÇAR", "CONTINUAR"],
             "options": "OPÇÕES",
             "stats": "ESTATÍSTICAS",
             "achievements": "CONQUISTAS",
-            "quit": "SAIR DO JOGO"
+            "back_menu": "VOLTAR AO MENU",
+            "quit": "SAIR DO JOGO",
         },
         "options_menu": {
             "master_volume": "VOLUME GERAL",
@@ -77,7 +102,7 @@ INTERFACE = {
             "save": "SALVAR",
             "back": "VOLTAR",
             "enabled": "ATIVADO",
-            "disabled": "DESATIVADO"
+            "disabled": "DESATIVADO",
         },
         "stats": {
             "game_time": "TEMPO DE JOGO",
@@ -100,21 +125,27 @@ INTERFACE = {
         "achievements": {
             "you_are_god": "Você é Deus",
             "defeat_michael": "Derrote Michael",
-            "defeat_chapolin": "Derrote Chapolin",
+            "no_damage": "Sem dano",
             "no_item": "Sem itens",
             "shit": "Bosta",
-            "locked": "BLOQUEADO"
+            "locked": "BLOQUEADO",
         },
-        "skip": "Aperte ESC para pular"
+        "victory": {
+            "title": "VITÓRIA!",
+            "subtitle": "Você derrotou Michael Jackson.",
+            "session_time": "TEMPO NA SESSÃO",
+        },
+        "skip": "Aperte ESC para pular",
     },
-
     "en_us": {
+        "intro_credits": {"made_by": "A GAME MADE BY:"},
         "initial_menu": {
             "start": ["START", "CONTINUE"],
             "options": "OPTIONS",
             "stats": "STATS",
             "achievements": "ACHIEVEMENTS",
-            "quit": "QUIT"
+            "back_menu": "BACK TO MENU",
+            "quit": "QUIT",
         },
         "options_menu": {
             "master_volume": "MASTER VOLUME",
@@ -130,7 +161,7 @@ INTERFACE = {
             "save": "SAVE",
             "back": "BACK",
             "enabled": "ENABLED",
-            "disabled": "DISABLED"
+            "disabled": "DISABLED",
         },
         "stats": {
             "game_time": "GAME TIME",
@@ -153,11 +184,16 @@ INTERFACE = {
         "achievements": {
             "you_are_god": "You are God",
             "defeat_michael": "Defeat Michael",
-            "defeat_chapolin": "Defeat Chapolin",
+            "no_damage": "No damage",
             "no_item": "No items",
             "shit": "Shit",
-            "locked": "LOCKED"
+            "locked": "LOCKED",
         },
-        "skip": "Press ESC to skip"
+        "victory": {
+            "title": "VICTORY!",
+            "subtitle": "You defeated Michael Jackson.",
+            "session_time": "SESSION TIME",
+        },
+        "skip": "Press ESC to skip",
     },
 }

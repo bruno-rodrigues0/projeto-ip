@@ -1,10 +1,13 @@
 import pygame
-from components.statemachine import State
 import core.assets as assets
 import core.constants as const
+
+from components.animation import AnimationPlayer
+from components.statemachine import State
 from core.input import InputBuffer, InputState, Action
 from scenes.context import Context
 
+KNIFE_ANIMATION = AnimationPlayer("attack", assets.S_KNIFE, .14)
 
 class Attack(State):
     """Attack — exibe a barra de ataque."""
@@ -37,21 +40,27 @@ class Attack(State):
             Attack.blink_timer += dt
 
             # Handle the blink effect
-            if Attack.blink_timer >= 0.06 and not isinstance(Attack.player_damage, str):
+            if Attack.blink_timer >= 0.1 and not isinstance(Attack.player_damage, str):
                 Attack.blink_timer = 0.0
                 if Attack.cursor_color == const.WHITE:
-                    Attack.cursor_color = const.RED
+                    Attack.cursor_color = const.BLACK
                 else:
                     Attack.cursor_color = const.WHITE
 
             if Attack.wait_timer <= 0:
+                if Context.BOSS.current_hp <= 0:
+                    Context.paused = False
+                    pygame.time.wait(200)
+                    Context.battle_state = "final_cutscene"
+                    return
                 Attack.cursor_color = const.WHITE
                 game.initial_time = pygame.time.get_ticks()
+                KNIFE_ANIMATION.reset()
                 Context.battle_state = "fight"
                 Attack.is_waiting = False
                 Attack.wait_timer = 1.0
                 return
-            
+
         # Cursor is moving while the player not attack
         else:
             Attack.cursor_x += 600 * dt
@@ -62,7 +71,7 @@ class Attack(State):
         if action_buffer[Action.A] == InputState.PRESSED and not Attack.is_waiting:
             distance = min(abs(Attack.cursor_x - const.WINDOW_CENTRE[0]), 273)
             attack_factor = 1 - (distance / 273)
-            player_final_attack = int(game.player.damage * (1 + attack_factor))
+            player_final_attack = int(game.player.damage * (.5 + attack_factor))
             Context.BOSS.take_damage(player_final_attack)
             Attack.wait_timer = 1.0
             Attack.is_waiting = True
@@ -87,7 +96,7 @@ class Attack(State):
 
         # Draw the cursor
         pygame.draw.rect(
-            surface, Attack.cursor_color, (int(Attack.cursor_x), 385, 10, 145)
+            surface, Attack.cursor_color, (int(Attack.cursor_x), 385, 20, 145), 7
         )
 
         # Display the player damage
@@ -96,5 +105,8 @@ class Attack(State):
                 text_config = (False, const.WHITE,)
             else:
                 text_config = (False, const.RED,)
+            if KNIFE_ANIMATION.frame_index < len(KNIFE_ANIMATION.frames) - 1:
+                KNIFE_ANIMATION.update(dt)
+                surface.blit(KNIFE_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - 20, const.WINDOW_CENTRE[1] - 220))
             damage_text = assets.F_JERSEY10_MEDIUM_LARGE.render(str(Attack.player_damage), *text_config)
             surface.blit(damage_text, (const.WINDOW_CENTRE[0] - damage_text.get_width() // 2, 50))

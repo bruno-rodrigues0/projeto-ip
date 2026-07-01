@@ -14,6 +14,7 @@ class Check(State):
     def enter(game) -> None:
         game.printer.set_text(game.lang_dialog["check"])
         game.printer.set_config(DialogConfig.BATTLE)
+        assets.SFX_MASTER.audios["intro_talking"].play(-1)
 
     @staticmethod
     def execute(
@@ -25,10 +26,11 @@ class Check(State):
         if not game.printer.page_finished:
             if action_buffer[Action.A] == InputState.PRESSED:
                 game.printer.advance()
-                assets.SFX_MASTER.audios["talking_long"].stop()
+                assets.SFX_MASTER.audios["intro_talking"].play(-1)
             else:
                 game.printer.update()
         else:
+            assets.SFX_MASTER.audios["intro_talking"].stop()
             if action_buffer[Action.A] == InputState.PRESSED:
                 game.initial_time = pygame.time.get_ticks()
                 Context.battle_state = "fight"
@@ -98,8 +100,10 @@ class Act(State):
         action_buffer: InputBuffer,
     ) -> None:
         if action_buffer[Action.UP] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option - 1) % 2
         elif action_buffer[Action.DOWN] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option + 1) % 2
 
         if action_buffer[Action.A] == InputState.PRESSED:

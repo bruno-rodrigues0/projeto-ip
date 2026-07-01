@@ -4,6 +4,7 @@ import core.constants as const
 
 from components.audio_manager import AudioManager
 from core.constants import ROOT_DIR
+from utilities.audio import change_speed
 from utilities.sprite import slice_sheet
 
 # Load sprites (png, webp or jpg for web compatibility)
@@ -23,6 +24,11 @@ for i, sprite in enumerate(S_MICHAEL_BATTLE):
     S_MICHAEL_BATTLE[i] = pygame.transform.scale_by(sprite, 1.4).convert_alpha()
 S_MICHAEL_BATTLE.append(S_MICHAEL_BATTLE[1])
 S_HEART = pygame.image.load(ROOT_DIR / "src/assets/img/heart.png").convert_alpha()
+S_HEART_BREAK = pygame.image.load(ROOT_DIR / "src/assets/img/heart_break.png").convert_alpha()
+S_FRAGMENTS = slice_sheet(ROOT_DIR / "src/assets/img/fragments.png", 11, 10)
+S_KNIFE = slice_sheet(ROOT_DIR / "src/assets/img/knife.png", 26, 110)
+for i, frame in enumerate(S_KNIFE):
+    S_KNIFE[i] = pygame.transform.scale_by(frame, 2.3).convert_alpha()
 S_COLLECTABLE = pygame.Surface((8, 8)).convert_alpha()
 S_COLLECTABLE.fill(const.RED)
 S_TALK_BOX = pygame.image.load(ROOT_DIR / "src/assets/img/talk.png").convert_alpha()
@@ -66,6 +72,9 @@ SFX_MASTER.load("select_option", ROOT_DIR / "src/assets/sfx/select-option.mp3")
 SFX_MASTER.load("undertale", ROOT_DIR / "src/assets/sfx/undertale.mp3")
 SFX_MASTER.load("enemy_encounter", ROOT_DIR / "src/assets/sfx/enemy_encounter.mp3")
 SFX_MASTER.load("talking_long", ROOT_DIR / "src/assets/sfx/talking_double.mp3")
+SFX_MASTER.audios["talking_long_slowed"] = change_speed(SFX_MASTER.audios["talking_long"], .9)
+SFX_MASTER.load("intro_talking", ROOT_DIR / "src/assets/sfx/intro_talking.mp3")
+SFX_MASTER.load("intro_menu_sound", ROOT_DIR / "src/assets/sfx/intro_menu_sound.mp3")
 SFX_MASTER.load("hee_hee", ROOT_DIR / "src/assets/sfx/hee-hee.mp3")
 SFX_MASTER.load("auw", ROOT_DIR / "src/assets/sfx/auw.mp3")
 SFX_MASTER.load("damage_item", ROOT_DIR / "src/assets/sfx/damage-item.mp3")
@@ -74,6 +83,8 @@ SFX_MASTER.load("damage_taken", ROOT_DIR / "src/assets/sfx/damage-taken.mp3")
 SFX_MASTER.load("defense_item", ROOT_DIR / "src/assets/sfx/defense-item.mp3")
 SFX_MASTER.load("no_items", ROOT_DIR / "src/assets/sfx/no-items.mp3")
 SFX_MASTER.load("player_attack", ROOT_DIR / "src/assets/sfx/player_attack.mp3")
+SFX_MASTER.load("soul_shatter", ROOT_DIR / "src/assets/sfx/soul_shatter.mp3")
+SFX_MASTER.load("dust", ROOT_DIR / "src/assets/sfx/dust.mp3")
 
 # Load fonts (ttf for web compatibility)
 F_JERSEY10_SMALL = pygame.font.Font(ROOT_DIR / "src/assets/fonts/Jersey10-Regular.ttf", 18)

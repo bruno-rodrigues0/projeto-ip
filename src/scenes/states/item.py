@@ -1,5 +1,4 @@
 import pygame
-from random import randint
 
 from components.statemachine import State
 from components.dialog_printer import DialogConfig
@@ -7,7 +6,6 @@ import core.assets as assets
 import core.constants as const
 from core.input import InputBuffer, InputState, Action
 from scenes.context import Context
-from entities.player import Player
 
 
 class ItemUsed(State):
@@ -72,12 +70,16 @@ class Item(State):
         n = len(Context.items)
 
         if action_buffer[Action.UP] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option - 1) % n
         elif action_buffer[Action.DOWN] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option + 1) % n
         elif action_buffer[Action.RIGHT] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option + 2) % n
         elif action_buffer[Action.LEFT] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             game.action_option = (game.action_option - 2) % n
 
         if action_buffer[Action.A] == InputState.PRESSED:
