@@ -1,8 +1,9 @@
 import pygame
-from components.animation import AnimationPlayer
-from components.statemachine import State
 import core.assets as assets
 import core.constants as const
+
+from components.animation import AnimationPlayer
+from components.statemachine import State
 from core.input import InputBuffer, InputState, Action
 from scenes.context import Context
 
@@ -47,6 +48,11 @@ class Attack(State):
                     Attack.cursor_color = const.WHITE
 
             if Attack.wait_timer <= 0:
+                if Context.BOSS.current_hp <= 0:
+                    Context.paused = False
+                    pygame.time.wait(200)
+                    Context.battle_state = "final_cutscene"
+                    return
                 Attack.cursor_color = const.WHITE
                 game.initial_time = pygame.time.get_ticks()
                 KNIFE_ANIMATION.reset()
