@@ -28,9 +28,8 @@ DIALOGS = {
             "strength": "Você usou toda sua força! Seu ataque aumentou em 1.",
             "hee_hee": "Você imita 'Hee-Hee!' Perfeitamente. Seu ataque subiu em 50 no próximo turno!",
             "moonwalk": "Você faz o Moonwalk e se afasta do Michael. Sua defesa aumentou em 10!",
-        }
+        },
     },
-
     "en_us": {
         "intro": [
             "So you're the kid that strange flower was talking about? Unfortunately, your crimes cannot be forgiven.",
@@ -60,19 +59,20 @@ DIALOGS = {
             "strength": "You used all your strength! Your attack damage increased by 1.",
             "hee_hee": "You imitate 'Hee-Hee!' perfectly. Your attack damage increased by 50 for the next turn!",
             "moonwalk": "You do a Moonwalk and move away from Michael. Your defense increased by 10!",
-        }
+        },
     },
 }
 
 INTERFACE = {
     "pt_br": {
+        "intro_credits": {"made_by": "UM JOGO FEITO POR:"},
         "initial_menu": {
             "start": ["COMEÇAR", "CONTINUAR"],
             "options": "OPÇÕES",
             "stats": "ESTATÍSTICAS",
             "achievements": "CONQUISTAS",
             "back_menu": "VOLTAR AO MENU",
-            "quit": "SAIR DO JOGO"
+            "quit": "SAIR DO JOGO",
         },
         "options_menu": {
             "master_volume": "VOLUME GERAL",
@@ -88,7 +88,7 @@ INTERFACE = {
             "save": "SALVAR",
             "back": "VOLTAR",
             "enabled": "ATIVADO",
-            "disabled": "DESATIVADO"
+            "disabled": "DESATIVADO",
         },
         "stats": {
             "game_time": "TEMPO DE JOGO",
@@ -114,24 +114,24 @@ INTERFACE = {
             "defeat_chapolin": "Derrote Chapolin",
             "no_item": "Sem itens",
             "shit": "Bosta",
-            "locked": "BLOQUEADO"
+            "locked": "BLOQUEADO",
         },
         "victory": {
             "title": "VITÓRIA!",
             "subtitle": "Você derrotou Michael Jackson.",
             "session_time": "TEMPO NA SESSÃO",
         },
-        "skip": "Aperte ESC para pular"
+        "skip": "Aperte ESC para pular",
     },
-
     "en_us": {
+        "intro_credits": {"made_by": "A GAME MADE BY:"},
         "initial_menu": {
             "start": ["START", "CONTINUE"],
             "options": "OPTIONS",
             "stats": "STATS",
             "achievements": "ACHIEVEMENTS",
             "back_menu": "BACK TO MENU",
-            "quit": "QUIT"
+            "quit": "QUIT",
         },
         "options_menu": {
             "master_volume": "MASTER VOLUME",
@@ -147,7 +147,7 @@ INTERFACE = {
             "save": "SAVE",
             "back": "BACK",
             "enabled": "ENABLED",
-            "disabled": "DISABLED"
+            "disabled": "DISABLED",
         },
         "stats": {
             "game_time": "GAME TIME",
@@ -173,13 +173,13 @@ INTERFACE = {
             "defeat_chapolin": "Defeat Chapolin",
             "no_item": "No items",
             "shit": "Shit",
-            "locked": "LOCKED"
+            "locked": "LOCKED",
         },
         "victory": {
             "title": "VICTORY!",
             "subtitle": "You defeated Michael Jackson.",
             "session_time": "SESSION TIME",
         },
-        "skip": "Press ESC to skip"
+        "skip": "Press ESC to skip",
     },
 }
