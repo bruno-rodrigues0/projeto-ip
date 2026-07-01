@@ -19,6 +19,7 @@ class BattleMenu(State):
             game.lang_dialog["fight_menu"][randint(0, len(game.lang_dialog["fight_menu"]) - 1)]
         )
         game.printer.set_config(DialogConfig.BATTLE)
+        assets.SFX_MASTER.audios["intro_talking"].play(-1)
 
     @staticmethod
     def execute(
@@ -38,6 +39,8 @@ class BattleMenu(State):
 
         if not game.printer.page_finished:
             game.printer.update()
+        else:
+            assets.SFX_MASTER.audios["intro_talking"].stop()
 
         heart_pos = (const.WINDOW_CENTRE[0] - 290 + 112 * game.selected_option, 615)
 
@@ -52,6 +55,7 @@ class BattleMenu(State):
         game.printer.draw(surface, assets.F_JERSEY10_MEDIUM, (const.WINDOW_CENTRE[0] - 270, 400))
 
         if action_buffer[Action.A] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["intro_talking"].stop()
             assets.SFX_MASTER.audios["select_option"].play()
             if game.selected_option == 0:
                 Context.battle_state = "attack"

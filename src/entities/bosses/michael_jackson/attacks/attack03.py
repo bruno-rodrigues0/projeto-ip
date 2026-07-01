@@ -58,7 +58,7 @@ class Attack03(EnemyAttack):
         self.projectiles.append(Projectile03(assets.S_AUW_ATTACK, 810, 440))
         self.projectiles.append(Projectile04(assets.S_ANNIE_ATTACK, 400, 430))
         self.projectiles.append(Projectile05(assets.S_SMOOTH_ATTACK, 410, 370))
-        self.projectiles.append(Projectile06(assets.S_CRESCENDO_ATTACK, 390, 310))
+        self.projectiles.append(Projectile06(assets.S_CRIMINAL_ATTACK, 390, 310))
 
 
     def update(self, dt: float) -> None:

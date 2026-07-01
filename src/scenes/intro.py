@@ -117,6 +117,9 @@ class IntroDialog(Scene):
 
     def exit(self) -> None:
         assets.SFX_MASTER.audios["talking_long"].stop()
+        pygame.mixer.music.unpause()
+        if not pygame.mixer.music.get_busy():
+            pygame.mixer.music.play(-1)
 
 
 class Intro(Scene):
@@ -145,6 +148,9 @@ class Intro(Scene):
             self.skip = True
             self.skip_timeout = pygame.time.get_ticks()
         elif action_buffer[Action.OPTIONS] == InputState.PRESSED and self.skip:
+            pygame.mixer.music.unpause()
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.play(-1)
             self.statemachine.change_state(scenes.game.Game)  # type: ignore
 
 

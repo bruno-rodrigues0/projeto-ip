@@ -1,4 +1,5 @@
 import pygame
+from components.achievements import AchievementsManager
 from components.config import Config
 from components.dialog_printer import DialogConfig, DialogPrinter
 import scenes.menu
@@ -19,6 +20,14 @@ class GameOver(Scene):
         printer_config = DialogConfig(20, 150, const.WHITE)
         self.printer = DialogPrinter(["HEE HEE"], printer_config)
         self.interface = languages.INTERFACE[self.config.data["lang"]]
+
+        achievements = AchievementsManager()
+
+        if Context.is_first_attack:
+            achievements.data["shit"] = True
+
+        achievements.save_file()
+
         pygame.time.wait(10)
         assets.SFX_MASTER.audios["hee_hee"].play()
 
@@ -30,10 +39,13 @@ class GameOver(Scene):
     ) -> None:
         # troca de opcao
         if action_buffer[Action.DOWN] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             self.selected_option = 'quit'
         if action_buffer[Action.UP] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             self.selected_option = 'retry'
         if action_buffer[Action.A] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["select_option"].play()
             if self.selected_option == 'retry':
                 reset_match()
                 self.statemachine.change_state(scenes.menu.Menu)  # type: ignore

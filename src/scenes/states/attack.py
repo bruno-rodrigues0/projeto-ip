@@ -1,8 +1,9 @@
 import pygame
-from components.animation import AnimationPlayer
-from components.statemachine import State
 import core.assets as assets
 import core.constants as const
+
+from components.animation import AnimationPlayer
+from components.statemachine import State
 from core.input import InputBuffer, InputState, Action
 from scenes.context import Context
 
@@ -47,6 +48,11 @@ class Attack(State):
                     Attack.cursor_color = const.WHITE
 
             if Attack.wait_timer <= 0:
+                if Context.BOSS.current_hp <= 0:
+                    Context.paused = False
+                    pygame.time.wait(200)
+                    Context.battle_state = "final_cutscene"
+                    return
                 Attack.cursor_color = const.WHITE
                 game.initial_time = pygame.time.get_ticks()
                 KNIFE_ANIMATION.reset()
@@ -65,7 +71,7 @@ class Attack(State):
         if action_buffer[Action.A] == InputState.PRESSED and not Attack.is_waiting:
             distance = min(abs(Attack.cursor_x - const.WINDOW_CENTRE[0]), 273)
             attack_factor = 1 - (distance / 273)
-            player_final_attack = int(game.player.damage * (1 + attack_factor))
+            player_final_attack = int(game.player.damage * (.5 + attack_factor))
             Context.BOSS.take_damage(player_final_attack)
             Attack.wait_timer = 1.0
             Attack.is_waiting = True

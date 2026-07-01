@@ -1,4 +1,5 @@
 import pygame
+from components.achievements import AchievementsManager
 from components.config import Config
 import scenes.flowey
 import scenes.menu
@@ -18,6 +19,25 @@ class Victory(Scene):
         self.selected_option = 'retry'
         self.interface = languages.INTERFACE[self.config.data["lang"]]
 
+
+        achievements = AchievementsManager()
+        for achievement in achievements.data:
+            if not achievements.data[achievement]:
+                match achievement:
+                    case "you_are_god":
+                        if not Context.has_taken_damage and len(Context.used_items) == 0:
+                            achievements.data[achievement] = True
+                    case "defeat_michael":
+                        achievements.data[achievement] = True
+                    case "no_damage":
+                        if not Context.has_taken_damage:
+                            achievements.data[achievement] = True
+                    case "no_item":
+                        if len(Context.used_items) == 0:
+                            achievements.data[achievement] = True
+        achievements.save_file()
+
+
         final_time = pygame.time.get_ticks()
         session_time = (final_time - Context.start_time) / 1000.0
         min = session_time < 3600
@@ -29,6 +49,7 @@ class Victory(Scene):
             self.interface["stats"]["defense_orbs"]: Context.collected_defense_orbs,
             self.interface["stats"]["damage_orbs"]: Context.collected_damage_orbs,
         }
+
         assets.SFX_MASTER.audios["undertale"].play()
 
     def execute(
@@ -39,6 +60,7 @@ class Victory(Scene):
     ) -> None:
         #troca a opção e confirma
         if action_buffer[Action.DOWN] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             if self.selected_option == 'retry':
                 self.selected_option = 'secret'
             elif self.selected_option == 'secret':
@@ -46,6 +68,7 @@ class Victory(Scene):
             else:
                 self.selected_option = 'retry'
         if action_buffer[Action.UP] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["move_selection"].play()
             if self.selected_option == 'retry':
                 self.selected_option = 'quit'
             elif self.selected_option == 'secret':
@@ -53,15 +76,17 @@ class Victory(Scene):
             else:
                 self.selected_option = 'secret'
         if action_buffer[Action.A] == InputState.PRESSED:
+            assets.SFX_MASTER.audios["select_option"].play()
             if self.selected_option == 'retry':
                 reset_match()
                 self.statemachine.change_state(scenes.menu.Menu)  # type: ignore
                 return
-            if self.selected_option == 'secret':
+            elif self.selected_option == 'secret':
                 self.statemachine.change_state(scenes.flowey.FloweyIntro)  # type: ignore
                 return
-            pygame.event.post(pygame.event.Event(pygame.QUIT))
-            return
+            else:
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
+                return
 
         surface.fill(const.BLACK)
 
