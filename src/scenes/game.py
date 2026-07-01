@@ -103,7 +103,7 @@ class Game(Scene):
 
 
 
-        #Vitoria
+        # Vitoria
         if Context.BOSS.current_hp <= 0:
             Context.paused = False
             self.statemachine.change_state(scenes.victory.Victory)  # type: ignore
