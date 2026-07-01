@@ -23,6 +23,7 @@ class Achievements(Scene):
         action_buffer: InputBuffer
     ) -> None:
         global achievements
+        achievements.load_file()
         config = Config()
         lang = languages.INTERFACE[config.data["lang"]]
 

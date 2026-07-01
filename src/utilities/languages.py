@@ -111,7 +111,7 @@ INTERFACE = {
         "achievements": {
             "you_are_god": "Você é Deus",
             "defeat_michael": "Derrote Michael",
-            "defeat_chapolin": "Derrote Chapolin",
+            "no_damage": "Sem dano",
             "no_item": "Sem itens",
             "shit": "Bosta",
             "locked": "BLOQUEADO",
@@ -170,7 +170,7 @@ INTERFACE = {
         "achievements": {
             "you_are_god": "You are God",
             "defeat_michael": "Defeat Michael",
-            "defeat_chapolin": "Defeat Chapolin",
+            "no_damage": "No damage",
             "no_item": "No items",
             "shit": "Shit",
             "locked": "LOCKED",

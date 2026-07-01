@@ -10,6 +10,8 @@ class Context:
     """
 
     start_time: int = 0
+    has_taken_damage: bool = False
+    is_first_attack = True
     used_items: list[ItemInfo] = []
     dialog_text: list[str] = []
     collected_life_orbs: int = 0

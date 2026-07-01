@@ -1,4 +1,5 @@
 import pygame
+from components.achievements import AchievementsManager
 from components.config import Config
 from components.dialog_printer import DialogConfig, DialogPrinter
 import scenes.menu
@@ -19,6 +20,14 @@ class GameOver(Scene):
         printer_config = DialogConfig(20, 150, const.WHITE)
         self.printer = DialogPrinter(["HEE HEE"], printer_config)
         self.interface = languages.INTERFACE[self.config.data["lang"]]
+
+        achievements = AchievementsManager()
+
+        if Context.is_first_attack:
+            achievements.data["shit"] = True
+
+        achievements.save_file()
+
         pygame.time.wait(10)
         assets.SFX_MASTER.audios["hee_hee"].play()
 

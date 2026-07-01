@@ -1,4 +1,5 @@
 import pygame
+from components.achievements import AchievementsManager
 from components.config import Config
 import scenes.menu
 import core.constants as const
@@ -17,6 +18,25 @@ class Victory(Scene):
         self.selected_option = 'retry'
         self.interface = languages.INTERFACE[self.config.data["lang"]]
 
+
+        achievements = AchievementsManager()
+        for achievement in achievements.data:
+            if not achievements.data[achievement]:
+                match achievement:
+                    case "you_are_god":
+                        if not Context.has_taken_damage and len(Context.item_used) == 0:
+                            achievements.data[achievement] = True
+                    case "defeat_michael":
+                        achievements.data[achievement] = True
+                    case "no_damage":
+                        if not Context.has_taken_damage:
+                            achievements.data[achievement] = True
+                    case "no_items":
+                        if len(Context.used_items) == 0:
+                            achievements.data[achievement] = True
+        achievements.save_file()
+
+
         final_time = pygame.time.get_ticks()
         session_time = (final_time - Context.start_time) / 1000.0
         min = session_time < 3600
@@ -28,6 +48,7 @@ class Victory(Scene):
             self.interface["stats"]["defense_orbs"]: Context.collected_defense_orbs,
             self.interface["stats"]["damage_orbs"]: Context.collected_damage_orbs,
         }
+
         assets.SFX_MASTER.audios["undertale"].play()
 
     def execute(
