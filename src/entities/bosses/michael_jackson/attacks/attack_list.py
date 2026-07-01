@@ -6,4 +6,4 @@ from entities.bosses.michael_jackson.attacks.attack05 import Attack05
 from entities.bosses.michael_jackson.attacks.attack06 import Attack06
 from entities.bosses.michael_jackson.attacks.attack07 import Attack07
 from entities.bosses.michael_jackson.attacks.attack08 import Attack08
-ATTACK_LIST = [Attack08]
+ATTACK_LIST = [Attack01, Attack02, Attack03, Attack04, Attack05, Attack06, Attack07, Attack08]
