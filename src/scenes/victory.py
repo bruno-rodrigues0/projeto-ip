@@ -24,7 +24,7 @@ class Victory(Scene):
             if not achievements.data[achievement]:
                 match achievement:
                     case "you_are_god":
-                        if not Context.has_taken_damage and len(Context.item_used) == 0:
+                        if not Context.has_taken_damage and len(Context.used_items) == 0:
                             achievements.data[achievement] = True
                     case "defeat_michael":
                         achievements.data[achievement] = True
