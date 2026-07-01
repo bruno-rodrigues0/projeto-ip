@@ -35,7 +35,6 @@ class BattleMenu(State):
             game.selected_option = (game.selected_option + 2) % 6
             assets.SFX_MASTER.audios["move_selection"].play()
 
-
         if not game.printer.page_finished:
             game.printer.update()
 

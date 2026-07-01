@@ -129,7 +129,7 @@ class Fight(State):
             game.player.take_damage(1 * dt)
             Context.has_taken_damage = True
 
-        #Game over
+        # Game over
         if game.player.current_hp <= 0:
             Context.deaths += 1
             Context.paused = False

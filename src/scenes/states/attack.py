@@ -6,7 +6,8 @@ import core.constants as const
 from core.input import InputBuffer, InputState, Action
 from scenes.context import Context
 
-KNIFE_ANIMATION = AnimationPlayer("attack", assets.S_KNIFE, .14)
+KNIFE_ANIMATION = AnimationPlayer("attack", assets.S_KNIFE, 0.14)
+
 
 class Attack(State):
     """Attack — exibe a barra de ataque."""
@@ -16,7 +17,7 @@ class Attack(State):
     cursor_x: float = const.WINDOW_CENTRE[0] - 300
     cursor_color: pygame.Color = const.WHITE
     blink_timer: float = 0.0
-    player_damage: float | str = ''
+    player_damage: float | str = ""
 
     @staticmethod
     def enter(game) -> None:
@@ -24,7 +25,7 @@ class Attack(State):
         Attack.is_waiting = False
         Attack.cursor_x = const.WINDOW_CENTRE[0] - 300
         Attack.blink_timer: float = 0.0
-        Attack.player_damage = ''
+        Attack.player_damage = ""
 
     @staticmethod
     def execute(
@@ -93,14 +94,45 @@ class Attack(State):
             surface, Attack.cursor_color, (int(Attack.cursor_x), 385, 20, 145), 7
         )
 
-        # Display the player damage
         if Attack.is_waiting:
+            # Display the player damage
             if isinstance(Attack.player_damage, str):
-                text_config = (False, const.WHITE,)
+                text_config = (
+                    False,
+                    const.WHITE,
+                )
             else:
-                text_config = (False, const.RED,)
+                text_config = (
+                    False,
+                    const.RED,
+                )
             if KNIFE_ANIMATION.frame_index < len(KNIFE_ANIMATION.frames) - 1:
                 KNIFE_ANIMATION.update(dt)
-                surface.blit(KNIFE_ANIMATION.get_frame(), (const.WINDOW_CENTRE[0] - 20, const.WINDOW_CENTRE[1] - 220))
-            damage_text = assets.F_JERSEY10_MEDIUM_LARGE.render(str(Attack.player_damage), *text_config)
-            surface.blit(damage_text, (const.WINDOW_CENTRE[0] - damage_text.get_width() // 2, 50))
+                surface.blit(
+                    KNIFE_ANIMATION.get_frame(),
+                    (const.WINDOW_CENTRE[0] - 20, const.WINDOW_CENTRE[1] - 220),
+                )
+            damage_text = assets.F_JERSEY10_MEDIUM_LARGE.render(
+                str(Attack.player_damage), *text_config
+            )
+            surface.blit(
+                damage_text, (const.WINDOW_CENTRE[0] - damage_text.get_width() // 2, 50)
+            )
+
+            # Display the boss hp
+            boss_hp_percent = Context.BOSS.hp_percent
+            hp_green = pygame.draw.rect(
+                surface,
+                const.GREEN,
+                (
+                    const.WINDOW_CENTRE[0] - (300 // 2),
+                    100,
+                    300 * boss_hp_percent,
+                    15,
+                ),
+            )
+            hp_red = pygame.draw.rect(
+                surface,
+                const.RED,
+                (hp_green.right, hp_green.y, 300 * (1 - boss_hp_percent), 15),
+            )

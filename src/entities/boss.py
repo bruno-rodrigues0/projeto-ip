@@ -10,6 +10,7 @@ class Boss:
     name: str
     max_hp: int
     current_hp: int
+    hp_percent: float
     sprite_animation: AnimationPlayer
     attack_list: list[EnemyAttack]
     current_attack: EnemyAttack
@@ -24,6 +25,7 @@ class Boss:
         self.name = name
         self.max_hp = max_hp
         self.current_hp = max_hp
+        self.hp_percent = 1.0
         self.sprite_animation = sprite_animation
         self.attack_list = attack_list
         self.current_attack = self.attack_list[randint(0, len(attack_list) - 1)]
@@ -31,6 +33,7 @@ class Boss:
     def take_damage(self, player_damage: int):
         assets.SFX_MASTER.audios["player_attack"].play()
         self.current_hp = max(0, self.current_hp - player_damage)
+        self.hp_percent = self.current_hp / self.max_hp
 
     def change_attack(self, enemy_group: pygame.sprite.Group) -> EnemyAttack:
         enemy_group.empty()
