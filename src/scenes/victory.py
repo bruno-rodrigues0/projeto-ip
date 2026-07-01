@@ -31,7 +31,7 @@ class Victory(Scene):
                     case "no_damage":
                         if not Context.has_taken_damage:
                             achievements.data[achievement] = True
-                    case "no_items":
+                    case "no_item":
                         if len(Context.used_items) == 0:
                             achievements.data[achievement] = True
         achievements.save_file()
