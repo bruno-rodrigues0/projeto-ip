@@ -129,7 +129,3 @@ S_LASER_V = create_vertical_laser(10, 200)
 S_LASER_D1 = create_diagonal_laser_1(200, 10)
 S_LASER_D2 = create_diagonal_laser_2(200, 10)
 
-S_HALF_MOON_THIN = pygame.Surface((180, 180), pygame.SRCALPHA)
-S_HALF_MOON_THICK = pygame.Surface((180, 180), pygame.SRCALPHA)
-pygame.draw.arc(S_HALF_MOON_THIN, (255, 255, 255), (0, 0, 180, 180), 0, math.pi * 2, 2)
-pygame.draw.arc(S_HALF_MOON_THICK, (255, 255, 255), (0, 0, 180, 180), 0, math.pi * 2, 60)
