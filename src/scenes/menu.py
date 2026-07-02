@@ -1,16 +1,15 @@
 import pygame
-
-from components.config import Config
+import scenes.intro
+import scenes.settings
+import scenes.stats
+import scenes.achievements
 import core.constants as const
 import core.input as input
 import core.assets as assets
 
 from scenes.context import Context
 from scenes.scene import Scene
-import scenes.intro
-import scenes.settings
-import scenes.stats
-import scenes.achievements
+from components.config import Config
 from utilities import languages
 
 

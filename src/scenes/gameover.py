@@ -8,7 +8,7 @@ import core.assets as assets
 
 from components.statistics import Statistics
 from scenes.scene import Scene
-from scenes.context import Context
+from scenes.context import Context, reset_match
 from core.input import InputBuffer, InputState, Action
 from utilities import languages
 
@@ -102,29 +102,3 @@ class GameOver(Scene):
         pass
 
 
-def reset_match() -> None:
-    import scenes.game
-    import entities.player
-
-    # Restaura o player
-    statistics = Statistics()
-    pygame.mixer.music.rewind()
-    player = scenes.game.PLAYER
-    player.x = const.WINDOW_CENTRE[0]
-    player.y = const.WINDOW_CENTRE[1] + 60
-    player.current_hp = player.max_hp
-    player.hp_percent = 1.0
-    player.damage = player._initial_damage
-    player.defense = player._initial_defense
-
-    # Restaura o boss
-    Context.BOSS.current_hp = Context.BOSS.max_hp
-
-    # Salva os dados
-    statistics.data["deaths"] += Context.deaths
-    statistics.data["life_orbs"] += Context.collected_life_orbs
-    statistics.data["damage_orbs"] += Context.collected_damage_orbs
-    statistics.data["defense_orbs"] += Context.collected_defense_orbs
-    statistics.save_file()
-
-    Context.reset()

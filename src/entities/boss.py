@@ -1,6 +1,6 @@
-from random import randint
 import pygame
 
+from random import randint
 from entities.enemy_attack import EnemyAttack
 from components.animation import AnimationPlayer
 import core.assets as assets

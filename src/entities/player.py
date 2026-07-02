@@ -1,7 +1,7 @@
 import pygame
+import core.assets as assets
 
 from components.object import SimulatedObject
-import core.assets as assets
 from core.input import InputBuffer, InputState, Action
 
 
@@ -35,7 +35,7 @@ class Player(SimulatedObject):
         self.max_hp = max_hp
         self.current_hp = max_hp
         self.hp_percent = 1.0
-        self.damage = self._initial_damage = 15
+        self.damage = self._initial_damage = 1000
         self.defense = self._initial_defense = 10
         self._damage_buff_count = self._defense_buff_count = 0
         self._invincible_timer = 0.0

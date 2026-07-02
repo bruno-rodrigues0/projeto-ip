@@ -1,16 +1,14 @@
 import pygame
-from components.achievements import AchievementsManager
-from components.config import Config
-from components.items_info import AVALIABLE_ITEMS
 import scenes.flowey
 import scenes.menu
 import core.constants as const
 import core.assets as assets
 
+from components.achievements import AchievementsManager
+from components.config import Config
 from scenes.scene import Scene
-from scenes.context import Context
+from scenes.context import Context, reset_match
 from core.input import InputBuffer, InputState, Action
-from components.statistics import Statistics
 from utilities import languages
 
 
@@ -151,30 +149,3 @@ class Victory(Scene):
         pass
 
 
-def reset_match() -> None:
-    import scenes.game
-    import entities.player
-
-    statistics = Statistics()
-
-    # Restaura o player
-    pygame.mixer.music.rewind()
-    player = scenes.game.PLAYER
-    player.x = const.WINDOW_CENTRE[0]
-    player.y = const.WINDOW_CENTRE[1] + 60
-    player.current_hp = player.max_hp
-    player.hp_percent = 1.0
-    player.damage = player._initial_damage
-    player.defense = player._initial_defense
-
-    # Restaura o boss
-    Context.BOSS.current_hp = Context.BOSS.max_hp
-
-    # Salva os dados
-    statistics.data["deaths"] += Context.deaths
-    statistics.data["life_orbs"] += Context.collected_life_orbs
-    statistics.data["damage_orbs"] += Context.collected_damage_orbs
-    statistics.data["defense_orbs"] += Context.collected_defense_orbs
-    statistics.save_file()
-
-    Context.reset()

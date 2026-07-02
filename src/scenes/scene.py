@@ -1,8 +1,8 @@
 import pygame
-from abc import abstractmethod
+import core.input as input
 
 from components.statemachine import State
-import core.input as input
+from abc import abstractmethod
 
 
 class Scene(State):

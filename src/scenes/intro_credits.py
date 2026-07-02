@@ -1,9 +1,9 @@
 import pygame
+import core.constants as const
+import core.assets as assets
 
 from components.config import Config
 from components.dialog_printer import DialogConfig, DialogPrinter
-import core.constants as const
-import core.assets as assets
 from scenes.menu import Menu
 from core.input import InputBuffer, Action, InputState
 from scenes.scene import Scene

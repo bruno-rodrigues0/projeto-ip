@@ -1,9 +1,9 @@
 import pygame
-from components.statistics import Statistics
 import core.assets as assets
 import core.constants as const
 import scenes.menu
 
+from components.statistics import Statistics
 from utilities import languages
 from scenes.scene import Scene
 from core.input import InputBuffer, InputState, Action

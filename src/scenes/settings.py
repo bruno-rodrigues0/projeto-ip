@@ -1,8 +1,5 @@
-from re import sub
-
 import pygame
 import copy
-from core import joystick
 import core.constants as const
 import core.assets as assets
 import scenes.menu

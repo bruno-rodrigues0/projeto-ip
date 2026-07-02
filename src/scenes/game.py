@@ -1,12 +1,12 @@
 import pygame
-from random import randint
-
-from components.dialog_printer import DialogPrinter, DialogConfig
-from components.config import Config
+import scenes.menu
 import core.constants as const
 import core.assets as assets
+
+from random import randint
+from components.dialog_printer import DialogPrinter, DialogConfig
+from components.config import Config
 from core.input import InputBuffer, InputState, Action
-import scenes.menu
 from scenes.states.final_cutscene import FinalCutscene
 from scenes.states.gameover_cutscene import GameOverCutscene
 from entities.player import Player

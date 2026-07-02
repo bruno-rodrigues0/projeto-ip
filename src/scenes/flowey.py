@@ -1,19 +1,16 @@
 import pygame
-import random
+import core.constants as const
+import core.assets as assets
+import scenes
 
 from components.camera import Camera, camera_follow, camera_to_screen, camera_to_screen_parallax, camera_update
 from components.config import Config
 from components.dialog_printer import DialogPrinter, DialogConfig
-import core.constants as const
-import core.assets as assets
-import scenes.game
-import scenes
-
 from entities.player import Player
 from scenes.scene import Scene
 from core.input import InputBuffer, InputState, Action
 from components.animation import AnimationPlayer
-from scenes.context import Context
+from scenes.context import Context, reset_match
 from utilities import languages
 
 
@@ -94,6 +91,7 @@ class FloweyDialog(Scene):
             if self.fade_alpha < 255:
                 self.fade_alpha = min(255, self.fade_alpha + int(self.laugh_time))
             else:
+                reset_match()
                 self.statemachine.change_state(scenes.menu.Menu) # type: ignore
 
 

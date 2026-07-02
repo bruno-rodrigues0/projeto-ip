@@ -1,14 +1,12 @@
 import pygame
 import random
+import scenes.game
+import core.constants as const
+import core.assets as assets
 
 from components.camera import Camera, camera_follow, camera_to_screen, camera_to_screen_parallax, camera_update
 from components.config import Config
 from components.dialog_printer import DialogPrinter, DialogConfig
-import core.constants as const
-import core.assets as assets
-import scenes.game
-import scenes
-
 from entities.player import Player
 from scenes.scene import Scene
 from core.input import InputBuffer, InputState, Action
@@ -116,6 +114,8 @@ class IntroDialog(Scene):
             surface.blit(skip_text, (20, const.WINDOW_HEIGHT - 40))
 
     def exit(self) -> None:
+        PLAYER.x = 50
+        PLAYER.y = 500
         assets.SFX_MASTER.audios["talking_long"].stop()
         pygame.mixer.music.unpause()
         if not pygame.mixer.music.get_busy():
