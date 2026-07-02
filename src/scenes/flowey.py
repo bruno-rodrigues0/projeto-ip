@@ -96,6 +96,8 @@ class FloweyDialog(Scene):
 
 
     def exit(self) -> None:
+        PLAYER.x = 50
+        PLAYER.y = 500
         assets.SFX_MASTER.audios["talking_long"].stop()
 
 
