@@ -13,10 +13,14 @@ DIALOGS = {
             "Você se enche de música"
         ],
         "flowey_dialog": [
-            "Olá... você conseguiu chegar até aqui.",
+            "Então você me encontrou.",
             "Eu sou Flowey, a flor que sempre esteve do seu lado.",
-            "Mesmo no meio do caos, ainda existe uma chance de recomeçar.",
-            "Então, o que você acha de dar mais um passo?"
+            "Pelo menos até você decidir matar todos não é mesmo?.",
+            "Você não.... sabe do que estou falando?",
+            "Realmente, os monstros dessa linha do tempo estão vivos.",
+            "Mas você não hesitou em matar o Michael, não é mesmo?",
+            "Por enquanto não posso fazer nada",
+            "Mas seus pecados serão cobrados..."
         ],
         "talk": [
             "Como você mesmo tão pequeno conseguiu fazer aquilo?",
@@ -38,9 +42,10 @@ DIALOGS = {
         "final_cutscene": [
             "Talvez aquela flor não estivesse mentindo no final das contas.",
             "Não fui páreo para sua força",
-            "Mas por que comçar a matar agora? Todos os monstros desse universo ainda estão vivos...",
+            "Mas por que começar a matar agora? Todos os monstros desse universo ainda estão vivos...",
             "?",
             "Entendo, realmente não pertenço a esse mundo.",
+            "No final das contas, você é um monstro, não é mesmo?",
             "Adeus..."
         ]
     },
@@ -58,10 +63,14 @@ DIALOGS = {
             "You are filled with music."
         ],
         "flowey_dialog": [
-            "Hello... you made it this far.",
-            "I am Flowey, the flower who has always been by your side.",
-            "Even in the middle of chaos, there is still a chance to start over.",
-            "So, what do you say to take one more step?"
+            "So you found me.",
+            "I am Flowey, the flower that has always been by your side.",
+            "At least until you decided to kill everyone, isn't that right?",
+            "You don't... know what I'm talking about?",
+            "Really, the monsters in this timeline are still alive.",
+            "But you didn't hesitate to kill Michael, did you?"
+            "For now, I can't do anything.",
+            "But your sins will be paid for..."
         ],
         "talk": [
             "How could you, so small, accomplish such a thing?",
@@ -86,7 +95,8 @@ DIALOGS = {
             "But why start killing now? All the monsters in this universe are still alive...",
             "?",
             "I understand, I really don't belong to this world.",
-            "Goodbye..."
+            "In the end, you're a monster, aren't you?",
+            "Farewell..."
         ]
     },
 }
