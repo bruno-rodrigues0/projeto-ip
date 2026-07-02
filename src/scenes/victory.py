@@ -1,6 +1,7 @@
 import pygame
 from components.achievements import AchievementsManager
 from components.config import Config
+from components.items_info import AVALIABLE_ITEMS
 import scenes.flowey
 import scenes.menu
 import core.constants as const
@@ -176,10 +177,4 @@ def reset_match() -> None:
     statistics.data["defense_orbs"] += Context.collected_defense_orbs
     statistics.save_file()
 
-    # Zera os contadores da partida
-    Context.collected_life_orbs = 0
-    Context.collected_defense_orbs = 0
-    Context.collected_damage_orbs = 0
-    Context.deaths = 0
-    Context.used_items = []
-    Context.battle_state = "battle_menu"
+    Context.reset()

@@ -127,10 +127,4 @@ def reset_match() -> None:
     statistics.data["defense_orbs"] += Context.collected_defense_orbs
     statistics.save_file()
 
-    # Zera os contadores da partida
-    Context.collected_life_orbs = 0
-    Context.collected_defense_orbs = 0
-    Context.collected_damage_orbs = 0
-    Context.used_items = []
-    Context.deaths = 0
-    Context.battle_state = "battle_menu"
+    Context.reset()
