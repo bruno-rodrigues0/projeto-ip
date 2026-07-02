@@ -57,6 +57,7 @@ class Fight(State):
     @staticmethod
     def enter(game) -> None:
         game.last_collectable_check = -1
+        Context.PLAYER = game.player
 
     @staticmethod
     def execute(
@@ -70,6 +71,9 @@ class Fight(State):
 
         game.player.move(action_buffer, arena_group, MAX_VEL, dt)
         E_ATTACK.update(dt)
+        enemy_group.empty()
+        for proj in E_ATTACK.projectiles:
+            enemy_group.add(proj)
         game.player.update(dt)
 
         if ellapsed_time >= E_ATTACK.attack_time:

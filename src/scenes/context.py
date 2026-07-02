@@ -25,3 +25,4 @@ class Context:
     deaths: int = 0
     boss_idx: int = 0
     BOSS: Boss = AVALIABLE_BOSSES[boss_idx]
+    PLAYER = None
