@@ -13,6 +13,9 @@ Projeto final desenvolvido para a disciplina de **Introdução à Programação*
 * **Bruno Rodrigues e Silva** — [brs3@cin.ufpe.br](mailto:brs3@cin.ufpe.br)
 * **João Eduardo Teixeira de Carvalho Gondim Lavieri** — [jetcgl@cin.ufpe.com.br](mailto:jetcgl@cin.ufpe.com.br)
 * **Gabriel Almeida de Lima** — [gal2@cin.ufpe.com.br](mailto:gal2@cin.ufpe.com.br)
+* **Lucas Rafhael dos Santos Andrade** - [lrsa2@cin.ufpe.br](mailto:lrsa@cin.ufpe.br)
+* **Arthur Jordão Saraiva Leão** - [ajsl@cin.ufpe.br](mailto:ajsl@cin.ufpe.br)
+* **Fabrício Fernandes Alves da Silva** - [ffas@cin.ufpe.br](mailto:ffas@cin.ufpe.br)
 
 ---
 
@@ -77,7 +80,59 @@ Bibliotecas como os, sys e math foram usadas para configurações do jogo e cál
 ## 👥 Divisão de Trabalho
 
 ### Bruno Rodrigues
+- Estrutura principal do jogo;
+- Mecânicas de animações e diálogos;
+- Troca de estados do jogo;
+- Sprites e soundtracks;
+- Manuseio de eventos disparados pelo jogador;
+- Features extras.
 
 ### João Eduardo
+- Criação da tela de vitória e de gameover;
+- Pontuação dos coletáveis;
+- Sons do jogo e ataques;
+- Criação de sprites.
 
 ### Gabriel Almeida
+- Criação do menu principal;
+- Cena de Créditos iniciais;
+- Mecânica do jogador;
+- Mecânica dos itens;
+- Criação de ataques.
+
+### Lucas Rafhael
+- Criação de ataques principais;
+- Desenvolvimento e apuração da estratégia de batalha.
+
+### Arthur Jordão
+- Criação dos ataques.
+
+### Fabrício Fernandes
+- Criação da história principal do jogo;
+- Traduções e diálogos;
+- Cena final;
+- Criação de sprites.
+
+---
+
+## Erros e Desafios
+
+### O MAIOR ERRO DURANTE O PROJETO:
+A falta de uma estrutura já consolidada no início. Para resolver, foi preciso parar o avanço do projeto para refazer a estrutura, evitando muitas refatorações no futuro.
+
+### O MAIOR DESAFIO DURANTE O PROJETO:
+O manejo adequado e funcional do Pygame, o motor base do jogo. Como solução, resolvemos estudar um pouco mais afundo a biblioteca antes de prosseguir para mecânicas mais complexas.
+
+### LIÇÕES APRENDIDAS NO PROJETO:
+Aprendemos a classificar a ordem de importância das tarefas; a como trabalhar em equipe pela divisão de tarefas; como ter uma comunicação clara do que deve ser feito.
+
+---
+
+## Galeria do Projeto
+
+![corridor](./docs/corridor.png)
+![fight menu](./docs/fight_menu.png)
+![attack](./docs/attack.png)
+![fight](./docs/fight.png)
+![achievements](./docs/achievements.png)
+
