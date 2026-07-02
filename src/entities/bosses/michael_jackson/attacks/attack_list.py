@@ -8,7 +8,6 @@ from entities.bosses.michael_jackson.attacks.attack12 import Attack12
 from entities.bosses.michael_jackson.attacks.attack13 import Attack13
 from entities.bosses.michael_jackson.attacks.attack14 import Attack14
 from entities.bosses.michael_jackson.attacks.attack16 import Attack16
+from entities.bosses.michael_jackson.instance import ATTACK_LIST
+ATTACK_LIST = [Attack01, Attack02, Attack03, Attack04, Attack05, Attack06, Attack12, Attack13, Attack14, Attack16]
 
-#ATTACK_LIST = [Attack01, Attack02, Attack03, Attack04, Attack05, Attack06, Attack12, Attack13, Attack14]
-
-ATTACK_LIST = [Attack16]
