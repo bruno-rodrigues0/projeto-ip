@@ -12,7 +12,7 @@ ATTACK_LIST = [Attack01(), Attack02(), Attack03(), Attack04(), Attack05(), Attac
 
 BOSS_MICHAEL_JACKSON = Boss(
     "Michael Jackson",
-    800,
+    700,
     AnimationPlayer("idle", assets.S_MICHAEL_BATTLE, 0.3),
     ATTACK_LIST,
 )

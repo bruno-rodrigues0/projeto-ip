@@ -86,9 +86,9 @@ moonwalk_item = ItemInfo(
 
 
 AVALIABLE_ITEMS = [
-    bandaid_item,
-    cake_item, cake_item,
-    strength_item, strength_item, strength_item,strength_item,strength_item,
+    bandaid_item, bandaid_item,
+    cake_item, cake_item, cake_item, cake_item,
+    strength_item, strength_item, strength_item,strength_item,
     hee_hee_item, hee_hee_item,
     moonwalk_item, moonwalk_item
 ]
