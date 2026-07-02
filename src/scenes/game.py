@@ -105,6 +105,7 @@ class Game(Scene):
         _STATE_MAP[state].execute(self, surface, dt, action_buffer)
 
         if state != "gameover_cutscene":
+            draw_boss_hp(surface)
             draw_stats(surface, PLAYER)
 
     def exit(self) -> None:
@@ -134,3 +135,28 @@ def draw_stats(surface: pygame.Surface, player: Player) -> None:
     surface.blit(damage_text, (hp_initial_pos[0] + 400, const.WINDOW_CENTRE[1] + 210))
     surface.blit(hp_text, hp_initial_pos)
     surface.blit(hp_values, (hp_red.right + 10, hp_red.y))
+
+def draw_boss_hp(surface: pygame.Surface) -> None:
+    boss = Context.BOSS
+    # Percentual de vida do boss
+    hp_percent = boss.current_hp / boss.max_hp if boss.max_hp else 0
+
+    largura_barra = 300
+    altura_barra = 10
+    # meio da tela
+    x = const.WINDOW_CENTRE[0] - largura_barra // 2
+    y = 36
+
+    # nome em cima da barra
+    nome = assets.F_JERSEY10.render(boss.name, True, const.WHITE)
+    surface.blit(nome, (const.WINDOW_CENTRE[0] - nome.get_width() // 2, y - 30))
+
+    # Vida = azul, dano sofrido = vermelho
+    azul = pygame.draw.rect(
+        surface, const.BLUE,
+        (x, y, largura_barra * hp_percent, altura_barra),
+    )
+    pygame.draw.rect(
+        surface, const.RED,
+        (azul.right, y, largura_barra * (1 - hp_percent), altura_barra),
+    )
